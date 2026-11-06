@@ -1,11 +1,12 @@
 <?php
 // Exit 0 once the database accepts connections, 1 after ~120s.
-$host = getenv('DB_HOST'); $port = getenv('DB_PORT') ?: '3306';
-if (!$host) { fwrite(STDERR, "[hedgeinv] DB_HOST not set\n"); exit(1); }
+require '/var/www/html/config/database.php';
+if (!getenv('DB_HOST')) { fwrite(STDERR, "[hedgeinv] DB_HOST is not set - add your database details in Render > Environment\n"); exit(1); }
+$dsn = 'mysql:host=' . DB_HOST . ';port=' . DB_PORT . ';dbname=' . DB_NAME . ';charset=utf8mb4';
 for ($i = 0; $i < 60; $i++) {
     try {
-        new PDO("mysql:host={$host};port={$port};dbname=" . getenv('DB_NAME'), getenv('DB_USER'), getenv('DB_PASS'), [PDO::ATTR_TIMEOUT => 3]);
-        echo "[hedgeinv] database is ready\n";
+        new PDO($dsn, DB_USER, DB_PASS, db_pdo_options());
+        echo "[hedgeinv] database is ready (" . DB_HOST . (DB_SSL ? ', encrypted' : '') . ")\n";
         exit(0);
     } catch (Throwable $e) {
         if ($i % 5 === 0) echo "[hedgeinv] waiting for database... ({$e->getMessage()})\n";

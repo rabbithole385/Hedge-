@@ -16,6 +16,8 @@ if ($__env('DB_HOST') !== null) {
     define('DB_NAME', $__env('DB_NAME') ?? 'hedgeinv');
     define('DB_USER', $__env('DB_USER') ?? 'hedgeinv');
     define('DB_PASS', $__env('DB_PASS') ?? '');
+    // Set DB_SSL=1 for cloud MySQL that requires an encrypted connection (TiDB Cloud, Aiven, ...)
+    define('DB_SSL', in_array(strtolower((string)$__env('DB_SSL')), ['1', 'true', 'yes', 'on'], true));
 } elseif (is_file(__DIR__ . '/db_credentials.cpanel.php')) {
     require __DIR__ . '/db_credentials.cpanel.php';
 }
@@ -25,4 +27,5 @@ defined('DB_PORT') || define('DB_PORT', '3306');
 defined('DB_NAME') || define('DB_NAME', '');
 defined('DB_USER') || define('DB_USER', '');
 defined('DB_PASS') || define('DB_PASS', '');
+defined('DB_SSL') || define('DB_SSL', false);
 unset($__env);

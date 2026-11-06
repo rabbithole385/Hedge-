@@ -187,18 +187,25 @@ real % change of its basket since the last update, multiplied by its exposure.
 - **Icons:** coin icons from cryptocurrency-icons (CC0) and flags from flag-icons (MIT),
   in `assets/icons/`. Chart.js is bundled in `assets/js/`.
 
-## Deploy on Render (Nov 2026)
+## Deploy on Render (free plan)
 
-1. Push this folder to a **private** GitHub repo. `.gitignore` already keeps your cPanel
-   password (`config/db_credentials.cpanel.php`) and clients' KYC/deposit files out.
-2. Render: **New > Blueprint**, pick the repo, then **Apply**. `render.yaml` creates the website
-   and a private MariaDB 11.4 database, both with persistent disks, and generates all passwords.
-3. (Optional) To bring your existing data: in the `hedgeinv` web service, go to
-   **Environment > Secret Files**, add a file named `import.sql` (your phpMyAdmin export),
-   then redeploy. It is imported once, only into an empty database, and never again.
-4. Without an import, log in at `/admin/login.php` as `admin` with the `ADMIN_INITIAL_PASSWORD`
-   value shown in the service's Environment tab.
+The free setup is a free Render web service plus a free MySQL database (Aiven).
 
-No cron job is needed: the container refreshes live prices, bots and plans every
-`TICK_SECONDS` (default 120). Uploads live on the disk at `/var/data/uploads`.
-For cPanel hosting, keep using `config/db_credentials.cpanel.php` as before.
+1. **Database:** create a free MySQL service at aiven.io. From its Overview page, copy the
+   Host, Port, User (avnadmin), Password and Database (defaultdb), and download the
+   **CA certificate**.
+2. **Render:** New > Blueprint, pick this repo, then Apply. When asked, enter DB_HOST, DB_PORT
+   (Aiven's port), DB_NAME, DB_USER and DB_PASS, and set **DB_SSL = 1**.
+3. **Secret Files** (hedgeinv > Environment > Secret Files):
+   - `db-ca.pem`: the Aiven CA certificate
+   - `import.sql`: your database export. It's imported once, only into an empty database.
+4. Deploy. The startup log shows "import finished: ... 77 users now in the database".
+
+Free-plan behaviour:
+- The server sleeps after 15 minutes without visitors, and the next visit takes about a minute.
+  Plans and bots catch up using the real price change over the gap.
+- There's no disk, so uploads (KYC, deposit proofs, photos) are saved into the database
+  within about 20 seconds and restored on every start.
+- Prices, plans and bots update every TICK_SECONDS while the server is awake. No cron job is needed.
+
+Any MySQL 8, MariaDB or TiDB database works. Set DB_SSL=1 for providers that require encryption.

@@ -1,9 +1,9 @@
 # HedgeInv - production image for Render (or any Docker host)
 FROM php:8.3-apache-bookworm
 
-# PHP extensions + MariaDB client (used for the one-time data import)
+# PHP extensions
 RUN apt-get update \
- && apt-get install -y --no-install-recommends libpng-dev libjpeg62-turbo-dev libfreetype6-dev libzip-dev libicu-dev mariadb-client \
+ && apt-get install -y --no-install-recommends libpng-dev libjpeg62-turbo-dev libfreetype6-dev libzip-dev libicu-dev \
  && docker-php-ext-configure gd --with-freetype --with-jpeg \
  && docker-php-ext-install -j"$(nproc)" pdo_mysql mysqli gd zip intl opcache \
  && a2enmod rewrite headers remoteip \

@@ -3,6 +3,30 @@ require_once __DIR__ . '/db_credentials.php';
 
 define('SCHEMA_PATH', __DIR__ . '/../database/schema.sql');
 
+/** PDO connection options, with TLS when DB_SSL is on (cloud MySQL providers). */
+function db_pdo_options(): array {
+    $o = [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+        PDO::MYSQL_ATTR_MULTI_STATEMENTS => true, // needed once, to run schema.sql in one shot
+        PDO::ATTR_TIMEOUT => 10,
+    ];
+    // Behave like the original MariaDB server, whatever MySQL the database runs on
+    // (MySQL 8 adds ONLY_FULL_GROUP_BY etc. by default). Times in Lagos time.
+    $o[PDO::MYSQL_ATTR_INIT_COMMAND] = "SET SESSION sql_mode = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION', time_zone = '+01:00'";
+    if (defined('DB_SSL') && DB_SSL) {
+        // CA: Render Secret File "db-ca.pem" (e.g. Aiven's CA certificate), DB_SSL_CA, or the system bundle.
+        $cas = array_filter([getenv('DB_SSL_CA') ?: null, '/etc/secrets/db-ca.pem',
+                             '/etc/ssl/certs/ca-certificates.crt', '/etc/pki/tls/certs/ca-bundle.crt', '/etc/ssl/cert.pem']);
+        foreach ($cas as $ca) {
+            if (is_file($ca)) { $o[PDO::MYSQL_ATTR_SSL_CA] = $ca; break; }
+        }
+        $verify = getenv('DB_SSL_VERIFY');
+        $o[PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = !in_array(strtolower((string)$verify), ['0', 'false', 'no', 'off'], true);
+    }
+    return $o;
+}
+
 function get_db(): PDO {
     static $pdo = null;
     if ($pdo !== null) {
@@ -10,11 +34,7 @@ function get_db(): PDO {
     }
 
     $dsn = 'mysql:host=' . DB_HOST . ';port=' . DB_PORT . ';dbname=' . DB_NAME . ';charset=utf8mb4';
-    $pdo = new PDO($dsn, DB_USER, DB_PASS, [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-        PDO::MYSQL_ATTR_MULTI_STATEMENTS => true, // needed once, to run schema.sql in one shot
-    ]);
+    $pdo = new PDO($dsn, DB_USER, DB_PASS, db_pdo_options());
 
     ensure_schema($pdo);
     ensure_copy_adjustments_schema($pdo);

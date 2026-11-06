@@ -171,6 +171,7 @@ $showSidebarShell = ($navContext === 'user' && $headerUser) || ($navContext === 
       <a class="sidebar-link <?= nav_active('/admin/plans.php', $currentPath) ?>" href="/admin/plans.php">Plans</a>
       <a class="sidebar-link <?= nav_active('/admin/instruments.php', $currentPath) ?>" href="/admin/instruments.php">Instruments</a>
       <a class="sidebar-link <?= nav_active('/admin/reconcile.php', $currentPath) ?>" href="/admin/reconcile.php">Balance Correction</a>
+      <a class="sidebar-link <?= nav_active('/admin/storage_sync.php', $currentPath) ?>" href="/admin/storage_sync.php">Uploads Backup</a>
     </div>
 
     <div class="sidebar-section">

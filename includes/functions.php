@@ -558,8 +558,14 @@ function process_due_plan_ticks(PDO $pdo): int {
 }
 
 function process_all_due_ticks(PDO $pdo): void {
-    process_due_bot_ticks($pdo);
-    process_due_plan_ticks($pdo);
+    // One runner at a time, even across several servers sharing this database.
+    if ((int)$pdo->query("SELECT GET_LOCK('hedgeinv_position_ticks', 0)")->fetchColumn() !== 1) return;
+    try {
+        process_due_bot_ticks($pdo);
+        process_due_plan_ticks($pdo);
+    } finally {
+        $pdo->query("SELECT RELEASE_LOCK('hedgeinv_position_ticks')");
+    }
 }
 
 /* ---------------- DIRECT BUY/SELL TRADING (real live prices) ----------------

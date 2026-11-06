@@ -4,5 +4,9 @@
 **/error_log
 config/db_credentials.cpanel.php
 assets/uploads/kyc/*
+!assets/uploads/kyc/.htaccess
+!assets/uploads/kyc/.gitkeep
 assets/uploads/deposit_proofs/*
+!assets/uploads/deposit_proofs/.htaccess
+!assets/uploads/deposit_proofs/.gitkeep
 render/mariadb

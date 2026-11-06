@@ -1,45 +1,38 @@
-# HedgeInv on Render - one-click Blueprint
+# HedgeInv on Render - FREE plan Blueprint
 # Render dashboard -> New -> Blueprint -> pick this repo -> Apply.
-# Creates: the website (Docker, PHP 8.3 + Apache) and a private MariaDB 11.4 database,
-# each with a persistent disk. Passwords are generated automatically.
+# You'll be asked for your database details (e.g. your cPanel MySQL with Remote MySQL enabled,
+# or a free cloud MySQL such as TiDB Cloud Serverless or Aiven - set DB_SSL=1 for those).
+# Free plan notes: the server sleeps after 15 min without visitors (first visit then takes ~1 min),
+# and uploads are kept safe in the database because free services have no disk.
 services:
   - type: web
     name: hedgeinv
     runtime: docker
-    plan: 0.5c-512mb
+    plan: free
     region: frankfurt
     dockerfilePath: ./Dockerfile
     dockerContext: .
     healthCheckPath: /healthz.php
     autoDeployTrigger: commit
-    disk:
-      name: hedgeinv-uploads
-      mountPath: /var/data
-      sizeGB: 2
     envVars:
       - key: DB_HOST
-        fromService:
-          type: pserv
-          name: hedgeinv-db
-          property: host
+        sync: false
       - key: DB_PORT
         value: "3306"
       - key: DB_NAME
-        value: hedgeinv
+        sync: false
       - key: DB_USER
-        value: hedgeinv
+        sync: false
       - key: DB_PASS
-        fromService:
-          type: pserv
-          name: hedgeinv-db
-          envVarKey: MARIADB_PASSWORD
-      # Only used if the database is brand new (no imported data): login is admin / this value.
+        sync: false
+      # 1 for cloud MySQL that requires an encrypted connection (TiDB Cloud, Aiven). 0 for cPanel MySQL.
+      - key: DB_SSL
+        value: "0"
+      # Only used if the database is brand new: admin login is admin / this value.
       - key: ADMIN_INITIAL_PASSWORD
         generateValue: true
-      # How often live prices, plans and bots update in the background (seconds).
       - key: TICK_SECONDS
         value: "120"
-      # Email (optional) - fill these in the dashboard when you're ready.
       - key: SMTP_HOST
         sync: false
       - key: SMTP_PORT
@@ -50,25 +43,3 @@ services:
         sync: false
       - key: SMTP_FROM_EMAIL
         sync: false
-
-  - type: pserv
-    name: hedgeinv-db
-    runtime: docker
-    plan: 0.5c-512mb
-    region: frankfurt
-    dockerfilePath: ./render/mariadb/Dockerfile
-    dockerContext: ./render/mariadb
-    autoDeployTrigger: "off"
-    disk:
-      name: hedgeinv-mariadb
-      mountPath: /var/lib/mysql
-      sizeGB: 5
-    envVars:
-      - key: MARIADB_DATABASE
-        value: hedgeinv
-      - key: MARIADB_USER
-        value: hedgeinv
-      - key: MARIADB_PASSWORD
-        generateValue: true
-      - key: MARIADB_ROOT_PASSWORD
-        generateValue: true
