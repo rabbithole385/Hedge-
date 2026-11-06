@@ -1,0 +1,30 @@
+RewriteEngine On
+
+# Send the bare domain root to the /en front-end folder
+RewriteCond %{REQUEST_URI} ^/$
+RewriteRule ^$ /en/ [L,R=301]
+
+Options -Indexes
+# Old or removed pages -> their replacements (keeps old links and search results working)
+<IfModule mod_alias.c>
+RedirectMatch 301 ^/en/quanticorp\.html$ /en/why-hedgeinv.html
+RedirectMatch 301 ^/en/awards\.html$ /en/regulation.html
+RedirectMatch 301 ^/en/reviewapi\.html$ /en/
+RedirectMatch 301 ^/en/ai-market-buzz\.html$ /en/market-news.html
+RedirectMatch 301 ^/en/featured-ideas\.html$ /en/technical-views.html
+RedirectMatch 301 ^/en/professional-economic-calendar\.html$ /en/economic-calendar.html
+RedirectMatch 301 ^/en/forex-vps\.html$ /en/investing.html
+RedirectMatch 301 ^/en/(Hero_Section|promotions|main)\.html$ /en/
+</IfModule>
+
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+</IfModule>
+
+# php -- BEGIN cPanel-generated handler, do not edit
+# Set the “ea-php83” package as the default “PHP” programming language.
+<IfModule mime_module>
+  AddHandler application/x-httpd-ea-php83___lsphp .php .php8 .phtml
+</IfModule>
+# php -- END cPanel-generated handler, do not edit

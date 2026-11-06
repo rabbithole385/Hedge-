@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HedgeInv | Trade, Copy & Invest in Live Markets</title>
+<link rel="icon" type="image/svg+xml" href="/en/favicon.svg">
+<meta name="description" content="Trade crypto, stocks, forex, metals, commodities and bonds at live market prices. Copy expert traders, use rule-based AI bots, or choose market-linked investment plans, all from one wallet.">
+<meta property="og:title" content="HedgeInv | Trade the world's markets with clarity">
+<meta property="og:description" content="Live market prices, copy trading, AI bots and market-linked investment plans in one account.">
+<meta name="theme-color" content="#0b1220">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/site.css">
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="index.html">Hedge<span>Inv</span></a>
+  <button class="nav-toggle" onclick="document.getElementById('siteNav').classList.toggle('open')">&#9776;</button>
+  <nav class="site-nav" id="siteNav">
+    <div class="nav-item"><span>Markets</span>
+      <div class="nav-dropdown">
+        <a href="crypto.html">Crypto</a>
+        <a href="shares.html">Stocks</a>
+        <a href="etfs.html">ETFs</a>
+        <a href="forex.html">Forex</a>
+        <a href="commodities.html">Commodities &amp; Metals</a>
+        <a href="indices.html">Indices</a>
+        <a href="bonds.html">Bonds</a>
+        <a href="trading-hours.html">Trading Hours</a>
+        <a href="spreads-and-commissions.html">Fees</a>
+      </div>
+    </div>
+    <div class="nav-item"><span>Invest</span>
+      <div class="nav-dropdown">
+        <a href="expert-traders.html">Copy Trading</a>
+        <a href="investing.html">Plans &amp; AI Bots</a>
+        <a href="leverage.html">Risk &amp; Exposure</a>
+        <a href="compare-accounts.html">Account Types</a>
+      </div>
+    </div>
+    <div class="nav-item"><span>Tools</span>
+      <div class="nav-dropdown">
+        <a href="economic-calendar.html">Economic Calendar</a>
+        <a href="market-news.html">Market News</a>
+        <a href="technical-views.html">Technical Analysis</a>
+        <a href="forex-sentiment.html">Forex Heat Map</a>
+      </div>
+    </div>
+    <div class="nav-item"><span>Company</span>
+      <div class="nav-dropdown">
+        <a href="aboutus.html">About Us</a>
+        <a href="why-hedgeinv.html">Why HedgeInv</a>
+        <a href="our-trading-infrastructure.html">How It Works</a>
+        <a href="regulation.html">Security &amp; Compliance</a>
+        <a href="faqs.html">FAQ</a>
+        <a href="careers.html">Careers</a>
+        <a href="contact.html">Contact Us</a>
+      </div>
+    </div>
+  </nav>
+  <div class="header-cta">
+    <div id="google_translate_element" style="display:inline-block; vertical-align:middle;"></div>
+    <a class="btn secondary" href="/auth/login.php">Login</a>
+    <a class="btn" href="/auth/register.php">Sign Up</a>
+  </div>
+</header>
+
+<style>
+/* ---------- Home page ---------- */
+.ai { position: relative; display: inline-grid; place-items: center; flex-shrink: 0; border-radius: 50%; vertical-align: middle; }
+.ai-img img, .ai-glyph svg { width: 100%; height: 100%; display: block; border-radius: 50%; }
+.ai-img { background: #fff1; }
+.ai-mono { color: #fff; font-family: var(--font-display); font-weight: 700; box-shadow: inset 0 0 0 1px rgba(255,255,255,.18); }
+.ai-flag img { width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 50%; }
+.ai-flag b { position: absolute; right: -3px; bottom: -3px; min-width: 52%; padding: 1px 3px; border-radius: 6px; background: #0b1220; color: var(--gold-bright); font: 700 8.5px ui-monospace, monospace; text-align: center; border: 1px solid var(--border-bright); }
+.ai-pair img { position: absolute; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 2px var(--bg-elevated); }
+.ai-pair .p1 { top: 0; left: 0; z-index: 1; } .ai-pair .p2 { right: 0; bottom: 0; }
+
+.h-wrap { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+.h-eyebrow { display: inline-flex; align-items: center; gap: 8px; font: 700 11px var(--font-body); letter-spacing: .14em; text-transform: uppercase; color: var(--gold-bright); background: rgba(212,175,106,.1); border: 1px solid rgba(212,175,106,.28); padding: 6px 12px; border-radius: 999px; }
+.h-live { position: relative; width: 8px; height: 8px; border-radius: 50%; background: var(--positive); display: inline-block; }
+.h-live::after { content: ""; position: absolute; inset: -4px; border-radius: 50%; border: 2px solid var(--positive); opacity: 0; animation: hPulse 1.8s ease-out infinite; }
+@keyframes hPulse { 0% { transform: scale(.4); opacity: .9; } 100% { transform: scale(1.5); opacity: 0; } }
+.h-title { font-family: var(--font-display); font-size: clamp(34px, 5.4vw, 62px); line-height: 1.04; letter-spacing: -.02em; margin: 18px 0 18px; color: var(--text); }
+.h-title em { font-style: normal; background: linear-gradient(120deg, var(--gold-bright), var(--gold)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.h-lead { font-size: 17px; line-height: 1.7; color: var(--text-dim); max-width: 560px; margin: 0 0 28px; }
+.h-sec-title { font-family: var(--font-display); font-size: clamp(28px, 3.6vw, 42px); line-height: 1.12; letter-spacing: -.015em; margin: 14px 0 12px; color: var(--text); }
+.h-sec-lead { color: var(--muted); font-size: 16px; line-height: 1.7; max-width: 640px; margin: 0; }
+.h-center { text-align: center; } .h-center .h-sec-lead { margin: 0 auto; }
+.h-section { padding: 96px 0; position: relative; }
+.h-section.alt { background: linear-gradient(180deg, rgba(18,27,46,.65), rgba(11,18,32,0)); border-top: 1px solid var(--border); }
+@media (max-width: 700px) { .h-section { padding: 64px 0; } }
+.btn.lg { padding: 15px 26px; font-size: 15px; border-radius: 12px; }
+
+/* Hero */
+.h-hero { position: relative; overflow: hidden; padding: 84px 0 96px; isolation: isolate; }
+.h-hero::before { content: ""; position: absolute; inset: 0; z-index: -1; background-image: linear-gradient(rgba(255,255,255,.028) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.028) 1px, transparent 1px); background-size: 56px 56px; mask-image: radial-gradient(75% 70% at 60% 35%, #000, transparent); -webkit-mask-image: radial-gradient(75% 70% at 60% 35%, #000, transparent); }
+.h-orb { position: absolute; z-index: -1; border-radius: 50%; filter: blur(70px); opacity: .55; pointer-events: none; }
+.h-orb.o1 { width: 520px; height: 520px; right: -80px; top: -120px; background: radial-gradient(circle, rgba(212,175,106,.55), transparent 65%); animation: hDrift 14s ease-in-out infinite alternate; }
+.h-orb.o2 { width: 560px; height: 560px; left: -200px; bottom: -260px; background: radial-gradient(circle, rgba(76,124,240,.5), transparent 65%); animation: hDrift 18s ease-in-out infinite alternate-reverse; }
+@keyframes hDrift { to { transform: translate(40px, 30px) scale(1.08); } }
+.h-line { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: 300px; z-index: -1; pointer-events: none; }
+.h-line-path { stroke-dasharray: 2400; stroke-dashoffset: 2400; animation: hDraw 3.2s ease-out .3s forwards; }
+.h-line-fill { opacity: 0; animation: hFade 1.6s ease 1.8s forwards; }
+@keyframes hDraw { to { stroke-dashoffset: 0; } } @keyframes hFade { to { opacity: 1; } }
+.h-hero-grid { position: relative; display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: 40px; align-items: center; }
+@media (max-width: 980px) { .h-hero-grid { grid-template-columns: 1fr; gap: 56px; } .h-hero { padding: 56px 0 72px; } }
+.h-copy > * { animation: hUp .8s cubic-bezier(.2,.7,.2,1) both; }
+.h-copy > *:nth-child(2) { animation-delay: .08s; } .h-copy > *:nth-child(3) { animation-delay: .16s; } .h-copy > *:nth-child(4) { animation-delay: .24s; } .h-copy > *:nth-child(5) { animation-delay: .32s; }
+@keyframes hUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+.h-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn.h-gold { background: linear-gradient(135deg, #f0d49b, #d4af6a 55%, #b8904a); color: #1a1405; box-shadow: 0 10px 30px rgba(212,175,106,.28), inset 0 1px 0 rgba(255,255,255,.45); border: 0; }
+.btn.h-gold:hover { filter: brightness(1.06); transform: translateY(-1px); }
+.h-play { display: inline-block; width: 0; height: 0; border-left: 8px solid currentColor; border-top: 5px solid transparent; border-bottom: 5px solid transparent; margin-right: 10px; vertical-align: 1px; }
+.h-proof { display: grid; grid-template-columns: repeat(3, auto); justify-content: start; gap: 0; margin-top: 38px; }
+.h-proof > div { padding: 0 26px; border-left: 1px solid var(--border-bright); }
+.h-proof > div:first-child { padding-left: 0; border-left: 0; }
+.h-proof b { display: block; font: 700 24px var(--font-display); color: var(--text); letter-spacing: -.01em; }
+.h-proof span { font-size: 12.5px; color: var(--muted); }
+@media (max-width: 520px) { .h-proof { grid-template-columns: repeat(3, 1fr); } .h-proof > div { padding: 0 10px; } .h-proof b { font-size: 19px; } .h-proof span { font-size: 11px; } }
+
+.h-stage { position: relative; height: 620px; display: flex; align-items: center; justify-content: flex-end; animation: hUp 1s cubic-bezier(.2,.7,.2,1) .2s both; }
+.h-stage .h-phone { margin-right: 12px; }
+@media (max-width: 980px) { .h-stage { justify-content: center; } .h-stage .h-phone { margin-right: 0; } }
+.h-phone { position: relative; width: 300px; height: 600px; border-radius: 46px; padding: 12px; background: linear-gradient(150deg, #2a3a5f, #0d1528 40%, #1c2a48); box-shadow: 0 50px 100px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.08), inset 0 0 0 2px rgba(255,255,255,.05); transform: perspective(1400px) rotateY(-9deg) rotateX(3deg); transition: transform .6s ease; }
+.h-stage:hover .h-phone { transform: perspective(1400px) rotateY(-3deg) rotateX(1deg); }
+.h-notch { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); width: 92px; height: 24px; border-radius: 14px; background: #05080f; z-index: 3; }
+.h-screen { height: 100%; border-radius: 36px; overflow: hidden; background: radial-gradient(120% 60% at 50% 0%, #182a52, #0b1220 60%); padding: 52px 16px 16px; display: flex; flex-direction: column; gap: 12px; }
+.h-app-top { display: flex; justify-content: space-between; align-items: center; }
+.h-app-brand { font: 700 16px var(--font-display); color: var(--text); } .h-app-brand em { font-style: normal; color: var(--gold-bright); }
+.h-app-live { display: inline-flex; align-items: center; gap: 6px; font: 700 9.5px var(--font-body); letter-spacing: .12em; color: var(--positive); }
+.h-feat { border-radius: 18px; padding: 14px; background: linear-gradient(160deg, rgba(36,54,94,.85), rgba(18,27,46,.95)); border: 1px solid var(--border-bright); }
+.h-feat-head { display: flex; align-items: center; gap: 10px; }
+.h-feat-head b { display: block; font-size: 14px; color: var(--text); } .h-feat-head small { font: 500 11px ui-monospace, monospace; color: var(--muted); }
+.h-feat-px { display: flex; align-items: baseline; gap: 8px; margin-top: 10px; }
+.h-feat-px b { font: 700 22px ui-monospace, monospace; color: var(--text); letter-spacing: -.02em; }
+.h-feat-chart { width: 100%; height: 70px; display: block; margin: 6px 0 10px; }
+.h-feat-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.h-feat-btns span { text-align: center; padding: 8px; border-radius: 10px; font: 700 12.5px var(--font-display); }
+.h-feat-btns .b { background: linear-gradient(135deg, #34d399, #10b981); color: #052e1f; } .h-feat-btns .s { background: rgba(248,113,113,.14); color: #f87171; border: 1px solid rgba(248,113,113,.35); }
+.h-app-label { font: 700 10px var(--font-body); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-top: 2px; }
+.h-watch { display: flex; flex-direction: column; gap: 2px; }
+.h-wrow { display: grid; grid-template-columns: auto 1fr auto; gap: 10px; align-items: center; padding: 8px 4px; border-bottom: 1px solid rgba(34,50,82,.6); }
+.h-wrow:last-child { border-bottom: 0; }
+.h-wrow b { display: block; font-size: 12.5px; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.h-wrow small { font: 500 10px ui-monospace, monospace; color: var(--muted); }
+.h-wrow .r { text-align: right; font: 700 12px ui-monospace, monospace; color: var(--text); }
+.h-wrow .r i { display: block; font-style: normal; font-size: 10.5px; margin-top: 1px; }
+.h-wrow .r i.up { color: var(--positive); } .h-wrow .r i.down { color: #f87171; } .h-wrow .r i.flat { color: var(--muted); }
+
+.h-float { position: absolute; display: flex; gap: 12px; align-items: center; padding: 13px 16px 13px 13px; border-radius: 16px; background: rgba(18,27,46,.78); border: 1px solid rgba(255,255,255,.1); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: 0 22px 50px rgba(0,0,0,.45); animation: hFloat 6s ease-in-out infinite; z-index: 4; }
+.h-float small { display: block; font-size: 10.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.h-float b { display: block; font: 600 14px var(--font-display); color: var(--text); margin-top: 2px; }
+.h-float em { display: block; font-style: normal; font-size: 11.5px; color: var(--text-dim); margin-top: 2px; }
+.h-float-ic { flex: 0 0 38px; height: 38px; border-radius: 11px; display: grid; place-items: center; }
+.h-float-ic.g { background: rgba(212,175,106,.16); color: var(--gold-bright); } .h-float-ic.p { background: rgba(167,139,250,.16); color: #c4b5fd; } .h-float-ic.ok { background: rgba(52,211,153,.16); color: var(--positive); }
+.h-float { width: 236px; }
+/* Cards sit left of the phone, overlapping only its frame (bezel + screen padding). */
+.h-float.f1 { top: 64px; right: 288px; animation-delay: -1s; }
+.h-float.f2 { top: 248px; right: 300px; animation-delay: -3s; }
+.h-float.f3 { top: 452px; right: 298px; animation-delay: -2s; }
+@media (max-width: 980px) {
+  .h-float.f1 { right: auto; left: calc(50% - 150px - 236px + 26px); }
+  .h-float.f2 { right: auto; left: calc(50% + 150px - 26px); top: 210px; }
+  .h-float.f3 { right: auto; left: calc(50% - 150px - 236px + 26px); top: 430px; }
+}
+@keyframes hFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+.h-sig { display: flex; flex-direction: column; gap: 5px; margin-top: 5px; }
+.h-sig div { display: flex; align-items: center; justify-content: space-between; gap: 14px; font: 600 12.5px var(--font-body); color: var(--text); }
+.h-pos { font: 700 10px ui-monospace, monospace; letter-spacing: .04em; padding: 3px 7px; border-radius: 6px; }
+.h-pos.long { color: var(--positive); background: rgba(52,211,153,.14); } .h-pos.short { color: #f87171; background: rgba(248,113,113,.14); } .h-pos.flat { color: var(--muted); background: var(--bg-elevated-2); }
+@media (max-width: 1180px) and (min-width: 981px) { .h-float { width: 214px; } .h-float em { display: none; } }
+@media (max-width: 760px) {
+  .h-more { display: none; }
+  .h-stage { height: auto; flex-direction: column; gap: 12px; }
+  .h-phone { width: 280px; height: 560px; transform: none !important; margin: 0 auto 10px; }
+  .h-float { position: static; width: 100%; max-width: 360px; animation: none; }
+  .h-wrow:nth-child(n+4) { display: none; }
+}
+.h-skel { height: 40px; border-radius: 10px; background: linear-gradient(90deg, rgba(255,255,255,.03), rgba(255,255,255,.07), rgba(255,255,255,.03)); background-size: 200% 100%; animation: hSkel 1.4s infinite; }
+@keyframes hSkel { to { background-position: -200% 0; } }
+@media (prefers-reduced-motion: reduce) { .h-orb, .h-float, .h-copy > *, .h-stage { animation: none !important; } .h-line-path { stroke-dashoffset: 0; animation: none; } .h-line-fill { opacity: 1; animation: none; } .h-phone { transform: none; } }
+
+/* Ticker */
+.h-tape { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: rgba(11,18,32,.75); overflow: hidden; position: relative; }
+.h-tape::before, .h-tape::after { content: ""; position: absolute; top: 0; bottom: 0; width: 80px; z-index: 2; pointer-events: none; }
+.h-tape::before { left: 0; background: linear-gradient(90deg, var(--bg), transparent); } .h-tape::after { right: 0; background: linear-gradient(-90deg, var(--bg), transparent); }
+.h-tape-track { display: flex; gap: 34px; padding: 14px 0; width: max-content; animation: hTape 60s linear infinite; }
+.h-tape:hover .h-tape-track { animation-play-state: paused; }
+@keyframes hTape { to { transform: translateX(-50%); } }
+.h-tick { display: inline-flex; align-items: center; gap: 9px; font: 600 13px ui-monospace, monospace; color: var(--text); white-space: nowrap; }
+.h-tick .s { color: var(--muted); }
+@media (prefers-reduced-motion: reduce) { .h-tape-track { animation: none; } .h-live::after { animation: none; } }
+
+/* Markets grid */
+.h-assets { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 44px; }
+@media (max-width: 900px) { .h-assets { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .h-assets { grid-template-columns: 1fr; } }
+.h-asset { position: relative; padding: 24px; border-radius: 18px; border: 1px solid var(--border); background: linear-gradient(170deg, rgba(24,38,68,.6), rgba(18,27,46,.85)); text-decoration: none; color: inherit; transition: transform .25s, border-color .25s; overflow: hidden; }
+.h-asset:hover { transform: translateY(-4px); border-color: rgba(212,175,106,.45); }
+.h-asset .ic { display: flex; margin-bottom: 18px; }
+.h-asset .ic > * { margin-right: -6px; box-shadow: 0 0 0 3px #121b2e; border-radius: 50%; }
+.h-asset .ic .ai-mono { font-size: 10.5px !important; letter-spacing: -.03em; }
+.h-asset h3 { font-family: var(--font-display); font-size: 20px; margin: 0 0 6px; color: var(--text); }
+.h-asset p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.6; }
+.h-asset .n { position: absolute; top: 22px; right: 22px; font: 700 12px ui-monospace, monospace; color: var(--gold-bright); background: rgba(212,175,106,.1); border: 1px solid rgba(212,175,106,.25); border-radius: 999px; padding: 3px 10px; }
+
+/* Ways to invest */
+.h-ways { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-top: 44px; }
+@media (max-width: 1000px) { .h-ways { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .h-ways { grid-template-columns: 1fr; } }
+.h-way { display: flex; flex-direction: column; padding: 26px 22px; border-radius: 18px; border: 1px solid var(--border); background: var(--bg-elevated); position: relative; overflow: hidden; }
+.h-way::after { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 3px; background: var(--c, var(--gold)); opacity: .9; }
+.h-way .ico { width: 46px; height: 46px; border-radius: 13px; display: grid; place-items: center; background: color-mix(in srgb, var(--c, var(--gold)) 14%, transparent); color: var(--c, var(--gold)); margin-bottom: 18px; }
+.h-way h3 { font-family: var(--font-display); font-size: 19px; margin: 0 0 8px; color: var(--text); }
+.h-way p { color: var(--muted); font-size: 14px; line-height: 1.65; margin: 0 0 18px; flex: 1; }
+.h-way a { color: var(--text); font-weight: 600; font-size: 14px; text-decoration: none; display: inline-flex; gap: 6px; align-items: center; }
+.h-way a:hover { color: var(--gold-bright); }
+
+/* Split feature */
+.h-split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 64px; align-items: center; }
+@media (max-width: 900px) { .h-split { grid-template-columns: 1fr; gap: 40px; } }
+.h-list { list-style: none; padding: 0; margin: 28px 0 32px; display: flex; flex-direction: column; gap: 18px; }
+.h-list li { display: flex; gap: 14px; align-items: flex-start; }
+.h-list .ck { flex: 0 0 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; background: rgba(212,175,106,.12); color: var(--gold-bright); }
+.h-list b { display: block; color: var(--text); font-size: 15.5px; margin-bottom: 3px; }
+.h-list span { color: var(--muted); font-size: 14px; line-height: 1.6; }
+.h-expert { border-radius: 20px; padding: 22px; background: linear-gradient(160deg, rgba(24,38,68,.92), rgba(14,22,40,.96)); border: 1px solid var(--border-bright); box-shadow: 0 30px 70px rgba(0,0,0,.45); }
+.h-expert-top { display: flex; gap: 14px; align-items: center; }
+.h-avatar { width: 54px; height: 54px; border-radius: 16px; display: grid; place-items: center; font: 700 20px var(--font-display); color: #1a1405; background: linear-gradient(135deg, var(--gold-bright), var(--gold)); }
+.h-expert-top b { display: block; font: 700 17px var(--font-display); color: var(--text); }
+.h-expert-top small { color: var(--muted); font-size: 12.5px; }
+.h-mini { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 18px 0; }
+.h-mini div { background: rgba(11,18,32,.55); border: 1px solid var(--border); border-radius: 12px; padding: 12px; }
+.h-mini span { display: block; font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.h-mini b { display: block; margin-top: 4px; font: 700 15px ui-monospace, monospace; color: var(--text); }
+.h-flow { display: flex; flex-direction: column; gap: 8px; }
+.h-flow div { display: flex; justify-content: space-between; align-items: center; padding: 11px 14px; border-radius: 11px; background: rgba(11,18,32,.5); border: 1px solid var(--border); font-size: 13.5px; color: var(--text-dim); }
+.h-flow div b { font-family: ui-monospace, monospace; color: var(--text); }
+.h-note { font-size: 11.5px; color: var(--muted); margin-top: 12px; }
+
+/* Why cards */
+.h-why { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 44px; }
+@media (max-width: 900px) { .h-why { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .h-why { grid-template-columns: 1fr; } }
+.h-why > div { padding: 26px; border-radius: 18px; border: 1px solid var(--border); background: rgba(18,27,46,.7); }
+.h-why .ico { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; background: rgba(76,124,240,.14); color: var(--blue-bright); margin-bottom: 16px; }
+.h-why > div:nth-child(odd) .ico { background: rgba(212,175,106,.13); color: var(--gold-bright); }
+.h-why h3 { font-family: var(--font-display); font-size: 18px; margin: 0 0 8px; color: var(--text); }
+.h-why p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.65; }
+
+/* Steps */
+.h-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin-top: 44px; counter-reset: s; }
+@media (max-width: 800px) { .h-steps { grid-template-columns: 1fr; } }
+.h-step { position: relative; padding: 30px 26px 26px; border-radius: 18px; background: var(--bg-elevated); border: 1px solid var(--border); }
+.h-step::before { counter-increment: s; content: "0" counter(s); font: 700 44px var(--font-display); color: transparent; -webkit-text-stroke: 1px rgba(212,175,106,.55); display: block; margin-bottom: 10px; line-height: 1; }
+.h-step h3 { font-family: var(--font-display); font-size: 19px; margin: 0 0 8px; color: var(--text); }
+.h-step p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.65; }
+
+/* Trust */
+.h-trust { border-radius: 24px; padding: 48px; border: 1px solid var(--border-bright); background: radial-gradient(80% 120% at 100% 0%, rgba(212,175,106,.12), transparent 55%), linear-gradient(160deg, #142140, #0e1629); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 40px; align-items: center; }
+@media (max-width: 900px) { .h-trust { grid-template-columns: 1fr; padding: 30px 22px; } }
+.h-trust-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.h-trust-grid div { padding: 18px; border-radius: 14px; background: rgba(11,18,32,.55); border: 1px solid var(--border); }
+.h-trust-grid b { display: block; font: 700 20px var(--font-display); color: var(--gold-bright); margin-bottom: 4px; }
+.h-trust-grid span { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+/* FAQ */
+.h-faq { max-width: 820px; margin: 40px auto 0; display: flex; flex-direction: column; gap: 10px; }
+.h-faq details { border: 1px solid var(--border); border-radius: 14px; background: var(--bg-elevated); padding: 0 22px; }
+.h-faq summary { cursor: pointer; list-style: none; padding: 19px 0; font: 600 16px var(--font-body); color: var(--text); display: flex; justify-content: space-between; gap: 16px; }
+.h-faq summary::-webkit-details-marker { display: none; }
+.h-faq summary::after { content: "+"; color: var(--gold-bright); font-size: 22px; line-height: 1; transition: transform .2s; }
+.h-faq details[open] summary::after { transform: rotate(45deg); }
+.h-faq details p { margin: 0 0 20px; color: var(--muted); line-height: 1.7; font-size: 14.5px; }
+
+/* Final CTA */
+.h-final { text-align: center; border-radius: 26px; padding: 64px 24px; border: 1px solid rgba(212,175,106,.35); background: radial-gradient(60% 120% at 50% 0%, rgba(212,175,106,.2), transparent 70%), linear-gradient(180deg, #152346, #0e1629); }
+.h-final .h-ctas { justify-content: center; margin-top: 28px; }
+
+.reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s ease, transform .7s ease; }
+.reveal.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
+</style>
+
+<main>
+  <!-- HERO -->
+  <section class="h-hero">
+    <div class="h-orb o1"></div><div class="h-orb o2"></div>
+    <svg class="h-line" viewBox="0 0 1440 320" preserveAspectRatio="none" aria-hidden="true">
+      <defs><linearGradient id="hl" x1="0" x2="1"><stop offset="0" stop-color="#d4af6a" stop-opacity="0"/><stop offset=".35" stop-color="#d4af6a" stop-opacity=".55"/><stop offset=".8" stop-color="#34d399" stop-opacity=".7"/><stop offset="1" stop-color="#34d399" stop-opacity="0"/></linearGradient>
+      <linearGradient id="hf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#34d399" stop-opacity=".10"/><stop offset="1" stop-color="#34d399" stop-opacity="0"/></linearGradient></defs>
+      <path class="h-line-fill" d="M0 250 C120 240 180 200 260 210 S400 260 480 230 600 150 700 170 840 230 930 190 1080 90 1180 110 1330 60 1440 40 L1440 320 L0 320Z" fill="url(#hf)"/>
+      <path class="h-line-path" d="M0 250 C120 240 180 200 260 210 S400 260 480 230 600 150 700 170 840 230 930 190 1080 90 1180 110 1330 60 1440 40" fill="none" stroke="url(#hl)" stroke-width="2.5"/>
+    </svg>
+    <div class="h-wrap h-hero-grid">
+      <div class="h-copy">
+        <span class="h-eyebrow"><i class="h-live"></i> Live markets<span class="h-more"> &middot; Copy trading &middot; AI bots &middot; Plans</span></span>
+        <h1 class="h-title">Invest in real markets.<br>With total <em>clarity</em>.</h1>
+        <p class="h-lead">Crypto, stocks, forex, commodities and bonds at live prices, all from one wallet. Trade them yourself, copy an expert, switch on a rule-based bot, or choose a plan that follows real markets.</p>
+        <div class="h-ctas">
+          <a class="btn lg h-gold" href="/auth/register.php">Open free account <span aria-hidden="true">&rarr;</span></a>
+          <a class="btn secondary lg" href="#markets"><span class="h-play" aria-hidden="true"></span>See live markets</a>
+        </div>
+        <div class="h-proof">
+          <div><b id="hLiveCount">Live</b><span>markets priced in real time</span></div>
+          <div><b>$0</b><span>trading commission</span></div>
+          <div><b>KYC</b><span>verified accounts</span></div>
+        </div>
+      </div>
+
+      <div class="h-stage" aria-hidden="true">
+        <div class="h-phone">
+          <div class="h-notch"></div>
+          <div class="h-screen">
+            <div class="h-app-top"><span class="h-app-brand">Hedge<em>Inv</em></span><span class="h-app-live"><i class="h-live"></i>LIVE</span></div>
+            <div class="h-feat">
+              <div class="h-feat-head"><span id="hFeatIcon"></span><div><b id="hFeatName">Loading&hellip;</b><small id="hFeatSym">&nbsp;</small></div></div>
+              <div class="h-feat-px"><b id="hFeatPx">&nbsp;</b><span id="hFeatChg"></span></div>
+              <svg id="hFeatChart" class="h-feat-chart" viewBox="0 0 240 70" preserveAspectRatio="none"></svg>
+              <div class="h-feat-btns"><span class="b">Buy</span><span class="s">Sell</span></div>
+            </div>
+            <div class="h-app-label">Watchlist</div>
+            <div class="h-watch" id="hWatch"><div class="h-skel"></div><div class="h-skel"></div><div class="h-skel"></div></div>
+          </div>
+        </div>
+
+        <div class="h-float f1">
+          <div class="h-float-ic g"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></div>
+          <div><small>Investment plan</small><b>Follows gold &amp; silver</b><em>1x exposure &middot; exit any time</em></div>
+        </div>
+        <div class="h-float f2">
+          <div class="h-float-ic p"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="7" width="16" height="12" rx="3"/><path d="M12 3v4M9 12h.01M15 12h.01"/></svg></div>
+          <div><small>AI bot &middot; Trend</small><div class="h-sig" id="hSig"><span class="h-pos flat">&mdash;</span></div></div>
+        </div>
+        <div class="h-float f3">
+          <div class="h-float-ic ok"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6 9 17l-5-5"/></svg></div>
+          <div><small>Deposit</small><b>Verified by our team</b></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TICKER -->
+  <div class="h-tape" id="hTapeWrap" hidden><div class="h-tape-track" id="hTape"></div></div>
+
+  <!-- MARKETS -->
+  <section class="h-section" id="markets">
+    <div class="h-wrap">
+      <div class="h-center reveal">
+        <span class="h-eyebrow">One account</span>
+        <h2 class="h-sec-title">Every major market, one wallet.</h2>
+        <p class="h-sec-lead">Fund once and move between asset classes in seconds, always at the live market price shown before you confirm.</p>
+      </div>
+      <div class="h-assets">
+        <a class="h-asset reveal" href="crypto.html"><span class="n" data-count="crypto"></span>
+          <div class="ic"><span class="ai ai-img" style="width:40px;height:40px"><img src="/assets/icons/crypto/btc.svg" alt=""></span><span class="ai ai-img" style="width:40px;height:40px"><img src="/assets/icons/crypto/eth.svg" alt=""></span><span class="ai ai-img" style="width:40px;height:40px"><img src="/assets/icons/crypto/xlm.svg" alt=""></span></div>
+          <h3>Crypto</h3><p>Leading digital assets priced live from major exchanges, tradable around the clock.</p></a>
+        <a class="h-asset reveal" href="shares.html"><span class="n" data-count="stocks"></span>
+          <div class="ic"><span class="ai ai-mono" style="width:40px;height:40px;font-size:12px;background:linear-gradient(140deg,#6d94f5,#3d5fd1)">SPY</span><span class="ai ai-mono" style="width:40px;height:40px;font-size:12px;background:linear-gradient(140deg,#a78bfa,#6d4fd8)">QQQ</span><span class="ai ai-mono" style="width:40px;height:40px;font-size:11px;background:linear-gradient(140deg,#34d399,#0f9a6c)">PLTR</span></div>
+          <h3>Stocks &amp; ETFs</h3><p>Well-known US companies and index ETFs, with prices that follow the real exchange.</p></a>
+        <a class="h-asset reveal" href="forex.html"><span class="n" data-count="forex"></span>
+          <div class="ic"><span class="ai ai-flag" style="width:40px;height:40px"><img src="/assets/icons/flags/eu.svg" alt=""></span><span class="ai ai-flag" style="width:40px;height:40px"><img src="/assets/icons/flags/us.svg" alt=""></span><span class="ai ai-flag" style="width:40px;height:40px"><img src="/assets/icons/flags/gb.svg" alt=""></span></div>
+          <h3>Forex</h3><p>The world's most traded currency pairs, including EUR/USD, GBP/USD and USD/JPY.</p></a>
+        <a class="h-asset reveal" href="commodities.html"><span class="n" data-count="metals"></span>
+          <div class="ic"><span class="ai ai-glyph" style="width:40px;height:40px"><svg viewBox="0 0 40 40"><defs><linearGradient id="hg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fde68a"/><stop offset=".55" stop-color="#e5b64a"/><stop offset="1" stop-color="#a87716"/></linearGradient></defs><circle cx="20" cy="20" r="20" fill="#16233f"/><path d="M5.5 29 10.6 12.5h18.8L34.5 29z" fill="url(#hg1)"/><path d="M10.6 12.5h18.8l-1.7 3.4H12.3z" fill="#fff" fill-opacity=".38"/></svg></span><span class="ai ai-glyph" style="width:40px;height:40px"><svg viewBox="0 0 40 40"><defs><linearGradient id="hg2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f8fafc"/><stop offset=".55" stop-color="#c3cad6"/><stop offset="1" stop-color="#7d8796"/></linearGradient></defs><circle cx="20" cy="20" r="20" fill="#16233f"/><path d="M5.5 29 10.6 12.5h18.8L34.5 29z" fill="url(#hg2)"/><path d="M10.6 12.5h18.8l-1.7 3.4H12.3z" fill="#fff" fill-opacity=".38"/></svg></span></div>
+          <h3>Metals</h3><p>Precious metals as a store of value and a classic hedge when markets turn uncertain.</p></a>
+        <a class="h-asset reveal" href="commodities.html"><span class="n" data-count="commodities"></span>
+          <div class="ic"><span class="ai ai-glyph" style="width:40px;height:40px"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" fill="#16233f"/><path d="M20 9.5c4.2 5.6 7.2 9.4 7.2 13.2a7.2 7.2 0 0 1-14.4 0c0-3.8 3-7.6 7.2-13.2z" fill="#f87171"/></svg></span><span class="ai ai-glyph" style="width:40px;height:40px"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" fill="#16233f"/><ellipse cx="20" cy="20" rx="7" ry="11" transform="rotate(-25 20 20)" fill="#7b4a2a"/><path d="M15.4 11.6c2.4 2.6 3.6 5.4 3.6 8.4s1.4 6 4.8 8.6" stroke="#4a2914" stroke-width="1.3" fill="none"/></svg></span><span class="ai ai-glyph" style="width:40px;height:40px"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" fill="#16233f"/><circle cx="20" cy="21.5" r="8.5" fill="#fb923c"/><circle cx="20" cy="21.5" r="5.6" fill="#fdba74"/></svg></span></div>
+          <h3>Commodities</h3><p>Energy and agricultural markets, from gasoline and heating oil to cocoa and orange juice.</p></a>
+        <a class="h-asset reveal" href="bonds.html"><span class="n" data-count="bonds"></span>
+          <div class="ic"><span class="ai ai-flag" style="width:40px;height:40px"><img src="/assets/icons/flags/us.svg" alt=""><b>10Y</b></span></div>
+          <h3>Bonds</h3><p>US Treasury exposure across short, medium and long maturities, tracked through Treasury ETFs.</p></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOUR WAYS -->
+  <section class="h-section alt">
+    <div class="h-wrap">
+      <div class="h-center reveal">
+        <span class="h-eyebrow">Your choice</span>
+        <h2 class="h-sec-title">Four ways to put your money to work.</h2>
+        <p class="h-sec-lead">Take full control, follow someone experienced, or let a clear set of rules do the work. Mix them however you like.</p>
+      </div>
+      <div class="h-ways">
+        <div class="h-way reveal" style="--c:#6d94f5"><div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M8 7h9v9"/></svg></div><h3>Trade directly</h3><p>Buy and sell any listed market yourself, in dollars or units, with live charts and your positions in one place.</p><a href="/auth/register.php">Start trading &rarr;</a></div>
+        <div class="h-way reveal" style="--c:#e8c988"><div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6M16 11a3 3 0 1 0 0-6M21 20c0-2.6-1.6-4.8-4-5.6"/></svg></div><h3>Copy an expert</h3><p>Choose a trader, set how much to allocate, and have their results reflected in your account automatically.</p><a href="expert-traders.html">Meet the experts &rarr;</a></div>
+        <div class="h-way reveal" style="--c:#a78bfa"><div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="7" width="16" height="12" rx="3"/><path d="M12 3v4M9 12h.01M15 12h.01M9 16h6"/></svg></div><h3>AI trading bots</h3><p>Bots follow one transparent rule on live prices: ride the trend, trade against it, or hold. You always see their positions.</p><a href="/auth/register.php">See the bots &rarr;</a></div>
+        <div class="h-way reveal" style="--c:#34d399"><div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></div><h3>Investment plans</h3><p>Hands-off plans that follow a basket of real markets, such as gold, global indices or crypto. Withdraw any time.</p><a href="/auth/register.php">View plans &rarr;</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COPY TRADING -->
+  <section class="h-section">
+    <div class="h-wrap h-split">
+      <div class="reveal">
+        <span class="h-eyebrow">Copy trading</span>
+        <h2 class="h-sec-title">Learn from experience. Keep full control.</h2>
+        <p class="h-sec-lead">Pick a trader whose style fits you, and their results flow into your account automatically.</p>
+        <ul class="h-list">
+          <li><span class="ck"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><div><b>Save hours of research</b><span>No need to watch charts all day. Your allocation follows the expert you choose.</span></div></li>
+          <li><span class="ck"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></span><div><b>See exactly what happens</b><span>Each expert shows their focus, risk level and track record before you commit.</span></div></li>
+          <li><span class="ck"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/></svg></span><div><b>Stay in charge</b><span>You decide how much to allocate, and you can stop copying whenever you want.</span></div></li>
+        </ul>
+        <a class="btn lg" href="expert-traders.html">Browse expert traders</a>
+      </div>
+      <div class="h-expert reveal">
+        <div class="h-expert-top">
+          <div class="h-avatar">A</div>
+          <div><b>Example expert profile</b><small>Gold &amp; precious metals &middot; Low risk</small></div>
+        </div>
+        <div class="h-mini">
+          <div><span>Focus</span><b>Gold</b></div>
+          <div><span>Risk</span><b>Low</b></div>
+          <div><span>Min. copy</span><b>$50</b></div>
+        </div>
+        <div class="h-flow">
+          <div><span>1. You choose an amount</span><b>$500</b></div>
+          <div><span>2. The expert closes a trade</span><b>+2.0%</b></div>
+          <div><span>3. Your copy updates automatically</span><b>+$10.00</b></div>
+        </div>
+        <p class="h-note">Illustration only. Real results vary, and copy trading can lose money as well as make it.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY -->
+  <section class="h-section alt">
+    <div class="h-wrap">
+      <div class="h-center reveal">
+        <span class="h-eyebrow">Why HedgeInv</span>
+        <h2 class="h-sec-title">Built for traders who expect more.</h2>
+        <p class="h-sec-lead">Every part of the platform is designed so you know exactly where your money is and how it's moving.</p>
+      </div>
+      <div class="h-why">
+        <div class="reveal"><div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17l6-6 4 4 8-8"/></svg></div><h3>Real market prices</h3><p>Prices, plans and bots move with live data from public market feeds, so every number can be checked elsewhere.</p></div>
+        <div class="reveal"><div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/></svg></div><h3>One simple wallet</h3><p>Fund once and use the same balance for trading, copying, bots and plans. No juggling separate accounts.</p></div>
+        <div class="reveal"><div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg></div><h3>Verified accounts</h3><p>Identity verification (KYC) is required before withdrawals, which helps keep your funds from unauthorised access.</p></div>
+        <div class="reveal"><div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6M17 11l2 2 4-4"/></svg></div><h3>Deposits checked by people</h3><p>Every crypto and bank deposit is reviewed by our team before it reaches your wallet.</p></div>
+        <div class="reveal"><div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5h6M9 9h6M9 13h4"/><rect x="5" y="2" width="14" height="20" rx="2"/></svg></div><h3>No hidden trading fees</h3><p>Orders fill at the live price shown on your ticket. There's no added spread or per-trade commission.</p></div>
+        <div class="reveal"><div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h16v11H9l-5 4z"/></svg></div><h3>Real people, real help</h3><p>Live chat inside your dashboard and email support, with the site available in 16 languages.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="h-section">
+    <div class="h-wrap">
+      <div class="h-center reveal">
+        <span class="h-eyebrow">Getting started</span>
+        <h2 class="h-sec-title">Up and running in three steps.</h2>
+      </div>
+      <div class="h-steps">
+        <div class="h-step reveal"><h3>Create your account</h3><p>Sign up with your email in a couple of minutes. It's free to open an account.</p></div>
+        <div class="h-step reveal"><h3>Verify and fund</h3><p>Complete a quick identity check, then deposit by crypto or bank transfer. Our team confirms your deposit.</p></div>
+        <div class="h-step reveal"><h3>Choose how to invest</h3><p>Trade yourself, copy an expert, switch on a bot or join a plan, and track everything live from your dashboard.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUST -->
+  <section class="h-section" style="padding-top:0;">
+    <div class="h-wrap">
+      <div class="h-trust reveal">
+        <div>
+          <span class="h-eyebrow">Security &amp; trust</span>
+          <h2 class="h-sec-title">We show you what happens to your account.</h2>
+          <p class="h-sec-lead">Rather than badges, here are the safeguards that run on every account, every day.</p>
+          <div class="h-ctas" style="margin-top:26px;"><a class="btn secondary lg" href="regulation.html">Our compliance practices</a></div>
+        </div>
+        <div class="h-trust-grid">
+          <div><b>KYC</b><span>Identity checks before any withdrawal</span></div>
+          <div><b>100%</b><span>Of deposits reviewed by our team</span></div>
+          <div><b>Full log</b><span>Every admin action on balances is recorded</span></div>
+          <div><b>Live</b><span>Prices from public market-data feeds</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="h-section alt">
+    <div class="h-wrap">
+      <div class="h-center reveal">
+        <span class="h-eyebrow">Questions</span>
+        <h2 class="h-sec-title">Frequently asked questions</h2>
+      </div>
+      <div class="h-faq reveal">
+        <details><summary>Where do your prices come from?</summary><p>From public market-data providers: Binance for crypto and Yahoo Finance for stocks, forex, metals and commodities. Bonds follow US Treasury ETFs. Prices refresh about once a minute. Stocks and most commodities only move while their exchanges are open.</p></details>
+        <details><summary>How do investment plans work?</summary><p>Each plan follows a basket of real markets. When those markets rise or fall, your plan's value moves by the same percentage (multiplied by the plan's exposure, which is shown upfront). You can withdraw whenever you like and the current value returns to your wallet.</p></details>
+        <details><summary>Are profits guaranteed?</summary><p>No. Every product on HedgeInv, including trading, copy trading, bots and plans, can lose money as well as make it. Past performance is not a reliable indicator of future results, so only invest money you can afford to lose.</p></details>
+        <details><summary>Why do I need to verify my identity?</summary><p>Identity verification (KYC) protects your account and your funds. It's required before any withdrawal can be processed.</p></details>
+        <details><summary>How do I deposit and withdraw?</summary><p>Deposit by crypto or bank transfer from your dashboard. Our team reviews each deposit before it's credited. Withdrawals are requested from your dashboard once your account is verified.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="h-section" style="padding-top:72px;">
+    <div class="h-wrap">
+      <div class="h-final reveal">
+        <span class="h-eyebrow"><i class="h-live"></i> Markets are moving</span>
+        <h2 class="h-sec-title" style="margin-top:18px;">Ready to get started?</h2>
+        <p class="h-sec-lead" style="margin:0 auto;">Open your account in minutes and explore live markets, copy trading, bots and plans from a single wallet.</p>
+        <div class="h-ctas"><a class="btn lg" href="/auth/register.php">Open free account</a><a class="btn secondary lg" href="/auth/login.php">Log in</a></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+(function () {
+  function chg(c) { if (c === null || c === undefined) return '<span class="h-chg flat">&mdash;</span>'; var k = Math.abs(c) < .005 ? 'flat' : (c > 0 ? 'up' : 'down'); return '<span class="h-chg ' + k + '">' + (c > 0 ? '+' : '') + c.toFixed(2) + '%</span>'; }
+  function esc(s) { var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+  function spark(v, up) {
+    if (!v || v.length < 2) return '<svg class="sp"></svg>';
+    var mn = Math.min.apply(null, v), mx = Math.max.apply(null, v), r = (mx - mn) || 1, w = 84, h = 30;
+    var pts = v.map(function (p, i) { return (i / (v.length - 1) * w).toFixed(1) + ',' + (3 + (1 - (p - mn) / r) * (h - 6)).toFixed(1); }).join(' ');
+    var c = up ? '#34d399' : '#f87171';
+    return '<svg class="sp" viewBox="0 0 84 30" preserveAspectRatio="none"><polyline points="' + pts + '" fill="none" stroke="' + c + '" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg>';
+  }
+  function area(v, up) {
+    if (!v || v.length < 2) return '';
+    var mn = Math.min.apply(null, v), mx = Math.max.apply(null, v), r = (mx - mn) || 1, w = 240, h = 70;
+    var pts = v.map(function (p, i) { return [(i / (v.length - 1) * w).toFixed(1), (6 + (1 - (p - mn) / r) * (h - 12)).toFixed(1)]; });
+    var line = 'M' + pts.map(function (p) { return p.join(','); }).join(' L');
+    var c = up ? '#34d399' : '#f87171';
+    return '<defs><linearGradient id="hfa" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="' + c + '" stop-opacity=".35"/><stop offset="1" stop-color="' + c + '" stop-opacity="0"/></linearGradient></defs>'
+      + '<path d="' + line + ' L240,70 L0,70 Z" fill="url(#hfa)"/><path d="' + line + '" fill="none" stroke="' + c + '" stroke-width="2" vector-effect="non-scaling-stroke" stroke-linejoin="round"/>';
+  }
+  function load() {
+    fetch('/api/public_markets.php', { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
+      if (!j || !j.ok || !j.markets.length) { document.getElementById('hWatch').innerHTML = '<p style="color:var(--muted);font-size:12px;margin:6px 4px;">Live prices are loading&hellip;</p>'; return; }
+      // Phone: featured market (first crypto) + watchlist
+      var feat = j.markets.filter(function (m) { return m.type === 'Crypto'; })[0] || j.markets[0];
+      document.getElementById('hFeatIcon').innerHTML = feat.icon;
+      document.getElementById('hFeatName').textContent = feat.name;
+      document.getElementById('hFeatSym').textContent = feat.symbol + ' · ' + feat.type;
+      document.getElementById('hFeatPx').textContent = feat.price_fmt;
+      document.getElementById('hFeatChg').innerHTML = chg(feat.change_pct);
+      document.getElementById('hFeatChart').innerHTML = area(feat.spark, (feat.change_pct || 0) >= 0);
+      var rest = j.markets.filter(function (m) { return m !== feat; });
+      var mix = [], seen = {};
+      rest.forEach(function (m) { if (mix.length < 4 && !seen[m.type]) { seen[m.type] = 1; mix.push(m); } });
+      rest.forEach(function (m) { if (mix.length < 4 && mix.indexOf(m) < 0) mix.push(m); });
+      document.getElementById('hWatch').innerHTML = mix.map(function (m) {
+        var c = m.change_pct, k = (c === null || Math.abs(c) < .005) ? 'flat' : (c > 0 ? 'up' : 'down');
+        return '<div class="h-wrow">' + m.icon.replace(/width:36px;height:36px/g, 'width:28px;height:28px') + '<div style="min-width:0"><b>' + esc(m.name) + '</b><small>' + esc(m.symbol) + '</small></div><div class="r">' + esc(m.price_fmt) + '<i class="' + k + '">' + (c === null ? '—' : (c > 0 ? '+' : '') + c.toFixed(2) + '%') + '</i></div></div>';
+      }).join('');
+      // Bot card: a trend-following bot is long what rose over 24h and short what fell (real 24h moves).
+      var sig = j.markets.filter(function (m) { return m.change_pct !== null; }).slice(0, 2);
+      if (sig.length) document.getElementById('hSig').innerHTML = sig.map(function (m) {
+        var d = Math.abs(m.change_pct) < .05 ? 'flat' : (m.change_pct > 0 ? 'long' : 'short');
+        return '<div><span>' + esc(m.symbol) + '</span><span class="h-pos ' + d + '">' + (d === 'long' ? '&#9650; LONG' : d === 'short' ? '&#9660; SHORT' : 'FLAT') + '</span></div>';
+      }).join('');
+      document.getElementById('hLiveCount').textContent = j.live + '+';
+      var t = j.markets.map(function (m) { return '<span class="h-tick">' + m.icon.replace(/width:36px;height:36px/g, 'width:20px;height:20px') + '<span class="s">' + esc(m.symbol) + '</span>' + esc(m.price_fmt) + ' ' + chg(m.change_pct) + '</span>'; }).join('');
+      document.getElementById('hTape').innerHTML = t + t;
+      document.getElementById('hTapeWrap').hidden = false;
+      Object.keys(j.counts).forEach(function (k) {
+        document.querySelectorAll('[data-count="' + k + '"]').forEach(function (el) { if (j.counts[k] > 0) el.textContent = j.counts[k] + ' markets'; else el.remove(); });
+      });
+    }).catch(function () {});
+  }
+  load(); setInterval(load, 60000);
+  // Fade sections in as they scroll into view
+  var io = 'IntersectionObserver' in window ? new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }); }, { threshold: .12 }) : null;
+  document.querySelectorAll('.reveal').forEach(function (el) { io ? io.observe(el) : el.classList.add('in'); });
+})();
+</script>
+
+<footer class="site-footer">
+  <div class="links">
+    <a href="aboutus.html">About Us</a>
+    <a href="careers.html">Careers</a>
+    <a href="contact.html">Contact</a>
+    <a href="faqs.html">FAQ</a>
+    <a href="/auth/register.php">Open an Account</a>
+  </div>
+  <div class="links" style="margin-top:6px;">
+    <a href="policies/terms-of-use.html">Terms of Use</a>
+    <a href="policies/privacy-policy.html">Privacy Policy</a>
+    <a href="policies/aml-policy.html">AML Policy</a>
+  </div>
+  &copy; 2026 Hedge Pty Ltd
+  <p class="risk-note">
+    Risk warning: trading and investing involve risk. The value of your trades, copy positions, plans and bots can fall as well as
+    rise, and you may get back less than you put in. Plans and bots with exposure above 1x move more than the markets they follow.
+    Past performance is not a reliable indicator of future results, and nothing on this site is personal investment advice.
+    Market prices come from public market-data providers. Copy trading results are posted by our expert traders.
+  </p>
+</footer>
+<script>
+document.querySelectorAll('.nav-item > span').forEach(function(el){
+  el.addEventListener('click', function(){
+    if (window.innerWidth <= 960) {
+      var dd = this.nextElementSibling;
+      dd.style.display = dd.style.display === 'block' ? 'none' : 'block';
+    }
+  });
+});
+</script>
+<style>
+#google_translate_element .goog-te-gadget { color: transparent !important; font-size: 0 !important; }
+#google_translate_element .goog-te-gadget > span > a.goog-te-menu-value { display: inline-flex !important; align-items:center; color:#e8edf7 !important; font-size:13px !important; font-family:'Inter',sans-serif !important; text-decoration:none !important; border:1px solid #2d4270; border-radius:6px; padding:5px 10px; background:#182644; margin-right:10px; }
+#google_translate_element .goog-te-gadget > span > a.goog-te-menu-value span { color:#e8edf7 !important; }
+#google_translate_element .goog-te-gadget > span > a.goog-te-menu-value:hover { background:#223252; }
+body { top: 0 !important; }
+.goog-te-banner-frame { display: none !important; }
+.skiptranslate iframe { display: none !important; }
+</style>
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    includedLanguages: 'en,es,fr,de,pt,ar,zh-CN,ja,ko,ru,hi,it,tr,id,vi,th',
+    layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+    autoDisplay: false
+  }, 'google_translate_element');
+}
+</script>
+<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+</body>
+</html>

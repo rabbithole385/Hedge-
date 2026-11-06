@@ -1,0 +1,10 @@
+# Secrets and client documents never go to GitHub
+config/db_credentials.cpanel.php
+assets/uploads/kyc/*
+assets/uploads/deposit_proofs/*
+!assets/uploads/kyc/.gitkeep
+!assets/uploads/deposit_proofs/.gitkeep
+*.sql.gz
+import.sql
+**/error_log
+*.zip

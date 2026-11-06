@@ -1,0 +1,8 @@
+.git
+.gitignore
+*.zip
+**/error_log
+config/db_credentials.cpanel.php
+assets/uploads/kyc/*
+assets/uploads/deposit_proofs/*
+render/mariadb
