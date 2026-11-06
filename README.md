@@ -212,10 +212,16 @@ Any MySQL 8, MariaDB or TiDB database works. Set DB_SSL=1 for providers that req
 
 ## Deploy on Railway
 
-1. In the project, click **+ Create > Database > MySQL**.
-2. Open the **hedgeinv** service > **Variables** and add one line: `MYSQL_URL=${{MySQL.MYSQL_URL}}`
-   (the app reads Railway's MySQL settings from it and builds all its tables on first start),
-   plus `IMPORT_TOKEN=<any long random text>` if you want to load an existing export.
-3. hedgeinv service > **Settings**: attach a **Volume** mounted at `/var/data` (keeps uploads), then **Networking > Generate Domain**.
-4. To load existing data, open `https://<your-domain>/setup/import.php`, enter the token and upload the `.sql` (or `.sql.gz`) export.
-   It only works on an empty database and switches itself off once users exist. Delete `IMPORT_TOKEN` afterwards.
+Nothing to configure: the image has its own built-in database and starts it automatically.
+
+1. New project > **Deploy from GitHub repo** > pick this repo.
+2. hedgeinv service > **Settings** > add a **Volume** mounted at `/var/data`.
+   This is the one thing you must do: it keeps the database, users, balances and uploads across redeploys.
+   (Without it the site still runs, but everything resets on every deploy. The logs warn about this.)
+3. **Settings > Networking > Generate Domain**.
+4. Optional, to load an existing export: add the variable `IMPORT_TOKEN=<any long random text>`, open
+   `https://<your-domain>/setup/import.php`, enter the token and upload the `.sql` / `.sql.gz` file.
+   Works only on an empty database and switches itself off afterwards. Delete `IMPORT_TOKEN` then.
+
+Prefer Railway's separate MySQL service instead? Add it and set `MYSQL_URL=${{MySQL.MYSQL_URL}}` on hedgeinv;
+the app then uses that and the built-in database stays off.

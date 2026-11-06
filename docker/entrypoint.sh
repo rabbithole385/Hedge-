@@ -1,7 +1,7 @@
 #!/bin/bash
 # HedgeInv container start-up: everything runs by itself.
 #  1. Uploads: persistent disk if there is one, otherwise mirrored in the database (free plan)
-#  2. Wait for the database
+#  2. Database: uses yours if configured (DB_* / Railway MySQL), otherwise starts a built-in one
 #  3. One-time import of your existing data (only if you add it as a Secret File)
 #  4. Create / upgrade the schema automatically
 #  5. Background price + plan + bot updates (no cron needed)
@@ -31,6 +31,61 @@ else
   mkdir -p "$APP/assets/uploads/kyc" "$APP/assets/uploads/deposit_proofs" "$APP/assets/uploads/experts"
   chown -R www-data:www-data "$APP/assets/uploads"
   log "no persistent volume at $DATA: uploads will be mirrored in the database"
+fi
+
+# ---- Database: auto-detect, or start the built-in one -------------------------
+has_db_config() {
+  [ -n "${DB_HOST:-}" ] || [ -n "${MYSQLHOST:-}" ] || [ -n "${MYSQL_URL:-}" ] || [ -n "${DATABASE_URL:-}" ] \
+    || [ -f "$APP/config/db_credentials.cpanel.php" ]
+}
+BUILTIN=0
+if has_db_config; then
+  log "using the configured external database"
+elif [ "${BUILTIN_DB:-on}" != "off" ]; then
+  BUILTIN=1
+  if [ "$USE_DISK" = 1 ]; then
+    DBDIR="$DATA/mysql"; PASSF="$DATA/.hedgeinv-dbpass"
+    log "no database configured: starting the built-in database, stored on the volume ($DBDIR)"
+  else
+    DBDIR=/var/lib/hedgeinv-mysql; PASSF=/var/lib/.hedgeinv-dbpass
+    log "WARNING: no database configured and no volume at $DATA."
+    log "WARNING: the built-in database is running, but its data is LOST on every redeploy."
+    log "WARNING: attach a volume mounted at $DATA to keep users, balances and uploads."
+  fi
+  mkdir -p "$DBDIR" /run/mysqld
+  chown -R mysql:mysql "$DBDIR" /run/mysqld
+  if [ ! -d "$DBDIR/mysql" ]; then
+    log "creating the built-in database (first start) ..."
+    mariadb-install-db --user=mysql --datadir="$DBDIR" --auth-root-authentication-method=socket \
+      --skip-test-db >/dev/null 2>&1 || log "database initialisation reported a problem"
+  fi
+  mariadbd --user=mysql --datadir="$DBDIR" --socket=/run/mysqld/mysqld.sock \
+    --bind-address=127.0.0.1 --port=3306 --skip-name-resolve \
+    --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci \
+    --max-allowed-packet=64M --innodb-buffer-pool-size=128M --default-time-zone=+01:00 \
+    --log-error="$DBDIR/error.log" &
+  DB_PID=$!
+  for i in $(seq 1 60); do
+    mariadb-admin --socket=/run/mysqld/mysqld.sock ping >/dev/null 2>&1 && break
+    sleep 1
+  done
+  [ -s "$PASSF" ] || php -r 'echo bin2hex(random_bytes(24));' > "$PASSF"
+  chmod 600 "$PASSF"
+  DBP="$(cat "$PASSF")"
+  mariadb --socket=/run/mysqld/mysqld.sock -uroot <<SQL || log "could not prepare the built-in database"
+CREATE DATABASE IF NOT EXISTS hedgeinv CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+CREATE USER IF NOT EXISTS 'hedgeinv'@'127.0.0.1' IDENTIFIED BY '$DBP';
+CREATE USER IF NOT EXISTS 'hedgeinv'@'localhost' IDENTIFIED BY '$DBP';
+ALTER USER 'hedgeinv'@'127.0.0.1' IDENTIFIED BY '$DBP';
+ALTER USER 'hedgeinv'@'localhost' IDENTIFIED BY '$DBP';
+GRANT ALL PRIVILEGES ON hedgeinv.* TO 'hedgeinv'@'127.0.0.1';
+GRANT ALL PRIVILEGES ON hedgeinv.* TO 'hedgeinv'@'localhost';
+FLUSH PRIVILEGES;
+SQL
+  export DB_HOST=127.0.0.1 DB_PORT=3306 DB_NAME=hedgeinv DB_USER=hedgeinv DB_PASS="$DBP" DB_SSL=0
+  unset DBP
+  log "built-in database is ready"
+  # Uploads on the volume already; no need to mirror them into the database.
 fi
 
 DB_OK=0
@@ -73,4 +128,13 @@ if [ "$USE_DISK" = 0 ]; then
   ) &
 fi
 
+if [ "$BUILTIN" = 1 ]; then
+  # Stop the database cleanly when the platform stops the container.
+  "$@" &
+  WEB_PID=$!
+  trap 'log "stopping"; kill -TERM $WEB_PID 2>/dev/null; mariadb-admin --socket=/run/mysqld/mysqld.sock shutdown 2>/dev/null; wait $DB_PID 2>/dev/null; exit 0' TERM INT
+  wait $WEB_PID
+  mariadb-admin --socket=/run/mysqld/mysqld.sock shutdown 2>/dev/null
+  exit 0
+fi
 exec "$@"

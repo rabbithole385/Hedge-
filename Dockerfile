@@ -1,12 +1,13 @@
-# HedgeInv - production image for Render (or any Docker host)
+# HedgeInv - production image for Railway, Render or any Docker host.
+# Has its own built-in MariaDB: if no database is configured it starts one automatically.
 FROM php:8.3-apache-bookworm
 
 # PHP extensions
 RUN apt-get update \
- && apt-get install -y --no-install-recommends libpng-dev libjpeg62-turbo-dev libfreetype6-dev libzip-dev libicu-dev \
+ && apt-get install -y --no-install-recommends libpng-dev libjpeg62-turbo-dev libfreetype6-dev libzip-dev libicu-dev mariadb-server mariadb-client \
  && docker-php-ext-configure gd --with-freetype --with-jpeg \
  && docker-php-ext-install -j"$(nproc)" pdo_mysql mysqli gd zip intl opcache \
- && a2dismod -f mpm_event mpm_worker >/dev/null 2>&1 || true \
+ && (a2dismod -f mpm_event mpm_worker >/dev/null 2>&1 || true) \
  && a2enmod mpm_prefork rewrite headers remoteip \
  && rm -rf /var/lib/apt/lists/*
 
