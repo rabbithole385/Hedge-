@@ -6,7 +6,8 @@ RUN apt-get update \
  && apt-get install -y --no-install-recommends libpng-dev libjpeg62-turbo-dev libfreetype6-dev libzip-dev libicu-dev \
  && docker-php-ext-configure gd --with-freetype --with-jpeg \
  && docker-php-ext-install -j"$(nproc)" pdo_mysql mysqli gd zip intl opcache \
- && a2enmod rewrite headers remoteip \
+ && a2dismod -f mpm_event mpm_worker >/dev/null 2>&1 || true \
+ && a2enmod mpm_prefork rewrite headers remoteip \
  && rm -rf /var/lib/apt/lists/*
 
 COPY docker/php.ini /usr/local/etc/php/conf.d/zz-hedgeinv.ini

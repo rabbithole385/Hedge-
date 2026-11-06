@@ -209,3 +209,13 @@ Free-plan behaviour:
 - Prices, plans and bots update every TICK_SECONDS while the server is awake. No cron job is needed.
 
 Any MySQL 8, MariaDB or TiDB database works. Set DB_SSL=1 for providers that require encryption.
+
+## Deploy on Railway
+
+1. In the project, click **+ Create > Database > MySQL**.
+2. Open the **hedgeinv** service > **Variables** and add one line: `MYSQL_URL=${{MySQL.MYSQL_URL}}`
+   (the app reads Railway's MySQL settings from it and builds all its tables on first start),
+   plus `IMPORT_TOKEN=<any long random text>` if you want to load an existing export.
+3. hedgeinv service > **Settings**: attach a **Volume** mounted at `/var/data` (keeps uploads), then **Networking > Generate Domain**.
+4. To load existing data, open `https://<your-domain>/setup/import.php`, enter the token and upload the `.sql` (or `.sql.gz`) export.
+   It only works on an empty database and switches itself off once users exist. Delete `IMPORT_TOKEN` afterwards.

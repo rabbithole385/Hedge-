@@ -12,6 +12,11 @@ LIB=/usr/local/lib/hedgeinv
 DATA="${DATA_DIR:-/var/data}"
 log() { echo "[hedgeinv] $*"; }
 
+# Apache must run exactly one MPM (mod_php needs prefork). Some hosts' build layers
+# re-enable mpm_event, which crashes Apache with "More than one MPM loaded".
+rm -f /etc/apache2/mods-enabled/mpm_event.* /etc/apache2/mods-enabled/mpm_worker.* 2>/dev/null
+[ -e /etc/apache2/mods-enabled/mpm_prefork.load ] || a2enmod -q mpm_prefork >/dev/null 2>&1
+
 USE_DISK=0
 if [ -d "$DATA" ] && [ -w "$DATA" ] && grep -qs " $DATA " /proc/mounts; then USE_DISK=1; fi
 
@@ -25,7 +30,7 @@ if [ "$USE_DISK" = 1 ]; then
 else
   mkdir -p "$APP/assets/uploads/kyc" "$APP/assets/uploads/deposit_proofs" "$APP/assets/uploads/experts"
   chown -R www-data:www-data "$APP/assets/uploads"
-  log "no persistent disk (free plan): uploads will be mirrored in the database"
+  log "no persistent volume at $DATA: uploads will be mirrored in the database"
 fi
 
 DB_OK=0

@@ -1,7 +1,7 @@
 <?php
 // Exit 0 once the database accepts connections, 1 after ~120s.
 require '/var/www/html/config/database.php';
-if (!getenv('DB_HOST')) { fwrite(STDERR, "[hedgeinv] DB_HOST is not set - add your database details in Render > Environment\n"); exit(1); }
+if (DB_NAME === '' && DB_USER === '') { fwrite(STDERR, "[hedgeinv] no database connected - add a MySQL database and set MYSQL_URL=\${{MySQL.MYSQL_URL}} on this service\n"); exit(1); }
 $dsn = 'mysql:host=' . DB_HOST . ';port=' . DB_PORT . ';dbname=' . DB_NAME . ';charset=utf8mb4';
 for ($i = 0; $i < 60; $i++) {
     try {

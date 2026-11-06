@@ -10,6 +10,25 @@ $__env = function (string $k): ?string {
     return ($v === false || $v === '') ? null : $v;
 };
 
+// Railway: if the MySQL plugin's variables are shared with this service, use them automatically.
+if ($__env('DB_HOST') === null) {
+    $__url = $__env('MYSQL_URL') ?? $__env('DATABASE_URL');
+    if ($__env('MYSQLHOST') !== null) {
+        putenv('DB_HOST=' . $__env('MYSQLHOST'));
+        putenv('DB_PORT=' . ($__env('MYSQLPORT') ?? '3306'));
+        putenv('DB_NAME=' . ($__env('MYSQLDATABASE') ?? $__env('MYSQL_DATABASE') ?? 'railway'));
+        putenv('DB_USER=' . ($__env('MYSQLUSER') ?? 'root'));
+        putenv('DB_PASS=' . ($__env('MYSQLPASSWORD') ?? $__env('MYSQL_ROOT_PASSWORD') ?? ''));
+    } elseif ($__url !== null && preg_match('#^mysql://#', $__url) && ($__u = parse_url($__url))) {
+        putenv('DB_HOST=' . ($__u['host'] ?? ''));
+        putenv('DB_PORT=' . ($__u['port'] ?? '3306'));
+        putenv('DB_NAME=' . ltrim($__u['path'] ?? '/railway', '/'));
+        putenv('DB_USER=' . rawurldecode($__u['user'] ?? 'root'));
+        putenv('DB_PASS=' . rawurldecode($__u['pass'] ?? ''));
+    }
+    unset($__url, $__u);
+}
+
 if ($__env('DB_HOST') !== null) {
     define('DB_HOST', $__env('DB_HOST'));
     define('DB_PORT', $__env('DB_PORT') ?? '3306');
