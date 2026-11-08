@@ -782,9 +782,10 @@ code {
 .ai-pair .p2 { right: 0; bottom: 0; }
 
 /* ---- Nexora logo: monogram + wordmark ---- */
-.nx-logo { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; line-height: 1; }
-.nx-logo .nx-ico { width: 34px; height: 34px; flex: none; filter: drop-shadow(0 4px 14px rgba(212,175,106,.18)); transition: transform .35s ease; }
-.nx-logo:hover .nx-ico { transform: rotate(-6deg) scale(1.04); }
+.nx-logo { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; line-height: 1; transition: opacity .2s ease; }
+.nx-logo .nx-ico { width: 34px; height: 34px; flex: none; filter: drop-shadow(0 4px 14px rgba(212,175,106,.15)); transition: filter .25s ease, opacity .25s ease; }
+.nx-logo:hover { opacity: .92; }
+.nx-logo:hover .nx-ico { filter: drop-shadow(0 4px 20px rgba(212,175,106,.32)); }
 .nx-logo .nx-word {
   display: inline-flex; flex-direction: column; gap: 3px;
   font-family: 'Space Grotesk', 'Segoe UI', sans-serif; font-weight: 700; font-size: 21px; letter-spacing: .4px;
