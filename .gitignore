@@ -12,3 +12,6 @@ assets/uploads/deposit_proofs/*
 import.sql
 **/error_log
 *.zip
+
+# Render deploy hook (contains a secret key)
+.render-deploy-hook
