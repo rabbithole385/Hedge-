@@ -1,5 +1,5 @@
 /**
- * NexoraCopy Floating Live Chat Client
+ * Nexora Floating Live Chat Client
  * Lightweight, zero-dependency real-time live chat widget with Bot, Typing Detection, and Audio alerts.
  */
 (function() {
@@ -55,13 +55,13 @@
         <div class="hinv-chat-header">
           <div class="hinv-header-info">
             <div class="hinv-avatar-stack">
-              HI
+              <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M12 29V11l16 18V11" fill="none" stroke="#e8c988" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
               <span class="hinv-online-dot"></span>
             </div>
             <div>
-              <div class="hinv-header-title">NexoraCopy Support</div>
+              <div class="hinv-header-title">Nexora Support</div>
               <div class="hinv-header-status">
-                <span>🟢</span> Typically replies in seconds
+                <i class="hinv-live-dot"></i> Online &middot; replies in seconds
               </div>
             </div>
           </div>
@@ -77,11 +77,11 @@
 
         <!-- Chips -->
         <div class="hinv-chips-bar" id="hinvChipsBar">
-          <button class="hinv-chip" data-action="deposit">💳 Deposit Help</button>
-          <button class="hinv-chip" data-action="withdraw">💰 Withdrawal Info</button>
-          <button class="hinv-chip" data-action="kyc">🆔 KYC Verification</button>
-          <button class="hinv-chip" data-action="trading">📈 Copy Trading</button>
-          <button class="hinv-chip" data-action="human">👤 Speak to Agent</button>
+          <button class="hinv-chip" data-action="deposit">Deposits</button>
+          <button class="hinv-chip" data-action="withdraw">Withdrawals</button>
+          <button class="hinv-chip" data-action="kyc">Verification</button>
+          <button class="hinv-chip" data-action="trading">Copy trading</button>
+          <button class="hinv-chip" data-action="human">Talk to a person</button>
         </div>
 
         <!-- Messages -->
@@ -95,7 +95,7 @@
 
         <!-- Footer -->
         <div class="hinv-chat-footer">
-          <input type="text" class="hinv-input" id="hinvInput" placeholder="Ask a question or type a message..." autocomplete="off">
+          <input type="text" class="hinv-input" id="hinvInput" placeholder="Type your message…" autocomplete="off">
           <button class="hinv-send-btn" id="hinvSendBtn" title="Send message">
             <svg viewBox="0 0 24 24">
               <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
@@ -232,14 +232,14 @@
 
     let tag = '';
     if (!isUser) {
-      tag = `<div class="hinv-msg-tag">${isBot ? '🤖 NexoraCopy Assistant' : '🛡️ Live Agent'}</div>`;
+      tag = `<div class="hinv-msg-tag">${isBot ? '🤖 Nexora Assistant' : '🛡️ Live Agent'}</div>`;
     }
 
     const timeStr = m.created_at ? new Date(m.created_at.replace(' ', 'T')).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
 
     row.innerHTML = `
       ${tag}
-      <div class="hinv-msg-bubble">${escapeHtml(m.message)}</div>
+      <div class="hinv-msg-bubble">${formatMsg(m.message)}</div>
       <div class="hinv-msg-time">${timeStr}</div>
     `;
 
@@ -254,7 +254,7 @@
       customChips.forEach(c => {
         const btn = document.createElement('button');
         btn.className = 'hinv-chip';
-        btn.textContent = c.label;
+        btn.textContent = String(c.label).replace(/^[\p{Extended_Pictographic}\uFE0F\u200D\s]+/u, '');
         if (c.url) {
           btn.addEventListener('click', () => window.location.href = c.url);
         } else if (c.action) {
@@ -323,6 +323,11 @@
       lastTypingSent = now;
       fetch(`/api/livechat.php?action=typing&thread_id=${currentThreadId}`, { method: 'POST' });
     }
+  }
+
+  // Safe text with **bold** support for bot replies.
+  function formatMsg(str) {
+    return escapeHtml(str).replace(/\*\*([^*]+?)\*\*/g, '<strong>$1</strong>');
   }
 
   function escapeHtml(str) {

@@ -1,5 +1,5 @@
 /* ============================================================
-   NexoraCopy design system - dark trading terminal aesthetic
+   Nexora design system - dark trading terminal aesthetic
    Navy-black surfaces, gold accent for premium/CTA moments,
    monospace numerals throughout as the signature detail.
    ============================================================ */
@@ -781,7 +781,7 @@ code {
 .ai-pair .p1 { top: 0; left: 0; z-index: 1; }
 .ai-pair .p2 { right: 0; bottom: 0; }
 
-/* ---- NexoraCopy logo: monogram + wordmark ---- */
+/* ---- Nexora logo: monogram + wordmark ---- */
 .nx-logo { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; line-height: 1; }
 .nx-logo .nx-ico { width: 34px; height: 34px; flex: none; filter: drop-shadow(0 4px 14px rgba(212,175,106,.18)); transition: transform .35s ease; }
 .nx-logo:hover .nx-ico { transform: rotate(-6deg) scale(1.04); }

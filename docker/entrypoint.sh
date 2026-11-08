@@ -1,5 +1,5 @@
 #!/bin/bash
-# NexoraCopy container start-up: everything runs by itself.
+# Nexora container start-up: everything runs by itself.
 #  1. Uploads: persistent disk if there is one, otherwise mirrored in the database (free plan)
 #  2. Database: uses yours if configured (DB_* / Railway MySQL), otherwise starts a built-in one
 #  3. One-time import of your existing data (only if you add it as a Secret File)

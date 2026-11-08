@@ -1,6 +1,6 @@
 <?php
 /**
- * Real-Time Live Chat API for NexoraCopy
+ * Real-Time Live Chat API for Nexora
  * High-performance, lightweight AJAX polling & presence API optimized for cPanel (PHP + MySQL).
  */
 
@@ -264,14 +264,14 @@ try {
                 $botText = $botResult['reply'];
                 $chips = $botResult['chips'] ?? [];
 
-                $pdo->prepare("INSERT INTO support_messages (thread_id, sender_type, sender_label, is_bot, message) VALUES (?, 'admin', 'NexoraCopy Assistant (AI)', 1, ?)")->execute([$threadId, $botText]);
+                $pdo->prepare("INSERT INTO support_messages (thread_id, sender_type, sender_label, is_bot, message) VALUES (?, 'admin', 'Nexora Assistant (AI)', 1, ?)")->execute([$threadId, $botText]);
                 $botMsgId = (int)$pdo->lastInsertId();
 
                 $botReply = [
                     'id' => $botMsgId,
                     'thread_id' => $threadId,
                     'sender_type' => 'admin',
-                    'sender_label' => 'NexoraCopy Assistant (AI)',
+                    'sender_label' => 'Nexora Assistant (AI)',
                     'is_bot' => 1,
                     'message' => $botText,
                     'chips' => $chips,

@@ -1,4 +1,4 @@
-/* NexoraCopy marketing site - shared stylesheet */
+/* Nexora marketing site - shared stylesheet */
 :root {
   --bg: #0b1220;
   --bg-elevated: #121b2e;
@@ -217,7 +217,7 @@ body::after {
   body::after { animation: none; display: none; }
 }
 
-/* ---- NexoraCopy logo: monogram + wordmark ---- */
+/* ---- Nexora logo: monogram + wordmark ---- */
 .nx-logo { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; line-height: 1; }
 .nx-logo .nx-ico { width: 34px; height: 34px; flex: none; filter: drop-shadow(0 4px 14px rgba(212,175,106,.18)); transition: transform .35s ease; }
 .nx-logo:hover .nx-ico { transform: rotate(-6deg) scale(1.04); }

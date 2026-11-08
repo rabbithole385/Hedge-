@@ -1,6 +1,6 @@
 <?php
 /** Expects optional $pageTitle and $navContext ('user'|'admin'|'guest') set before include. */
-$pageTitle = $pageTitle ?? 'NexoraCopy';
+$pageTitle = $pageTitle ?? 'Nexora';
 $navContext = $navContext ?? 'guest';
 
 $headerPdo = null;
@@ -59,7 +59,7 @@ $showSidebarShell = ($navContext === 'user' && $headerUser) || ($navContext === 
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title><?= e($pageTitle) ?> | NexoraCopy</title>
+<title><?= e($pageTitle) ?> | Nexora</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
@@ -70,7 +70,7 @@ $showSidebarShell = ($navContext === 'user' && $headerUser) || ($navContext === 
 <div class="app-shell">
   <div class="sidebar-overlay" id="sidebarOverlay" onclick="document.getElementById('sidebarNav').classList.remove('open'); this.classList.remove('open');"></div>
   <aside class="sidebar" id="sidebarNav">
-    <div class="sidebar-brand nx-logo"><svg class="nx-ico" viewBox="0 0 40 40" aria-hidden="true"><defs><linearGradient id="nxg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f3dca6"/><stop offset=".55" stop-color="#d4af6a"/><stop offset="1" stop-color="#a77f3c"/></linearGradient></defs><rect x="1" y="1" width="38" height="38" rx="11" fill="#0e1729" stroke="url(#nxg)" stroke-opacity=".55"/><path d="M12 29V11l16 18V11" fill="none" stroke="url(#nxg)" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="28" cy="11" r="2.6" fill="#34d399"/></svg><span class="nx-word">Nexora<small>Copy</small></span></div>
+    <div class="sidebar-brand nx-logo"><svg class="nx-ico" viewBox="0 0 40 40" aria-hidden="true"><defs><linearGradient id="nxg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f3dca6"/><stop offset=".55" stop-color="#d4af6a"/><stop offset="1" stop-color="#a77f3c"/></linearGradient></defs><rect x="1" y="1" width="38" height="38" rx="11" fill="#0e1729" stroke="url(#nxg)" stroke-opacity=".55"/><path d="M12 29V11l16 18V11" fill="none" stroke="url(#nxg)" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="28" cy="11" r="2.6" fill="#34d399"/></svg><span class="nx-word">Nexora</span></div>
 
     <div class="sidebar-section">
       <div class="sidebar-section-title">Overview</div>
@@ -154,7 +154,7 @@ $showSidebarShell = ($navContext === 'user' && $headerUser) || ($navContext === 
 <div class="app-shell">
   <div class="sidebar-overlay" id="sidebarOverlay" onclick="document.getElementById('sidebarNav').classList.remove('open'); this.classList.remove('open');"></div>
   <aside class="sidebar" id="sidebarNav">
-    <div class="sidebar-brand nx-logo"><svg class="nx-ico" viewBox="0 0 40 40" aria-hidden="true"><defs><linearGradient id="nxg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f3dca6"/><stop offset=".55" stop-color="#d4af6a"/><stop offset="1" stop-color="#a77f3c"/></linearGradient></defs><rect x="1" y="1" width="38" height="38" rx="11" fill="#0e1729" stroke="url(#nxg)" stroke-opacity=".55"/><path d="M12 29V11l16 18V11" fill="none" stroke="url(#nxg)" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="28" cy="11" r="2.6" fill="#34d399"/></svg><span class="nx-word">Nexora<small>Copy</small></span> <span class="nx-tag" style="font-size:11px; color:var(--muted); font-weight:500;">Admin</span></div>
+    <div class="sidebar-brand nx-logo"><svg class="nx-ico" viewBox="0 0 40 40" aria-hidden="true"><defs><linearGradient id="nxg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f3dca6"/><stop offset=".55" stop-color="#d4af6a"/><stop offset="1" stop-color="#a77f3c"/></linearGradient></defs><rect x="1" y="1" width="38" height="38" rx="11" fill="#0e1729" stroke="url(#nxg)" stroke-opacity=".55"/><path d="M12 29V11l16 18V11" fill="none" stroke="url(#nxg)" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="28" cy="11" r="2.6" fill="#34d399"/></svg><span class="nx-word">Nexora</span> <span class="nx-tag" style="font-size:11px; color:var(--muted); font-weight:500;">Admin</span></div>
 
     <div class="sidebar-section">
       <div class="sidebar-section-title">Overview</div>
@@ -231,7 +231,7 @@ $showSidebarShell = ($navContext === 'user' && $headerUser) || ($navContext === 
     <div class="app-content">
 <?php else: ?>
 <header class="navbar">
-  <div class="brand nx-logo"><svg class="nx-ico" viewBox="0 0 40 40" aria-hidden="true"><defs><linearGradient id="nxg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f3dca6"/><stop offset=".55" stop-color="#d4af6a"/><stop offset="1" stop-color="#a77f3c"/></linearGradient></defs><rect x="1" y="1" width="38" height="38" rx="11" fill="#0e1729" stroke="url(#nxg)" stroke-opacity=".55"/><path d="M12 29V11l16 18V11" fill="none" stroke="url(#nxg)" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="28" cy="11" r="2.6" fill="#34d399"/></svg><span class="nx-word">Nexora<small>Copy</small></span></div>
+  <div class="brand nx-logo"><svg class="nx-ico" viewBox="0 0 40 40" aria-hidden="true"><defs><linearGradient id="nxg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f3dca6"/><stop offset=".55" stop-color="#d4af6a"/><stop offset="1" stop-color="#a77f3c"/></linearGradient></defs><rect x="1" y="1" width="38" height="38" rx="11" fill="#0e1729" stroke="url(#nxg)" stroke-opacity=".55"/><path d="M12 29V11l16 18V11" fill="none" stroke="url(#nxg)" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="28" cy="11" r="2.6" fill="#34d399"/></svg><span class="nx-word">Nexora</span></div>
   <button class="nav-toggle" type="button" onclick="document.getElementById('mainNav').classList.toggle('open')" aria-label="Menu">&#9776;</button>
   <nav id="mainNav">
     <a href="/auth/login.php">Login</a>

@@ -294,7 +294,7 @@ require __DIR__ . '/../includes/header.php';
   <div class="kw-card">
     <span class="kw-pill">ACCOUNT SETUP</span>
     <h2 class="kw-title">Complete your onboarding</h2>
-    <p class="kw-subtitle">A few details so we can verify your NexoraCopy account and unlock full trading access. Reviewed manually by our team, not on-chain or automated.</p>
+    <p class="kw-subtitle">A few details so we can verify your Nexora account and unlock full trading access. Reviewed manually by our team, not on-chain or automated.</p>
 
     <?php if ($user['kyc_status'] === 'approved'): ?>
       <div class="alert success">Your identity is verified. Full trading access is unlocked.</div>
