@@ -1,66 +1,122 @@
 <?php
 /**
  * Nexora Support Bot Knowledge Engine
- * Provides automated responses, FAQ routing, and real-time handoff to human administrators.
+ * Real LLM replies via includes/ai_provider.php, with a deterministic
+ * rule-based fallback so support never goes dark if the model is unreachable.
+ * Also handles FAQ routing and real-time handoff to human administrators.
  */
+
+require_once __DIR__ . '/ai_provider.php';
 
 if (!defined('HEDGEINV_BOT_LOADED')) {
     define('HEDGEINV_BOT_LOADED', true);
 }
 
-function bot_welcome_payload(?string $userName = null): array {
-    $name = $userName ? ' ' . htmlspecialchars($userName) : '';
+function bot_default_chips(): array {
     return [
-        'message' => "Hello{$name}! 👋 Welcome to Nexora Support.\n\nI am your automated assistant. I can guide you through deposits, withdrawals, KYC verification, copy trading, and AI bots, or connect you directly with a live human specialist.\n\nHow can I help you today?",
-        'chips' => [
-            ['label' => '💳 Deposit Help', 'action' => 'deposit'],
-            ['label' => '💰 Withdrawal Info', 'action' => 'withdraw'],
-            ['label' => '🆔 KYC Verification', 'action' => 'kyc'],
-            ['label' => '📈 Copy Trading & Bots', 'action' => 'trading'],
-            ['label' => '👤 Speak to Live Agent', 'action' => 'human'],
-        ],
-        'is_bot' => true,
-        'sender_label' => 'Nexora Assistant (AI)',
+        ['label' => '💳 Deposit Help', 'action' => 'deposit'],
+        ['label' => '💰 Withdrawal Info', 'action' => 'withdraw'],
+        ['label' => '🆔 KYC Verification', 'action' => 'kyc'],
+        ['label' => '📈 Copy Trading & Bots', 'action' => 'trading'],
+        ['label' => '👤 Speak to Live Agent', 'action' => 'human'],
     ];
 }
 
+function bot_welcome_payload(?string $userName = null): array {
+    $name = $userName ? ' ' . htmlspecialchars($userName) : '';
+    return [
+        'message' => "Hello{$name}! 👋 Welcome to Nexora Support.\n\nI am Nova, your AI assistant. Ask me anything about deposits, withdrawals, KYC verification, copy trading or the automated bots - or say the word and I will bring in a live human specialist.\n\nHow can I help you today?",
+        'chips' => bot_default_chips(),
+        'is_bot' => true,
+        'sender_label' => 'Nova (AI Assistant)',
+    ];
+}
+
+/**
+ * Build a compact chat history for the model from stored thread messages.
+ * The caller inserts the client's newest message before invoking the bot,
+ * so the history already ends with it.
+ */
+function bot_recent_history(PDO $pdo, int $threadId, int $limit = 12): array {
+    $stmt = $pdo->prepare('SELECT sender_type, message FROM support_messages WHERE thread_id = ? ORDER BY id DESC LIMIT ' . (int)$limit);
+    $stmt->execute([$threadId]);
+    $rows = array_reverse($stmt->fetchAll());
+
+    $messages = [];
+    foreach ($rows as $row) {
+        $content = trim((string)$row['message']);
+        if ($content === '') {
+            continue;
+        }
+        if (mb_strlen($content) > 1500) {
+            $content = mb_substr($content, 0, 1500) . '…';
+        }
+        $messages[] = [
+            'role' => ($row['sender_type'] === 'user') ? 'user' : 'assistant',
+            'content' => $content,
+        ];
+    }
+    return $messages;
+}
+
+/**
+ * Main entry point. Handles control intents deterministically, then asks the
+ * live model, then falls back to the rule engine.
+ */
 function process_bot_reply(PDO $pdo, int $threadId, string $userMessage, ?array $user = null): array {
     $clean = mb_strtolower(trim($userMessage));
 
-    // Check for human / agent request
+    // --- Control intents: never delegated to the model ---
     if (
-        preg_match('/\b(human|agent|representative|admin|administrator|real person|person|support team|talk to someone|speak to human|live support)\b/i', $clean) ||
+        preg_match('/\b(human|agent|representative|admin|administrator|real person|support team|talk to someone|speak to human|live support)\b/i', $clean) ||
         $clean === 'human'
     ) {
-        // Disengage bot, notify admin
         $pdo->prepare("UPDATE support_threads SET bot_active = 0, unread_by_admin = 1, last_message_at = NOW() WHERE id = ?")->execute([$threadId]);
 
         return [
-            'reply' => "I have routed your conversation to our live support desk. 🔔\n\nAn administrator has been notified and will respond directly in this chat. You can leave additional details or questions below while an agent joins.",
+            'reply' => "I've routed your conversation to our live support desk. 🔔\n\nA specialist has been notified and will reply right here. Feel free to add any extra detail below while an agent joins.",
             'chips' => [
                 ['label' => '💳 Deposit Question', 'action' => 'deposit'],
                 ['label' => '💰 Withdrawal Question', 'action' => 'withdraw'],
-                ['label' => '🤖 Re-enable Bot', 'action' => 'keep_bot'],
+                ['label' => '🤖 Re-enable AI Assistant', 'action' => 'keep_bot'],
             ],
             'handoff' => true,
         ];
     }
 
-    // Check for keep_bot request
-    if ($clean === 'keep_bot' || preg_match('/\b(re-enable bot|resume bot|keep bot)\b/i', $clean)) {
+    if ($clean === 'keep_bot' || preg_match('/\b(re-enable (the )?(bot|ai)|resume (the )?(bot|ai)|keep bot|keep ai)\b/i', $clean)) {
         $pdo->prepare("UPDATE support_threads SET bot_active = 1 WHERE id = ?")->execute([$threadId]);
         return [
-            'reply' => "The Nexora automated assistant is back active! 🤖 What platform feature can I guide you through?",
-            'chips' => [
-                ['label' => '💳 Deposit Help', 'action' => 'deposit'],
-                ['label' => '💰 Withdrawal Info', 'action' => 'withdraw'],
-                ['label' => '🆔 KYC Verification', 'action' => 'kyc'],
-                ['label' => '📈 Copy Trading', 'action' => 'trading'],
-                ['label' => '👤 Speak to Live Agent', 'action' => 'human'],
-            ],
+            'reply' => "The Nexora AI assistant is back on. 🤖 What would you like help with?",
+            'chips' => bot_default_chips(),
             'handoff' => false,
         ];
     }
+
+    // --- Live AI answer, then rule-based fallback ---
+    if (ai_is_enabled()) {
+        $messages = array_merge(
+            [['role' => 'system', 'content' => nexora_ai_system_prompt($user)]],
+            bot_recent_history($pdo, $threadId)
+        );
+        $answer = ai_chat_completion($messages);
+        if ($answer !== null) {
+            return [
+                'reply' => $answer,
+                'chips' => bot_default_chips(),
+                'handoff' => false,
+            ];
+        }
+    }
+
+    return bot_rule_reply($pdo, $threadId, $userMessage);
+}
+
+/**
+ * Deterministic keyword replies. Used when the model is disabled or unreachable.
+ */
+function bot_rule_reply(PDO $pdo, int $threadId, string $userMessage): array {
+    $clean = mb_strtolower(trim($userMessage));
 
     // Check for deposit query
     if (
@@ -131,13 +187,7 @@ function process_bot_reply(PDO $pdo, int $threadId, string $userMessage, ?array 
     if (preg_match('/^(hi|hello|hey|good day|good morning|good evening|yo|hola)\b/i', $clean)) {
         return [
             'reply' => "Hello! 👋 I'm ready to assist. You can tap any of the quick topics below, or type your question directly.",
-            'chips' => [
-                ['label' => '💳 Deposit Help', 'action' => 'deposit'],
-                ['label' => '💰 Withdrawal Info', 'action' => 'withdraw'],
-                ['label' => '🆔 KYC Verification', 'action' => 'kyc'],
-                ['label' => '📈 Copy Trading & Bots', 'action' => 'trading'],
-                ['label' => '👤 Speak to Live Agent', 'action' => 'human'],
-            ],
+            'chips' => bot_default_chips(),
             'handoff' => false,
         ];
     }

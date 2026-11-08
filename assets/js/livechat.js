@@ -12,6 +12,7 @@
   let pollInterval = null;
   let lastTypingSent = 0;
   let unreadCount = 0;
+  let localTyping = false;
 
   // Web Audio Context for pleasant notification sound
   let audioCtx = null;
@@ -201,7 +202,7 @@
         if (data.is_typing) {
           typingEl.style.display = 'flex';
           scrollToBottom();
-        } else {
+        } else if (!localTyping) {
           typingEl.style.display = 'none';
         }
 
@@ -232,7 +233,7 @@
 
     let tag = '';
     if (!isUser) {
-      tag = `<div class="hinv-msg-tag">${isBot ? '🤖 Nexora Assistant' : '🛡️ Live Agent'}</div>`;
+      tag = `<div class="hinv-msg-tag">${isBot ? '🤖 Nova (AI)' : '🛡️ Live Agent'}</div>`;
     }
 
     const timeStr = m.created_at ? new Date(m.created_at.replace(' ', 'T')).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
@@ -273,6 +274,17 @@
     msgContainer.scrollTop = msgContainer.scrollHeight;
   }
 
+  // Show/hide the "assistant is thinking" bubble while waiting on the model.
+  function showLocalTyping(show) {
+    localTyping = !!show;
+    const typingEl = document.getElementById('hinvTyping');
+    const textEl = document.getElementById('hinvTypingText');
+    if (!typingEl) return;
+    if (textEl) textEl.textContent = show ? 'Nova is thinking…' : 'Support agent is typing...';
+    typingEl.style.display = show ? 'flex' : 'none';
+    if (show) scrollToBottom();
+  }
+
   async function sendMessage() {
     const input = document.getElementById('hinvInput');
     const text = input.value.trim();
@@ -285,6 +297,7 @@
     }
     if (!currentThreadId) return;
 
+    showLocalTyping(true);
     try {
       const fd = new FormData();
       fd.append('action', 'send');
@@ -300,15 +313,21 @@
         }
         if (data.bot_reply) {
           setTimeout(() => {
+            showLocalTyping(false);
             appendMessage(data.bot_reply, data.bot_reply.chips);
             lastMessageId = Math.max(lastMessageId, data.bot_reply.id);
             scrollToBottom();
             playSound();
           }, 350);
+        } else {
+          // Bot disengaged (human handoff) - no automatic reply to show.
+          showLocalTyping(false);
         }
         scrollToBottom();
       }
-    } catch (e) {}
+    } catch (e) {
+      showLocalTyping(false);
+    }
   }
 
   function sendChipMessage(actionKey, label) {

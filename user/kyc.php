@@ -167,7 +167,7 @@ require __DIR__ . '/../includes/header.php';
   border-radius: 999px;
 }
 .kw-title {
-  font-family: 'Space Grotesk','Segoe UI',sans-serif; font-size: 27px; font-weight: 700; margin: 15px 0 8px;
+  font-family: 'Chakra Petch','Segoe UI',sans-serif; font-size: 27px; font-weight: 700; margin: 15px 0 8px;
   background: linear-gradient(90deg, #eef2ff 20%, #cddcff 55%, #e4cd9a 100%);
   -webkit-background-clip: text; background-clip: text; color: transparent;
 }
@@ -221,7 +221,7 @@ require __DIR__ . '/../includes/header.php';
 .kw-panel { display: none; position: relative; z-index: 1; }
 .kw-panel.active { display: block; animation: kwSlideIn 0.4s ease; }
 @keyframes kwSlideIn { from { opacity: 0; transform: translateX(16px); } to { opacity: 1; transform: translateX(0); } }
-.kw-panel h3 { font-family: 'Space Grotesk','Segoe UI',sans-serif; font-size: 19px; color: #eef2ff; margin: 0 0 4px; display: flex; align-items: center; gap: 9px; }
+.kw-panel h3 { font-family: 'Chakra Petch','Segoe UI',sans-serif; font-size: 19px; color: #eef2ff; margin: 0 0 4px; display: flex; align-items: center; gap: 9px; }
 .kw-panel .kw-panel-sub { color: #93a0bd; font-size: 13.5px; margin-bottom: 22px; }
 
 .kw-field { margin-bottom: 18px; }

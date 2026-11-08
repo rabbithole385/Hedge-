@@ -264,14 +264,14 @@ try {
                 $botText = $botResult['reply'];
                 $chips = $botResult['chips'] ?? [];
 
-                $pdo->prepare("INSERT INTO support_messages (thread_id, sender_type, sender_label, is_bot, message) VALUES (?, 'admin', 'Nexora Assistant (AI)', 1, ?)")->execute([$threadId, $botText]);
+                $pdo->prepare("INSERT INTO support_messages (thread_id, sender_type, sender_label, is_bot, message) VALUES (?, 'admin', 'Nova (AI Assistant)', 1, ?)")->execute([$threadId, $botText]);
                 $botMsgId = (int)$pdo->lastInsertId();
 
                 $botReply = [
                     'id' => $botMsgId,
                     'thread_id' => $threadId,
                     'sender_type' => 'admin',
-                    'sender_label' => 'Nexora Assistant (AI)',
+                    'sender_label' => 'Nova (AI Assistant)',
                     'is_bot' => 1,
                     'message' => $botText,
                     'chips' => $chips,
