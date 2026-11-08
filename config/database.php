@@ -27,6 +27,24 @@ function db_pdo_options(): array {
     return $o;
 }
 
+/**
+ * Run a DDL statement that may already have been applied.
+ * Several processes run these migrations at boot (bootstrap + background tickers),
+ * so the "SHOW COLUMNS" guards above can race: two processes both see a missing
+ * column and both run the ALTER. Ignore the resulting duplicate-column / duplicate-key
+ * errors (1060/1061) so the loser of the race never crashes the boot.
+ */
+function safe_ddl(PDO $pdo, string $sql): void {
+    try {
+        call_user_func([$pdo, 'exec'], $sql);
+    } catch (PDOException $e) {
+        $code = (int)($e->errorInfo[1] ?? 0);
+        if ($code !== 1060 && $code !== 1061) {
+            throw $e;
+        }
+    }
+}
+
 function get_db(): PDO {
     static $pdo = null;
     if ($pdo !== null) {
@@ -57,7 +75,7 @@ function get_db(): PDO {
 }
 
 function ensure_copy_adjustments_schema(PDO $pdo): void {
-    $pdo->exec(
+    safe_ddl($pdo, 
         "CREATE TABLE IF NOT EXISTS copy_adjustments (
             id INT AUTO_INCREMENT PRIMARY KEY,
             copy_id INT NOT NULL,
@@ -71,7 +89,7 @@ function ensure_copy_adjustments_schema(PDO $pdo): void {
 
 function ensure_kyc_schema(PDO $pdo): void {
     // Safe to run every request: CREATE TABLE IF NOT EXISTS is a no-op once it exists.
-    $pdo->exec(
+    safe_ddl($pdo, 
         "CREATE TABLE IF NOT EXISTS kyc_submissions (
             id INT AUTO_INCREMENT PRIMARY KEY,
             user_id INT NOT NULL,
@@ -90,7 +108,7 @@ function ensure_kyc_schema(PDO $pdo): void {
     // users.kyc_status may not exist yet on installs deployed before this feature.
     $col = $pdo->query("SHOW COLUMNS FROM users LIKE 'kyc_status'")->fetch();
     if (!$col) {
-        $pdo->exec("ALTER TABLE users ADD COLUMN kyc_status VARCHAR(20) NOT NULL DEFAULT 'none' AFTER status");
+        safe_ddl($pdo, "ALTER TABLE users ADD COLUMN kyc_status VARCHAR(20) NOT NULL DEFAULT 'none' AFTER status");
     }
 
     // Onboarding was expanded from a single ID-upload step to a 3-step wizard
@@ -106,13 +124,13 @@ function ensure_kyc_schema(PDO $pdo): void {
     foreach ($kycExtraColumns as $colName => $alterSql) {
         $exists = $pdo->query("SHOW COLUMNS FROM kyc_submissions LIKE '$colName'")->fetch();
         if (!$exists) {
-            $pdo->exec($alterSql);
+            safe_ddl($pdo, $alterSql);
         }
     }
 }
 
 function ensure_holdings_schema(PDO $pdo): void {
-    $pdo->exec(
+    safe_ddl($pdo, 
         "CREATE TABLE IF NOT EXISTS holdings (
             id INT AUTO_INCREMENT PRIMARY KEY,
             user_id INT NOT NULL,
@@ -130,7 +148,7 @@ function ensure_holdings_schema(PDO $pdo): void {
 }
 
 function ensure_bank_deposits_schema(PDO $pdo): void {
-    $pdo->exec(
+    safe_ddl($pdo, 
         "CREATE TABLE IF NOT EXISTS bank_deposits (
             id INT AUTO_INCREMENT PRIMARY KEY,
             user_id INT NOT NULL,
@@ -149,22 +167,22 @@ function ensure_bank_deposits_schema(PDO $pdo): void {
 function ensure_deposit_proof_columns(PDO $pdo): void {
     $col = $pdo->query("SHOW COLUMNS FROM crypto_deposits LIKE 'proof_path'")->fetch();
     if (!$col) {
-        $pdo->exec("ALTER TABLE crypto_deposits ADD COLUMN proof_path VARCHAR(255) AFTER tx_hash");
+        safe_ddl($pdo, "ALTER TABLE crypto_deposits ADD COLUMN proof_path VARCHAR(255) AFTER tx_hash");
     }
     $col2 = $pdo->query("SHOW COLUMNS FROM bank_deposits LIKE 'proof_path'")->fetch();
     if (!$col2) {
-        $pdo->exec("ALTER TABLE bank_deposits ADD COLUMN proof_path VARCHAR(255) AFTER reference");
+        safe_ddl($pdo, "ALTER TABLE bank_deposits ADD COLUMN proof_path VARCHAR(255) AFTER reference");
     }
 }
 
 function ensure_expert_win_rate_manual(PDO $pdo): void {
     $col = $pdo->query("SHOW COLUMNS FROM experts LIKE 'win_rate_manual'")->fetch();
     if (!$col) {
-        $pdo->exec("ALTER TABLE experts ADD COLUMN win_rate_manual TINYINT(1) NOT NULL DEFAULT 0 AFTER win_rate");
+        safe_ddl($pdo, "ALTER TABLE experts ADD COLUMN win_rate_manual TINYINT(1) NOT NULL DEFAULT 0 AFTER win_rate");
     }
     $col2 = $pdo->query("SHOW COLUMNS FROM experts LIKE 'monthly_return_manual'")->fetch();
     if (!$col2) {
-        $pdo->exec("ALTER TABLE experts ADD COLUMN monthly_return_manual TINYINT(1) NOT NULL DEFAULT 0 AFTER monthly_return");
+        safe_ddl($pdo, "ALTER TABLE experts ADD COLUMN monthly_return_manual TINYINT(1) NOT NULL DEFAULT 0 AFTER monthly_return");
     }
     $extraExpertCols = [
         'trade_count_manual'   => "ALTER TABLE experts ADD COLUMN trade_count_manual TINYINT(1) NOT NULL DEFAULT 0",
@@ -178,7 +196,7 @@ function ensure_expert_win_rate_manual(PDO $pdo): void {
     foreach ($extraExpertCols as $colName => $sql) {
         $exists = $pdo->query("SHOW COLUMNS FROM experts LIKE '{$colName}'")->fetch();
         if (!$exists) {
-            $pdo->exec($sql);
+            safe_ddl($pdo, $sql);
         }
     }
     // Backfill standard demo trader portraits if photo_url is missing
@@ -201,15 +219,15 @@ function ensure_live_plan_schema(PDO $pdo): void {
         'exposure'        => "ALTER TABLE investment_plans ADD COLUMN exposure DECIMAL(6,2) NOT NULL DEFAULT 1.00",
     ];
     foreach ($planCols as $c => $sql) {
-        if (!$pdo->query("SHOW COLUMNS FROM investment_plans LIKE '{$c}'")->fetch()) $pdo->exec($sql);
+        if (!$pdo->query("SHOW COLUMNS FROM investment_plans LIKE '{$c}'")->fetch()) safe_ddl($pdo, $sql);
     }
     if (!$pdo->query("SHOW COLUMNS FROM plan_subscriptions LIKE 'ref_prices'")->fetch()) {
-        $pdo->exec("ALTER TABLE plan_subscriptions ADD COLUMN ref_prices TEXT NULL");
+        safe_ddl($pdo, "ALTER TABLE plan_subscriptions ADD COLUMN ref_prices TEXT NULL");
     }
     // Moment the live engine took over: ticks before this credited the wallet directly (legacy).
-    $pdo->exec("INSERT IGNORE INTO settings (setting_key, value) VALUES ('plans_live_since', DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%s'))");
+    safe_ddl($pdo, "INSERT IGNORE INTO settings (setting_key, value) VALUES ('plans_live_since', DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%s'))");
     if (!$pdo->query("SHOW COLUMNS FROM plan_subscriptions LIKE 'legacy_reconciled'")->fetch()) {
-        $pdo->exec("ALTER TABLE plan_subscriptions ADD COLUMN legacy_reconciled TINYINT(1) NOT NULL DEFAULT 0");
+        safe_ddl($pdo, "ALTER TABLE plan_subscriptions ADD COLUMN legacy_reconciled TINYINT(1) NOT NULL DEFAULT 0");
     }
 
     // AI bots: trade real markets with a rule-based strategy.
@@ -219,7 +237,7 @@ function ensure_live_plan_schema(PDO $pdo): void {
         'exposure'        => "ALTER TABLE bots ADD COLUMN exposure DECIMAL(6,2) NOT NULL DEFAULT 1.00",
     ];
     foreach ($botCols as $c => $sql) {
-        if (!$pdo->query("SHOW COLUMNS FROM bots LIKE '{$c}'")->fetch()) $pdo->exec($sql);
+        if (!$pdo->query("SHOW COLUMNS FROM bots LIKE '{$c}'")->fetch()) safe_ddl($pdo, $sql);
     }
     $botSubCols = [
         'ref_prices'        => "ALTER TABLE bot_subscriptions ADD COLUMN ref_prices TEXT NULL",
@@ -227,15 +245,15 @@ function ensure_live_plan_schema(PDO $pdo): void {
         'legacy_reconciled' => "ALTER TABLE bot_subscriptions ADD COLUMN legacy_reconciled TINYINT(1) NOT NULL DEFAULT 0",
     ];
     foreach ($botSubCols as $c => $sql) {
-        if (!$pdo->query("SHOW COLUMNS FROM bot_subscriptions LIKE '{$c}'")->fetch()) $pdo->exec($sql);
+        if (!$pdo->query("SHOW COLUMNS FROM bot_subscriptions LIKE '{$c}'")->fetch()) safe_ddl($pdo, $sql);
     }
-    $pdo->exec("INSERT IGNORE INTO settings (setting_key, value) VALUES ('bots_live_since', DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%s'))");
+    safe_ddl($pdo, "INSERT IGNORE INTO settings (setting_key, value) VALUES ('bots_live_since', DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%s'))");
     foreach (['bot_ticks', 'plan_ticks'] as $t) {
         if (!$pdo->query("SHOW COLUMNS FROM {$t} LIKE 'created_at'")->fetch()) {
-            $pdo->exec("ALTER TABLE {$t} ADD COLUMN created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP");
+            safe_ddl($pdo, "ALTER TABLE {$t} ADD COLUMN created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP");
         }
     }
-    $pdo->exec(
+    safe_ddl($pdo, 
         "CREATE TABLE IF NOT EXISTS live_market_quotes (
             market_key VARCHAR(40) NOT NULL PRIMARY KEY,
             price DECIMAL(24,8) NULL,
@@ -250,7 +268,7 @@ function ensure_live_plan_schema(PDO $pdo): void {
 }
 
 function ensure_instrument_prices_schema(PDO $pdo): void {
-    $pdo->exec(
+    safe_ddl($pdo, 
         "CREATE TABLE IF NOT EXISTS instrument_prices (
             id INT AUTO_INCREMENT PRIMARY KEY,
             symbol VARCHAR(20) NOT NULL UNIQUE,
@@ -264,11 +282,11 @@ function ensure_instrument_prices_schema(PDO $pdo): void {
 
     $col = $pdo->query("SHOW COLUMNS FROM instrument_prices LIKE 'price_24h_ago'")->fetch();
     if (!$col) {
-        $pdo->exec("ALTER TABLE instrument_prices ADD COLUMN price_24h_ago DECIMAL(18,4) NULL AFTER current_price");
-        $pdo->exec("ALTER TABLE instrument_prices ADD COLUMN price_24h_updated_at DATETIME NULL AFTER price_24h_ago");
+        safe_ddl($pdo, "ALTER TABLE instrument_prices ADD COLUMN price_24h_ago DECIMAL(18,4) NULL AFTER current_price");
+        safe_ddl($pdo, "ALTER TABLE instrument_prices ADD COLUMN price_24h_updated_at DATETIME NULL AFTER price_24h_ago");
     }
 
-    $pdo->exec(
+    safe_ddl($pdo, 
         "CREATE TABLE IF NOT EXISTS instrument_price_history (
             id INT AUTO_INCREMENT PRIMARY KEY,
             symbol VARCHAR(20) NOT NULL,
@@ -286,7 +304,7 @@ function ensure_instrument_prices_schema(PDO $pdo): void {
 }
 
 function ensure_notifications_schema(PDO $pdo): void {
-    $pdo->exec(
+    safe_ddl($pdo, 
         "CREATE TABLE IF NOT EXISTS notifications (
             id INT AUTO_INCREMENT PRIMARY KEY,
             user_id INT NOT NULL,
@@ -302,7 +320,7 @@ function ensure_notifications_schema(PDO $pdo): void {
 }
 
 function ensure_referral_schema(PDO $pdo): void {
-    $pdo->exec(
+    safe_ddl($pdo, 
         "CREATE TABLE IF NOT EXISTS referral_rewards (
             id INT AUTO_INCREMENT PRIMARY KEY,
             referrer_user_id INT NOT NULL,
@@ -318,8 +336,8 @@ function ensure_referral_schema(PDO $pdo): void {
 
     $col = $pdo->query("SHOW COLUMNS FROM users LIKE 'referral_code'")->fetch();
     if (!$col) {
-        $pdo->exec("ALTER TABLE users ADD COLUMN referral_code VARCHAR(20) UNIQUE AFTER kyc_status");
-        $pdo->exec("ALTER TABLE users ADD COLUMN referred_by INT NULL AFTER referral_code");
+        safe_ddl($pdo, "ALTER TABLE users ADD COLUMN referral_code VARCHAR(20) UNIQUE AFTER kyc_status");
+        safe_ddl($pdo, "ALTER TABLE users ADD COLUMN referred_by INT NULL AFTER referral_code");
     }
 
     // Backfill referral codes for any existing users that don't have one yet.
@@ -331,7 +349,7 @@ function ensure_referral_schema(PDO $pdo): void {
 }
 
 function ensure_audit_log_schema(PDO $pdo): void {
-    $pdo->exec(
+    safe_ddl($pdo, 
         "CREATE TABLE IF NOT EXISTS admin_audit_log (
             id INT AUTO_INCREMENT PRIMARY KEY,
             admin_id INT NOT NULL,
@@ -344,7 +362,7 @@ function ensure_audit_log_schema(PDO $pdo): void {
 }
 
 function ensure_support_schema(PDO $pdo): void {
-    $pdo->exec(
+    safe_ddl($pdo, 
         "CREATE TABLE IF NOT EXISTS support_threads (
             id INT AUTO_INCREMENT PRIMARY KEY,
             user_id INT NOT NULL,
@@ -358,7 +376,7 @@ function ensure_support_schema(PDO $pdo): void {
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4"
     );
 
-    $pdo->exec(
+    safe_ddl($pdo, 
         "CREATE TABLE IF NOT EXISTS support_messages (
             id INT AUTO_INCREMENT PRIMARY KEY,
             thread_id INT NOT NULL,
@@ -375,7 +393,7 @@ function ensure_support_schema(PDO $pdo): void {
 function ensure_livechat_schema(PDO $pdo): void {
     // 1. Allow support_threads.user_id to be NULL for guest visitor chats
     try {
-        $pdo->exec("ALTER TABLE support_threads MODIFY user_id INT NULL");
+        safe_ddl($pdo, "ALTER TABLE support_threads MODIFY user_id INT NULL");
     } catch (Throwable $e) {
         // Ignored if host does not allow modifying or already null
     }
@@ -396,7 +414,7 @@ function ensure_livechat_schema(PDO $pdo): void {
         $check = $pdo->query("SHOW COLUMNS FROM support_threads LIKE '$colName'")->fetch();
         if (!$check) {
             try {
-                $pdo->exec($alterSql);
+                safe_ddl($pdo, $alterSql);
             } catch (Throwable $e) {}
         }
     }
@@ -405,7 +423,7 @@ function ensure_livechat_schema(PDO $pdo): void {
     try {
         $idx = $pdo->query("SHOW INDEX FROM support_threads WHERE Key_name = 'idx_session_token'")->fetch();
         if (!$idx) {
-            $pdo->exec("CREATE INDEX idx_session_token ON support_threads(session_token)");
+            safe_ddl($pdo, "CREATE INDEX idx_session_token ON support_threads(session_token)");
         }
     } catch (Throwable $e) {}
 
@@ -413,12 +431,12 @@ function ensure_livechat_schema(PDO $pdo): void {
     $msgCol = $pdo->query("SHOW COLUMNS FROM support_messages LIKE 'is_bot'")->fetch();
     if (!$msgCol) {
         try {
-            $pdo->exec("ALTER TABLE support_messages ADD COLUMN is_bot TINYINT(1) NOT NULL DEFAULT 0 AFTER sender_label");
+            safe_ddl($pdo, "ALTER TABLE support_messages ADD COLUMN is_bot TINYINT(1) NOT NULL DEFAULT 0 AFTER sender_label");
         } catch (Throwable $e) {}
     }
 
     // 5. chat_canned_responses table
-    $pdo->exec(
+    safe_ddl($pdo, 
         "CREATE TABLE IF NOT EXISTS chat_canned_responses (
             id INT AUTO_INCREMENT PRIMARY KEY,
             title VARCHAR(100) NOT NULL,
@@ -550,7 +568,7 @@ function ensure_schema(PDO $pdo): void {
         return; // schema already exists
     }
     $schema = file_get_contents(SCHEMA_PATH);
-    $pdo->exec($schema);
+    safe_ddl($pdo, $schema);
 }
 
 function table_is_empty(PDO $pdo, string $table): bool {
@@ -571,7 +589,8 @@ function seed_default_admin(PDO $pdo): void {
     $stmt = $pdo->query('SELECT COUNT(*) FROM admins');
     if ((int)$stmt->fetchColumn() > 0) return;
 
-    $stmt = $pdo->prepare('INSERT INTO admins (username, password_hash) VALUES (?, ?)');
+    // INSERT IGNORE: concurrent boot processes can both pass the COUNT guard above.
+    $stmt = $pdo->prepare('INSERT IGNORE INTO admins (username, password_hash) VALUES (?, ?)');
     $initial = getenv('ADMIN_INITIAL_PASSWORD') ?: 'ChangeMe123!';
     $stmt->execute(['admin', password_hash($initial, PASSWORD_DEFAULT)]);
 }
@@ -677,7 +696,7 @@ function ensure_brand_name(PDO $pdo): void {
             try {
                 $column = "`{$col}`";
                 $normalized = "REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE({$column}, 'NexoraCopy', '__NEXORACOPY__'), 'Nexora', '{$new}'), 'Hedge Pty Ltd', '{$new}'), 'HedgeInv', '{$new}'), 'hedgeinv.com', 'nexocopy.net'), 'Welcome to Hedge', 'Welcome to {$new}'), 'Hedge Support', '{$new} Support'), '__NEXORACOPY__', '{$new}')";
-                $pdo->exec("UPDATE `{$table}` SET {$column} = CASE WHEN TRIM({$column}) IN ('Hedge', 'Hedge Investment', 'Hedge Invest') THEN '{$new}' ELSE {$normalized} END WHERE {$column} LIKE '%edge%' OR {$column} LIKE '%Nexora%'");
+                safe_ddl($pdo, "UPDATE `{$table}` SET {$column} = CASE WHEN TRIM({$column}) IN ('Hedge', 'Hedge Investment', 'Hedge Invest') THEN '{$new}' ELSE {$normalized} END WHERE {$column} LIKE '%edge%' OR {$column} LIKE '%Nexora%'");
             } catch (Throwable $e) { /* table or column not present - fine */ }
         }
     }
