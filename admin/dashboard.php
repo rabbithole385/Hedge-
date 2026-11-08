@@ -28,7 +28,17 @@ $navContext = 'admin';
 require __DIR__ . '/../includes/header.php';
 ?>
 <div class="container">
-  <h1>Admin overview</h1>
+  <div class="nx-page-head">
+    <div>
+      <div class="nx-eyebrow">Admin Console</div>
+      <h1>Overview</h1>
+      <p class="sub">Platform health, funds and activity at a glance.</p>
+    </div>
+    <div class="nx-head-actions">
+      <a class="btn secondary" href="/admin/livechat.php">Live support</a>
+      <a class="btn" href="/admin/deposits.php">Review deposits</a>
+    </div>
+  </div>
 
   <?php if ($pendingDeposits > 0): ?>
     <div class="alert info">
@@ -53,6 +63,15 @@ require __DIR__ . '/../includes/header.php';
     <div class="stat-card"><div class="label">Active copy-trade value</div><div class="value"><?= fmt_money($totalCopiedActive) ?></div></div>
     <div class="stat-card"><div class="label">Active bot value</div><div class="value"><?= fmt_money($totalBotsActive) ?></div></div>
     <div class="stat-card"><div class="label">Active plan value</div><div class="value"><?= fmt_money($totalPlansActive) ?></div></div>
+  </div>
+
+  <div class="nx-ai" style="margin-bottom: 24px;">
+    <h3><span class="nx-live-dot"></span> Nova AI Assistant &amp; Live Support</h3>
+    <p>The in-app assistant answers client questions 24/7 with a live language model, then hands the conversation to your team the moment a customer asks for a human. Step into any thread from the live support desk.</p>
+    <div class="nx-ai-actions">
+      <a class="btn" href="/admin/livechat.php">Open live support</a>
+      <a class="btn secondary" href="/admin/support.php">Support threads</a>
+    </div>
   </div>
 
   <div class="grid cols-2">

@@ -41,11 +41,30 @@ $navContext = 'user';
 require __DIR__ . '/../includes/header.php';
 ?>
 <div class="container narrow">
+  <div class="nx-page-head">
+    <div>
+      <div class="nx-eyebrow">Support</div>
+      <h1>Help &amp; Live Chat</h1>
+      <p class="sub">Nova, your AI assistant, replies in seconds — or bring in a human any time.</p>
+    </div>
+    <div class="nx-head-actions">
+      <button type="button" class="btn" onclick="if(window.document.getElementById('hinvLauncher')) window.document.getElementById('hinvLauncher').click();">Open live chat</button>
+    </div>
+  </div>
+
   <?php if ($msg = flash_get('success')): ?><div class="alert success"><?= e($msg) ?></div><?php endif; ?>
   <?php foreach ($errors as $err): ?><div class="alert error"><?= e($err) ?></div><?php endforeach; ?>
 
+  <div class="nx-ai" style="margin-bottom:20px;">
+    <h3><span class="nx-live-dot"></span> Nova AI Assistant</h3>
+    <p>Ask Nova anything about deposits, withdrawals, KYC or copy trading. It answers instantly — just say "live agent" and a specialist joins the same conversation.</p>
+    <div class="nx-ai-actions">
+      <button type="button" class="btn" onclick="if(window.document.getElementById('hinvLauncher')) window.document.getElementById('hinvLauncher').click();">Chat with Nova</button>
+    </div>
+  </div>
+
   <div class="card">
-    <div style="display:flex; justify-content:space-between; align-items:center;"><h2>Support</h2><button type="button" class="btn small" style="background:#2563eb;" onclick="if(window.document.getElementById('hinvLauncher')) window.document.getElementById('hinvLauncher').click();">💬 Live Chat Widget</button></div>
+    <h2>Your conversations</h2>
     <p class="subtitle">Message our team directly. We'll reply here, and you'll get a notification when we do.</p>
 
     <?php if (!$threads): ?>

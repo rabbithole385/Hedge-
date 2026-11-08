@@ -134,6 +134,15 @@ require __DIR__ . '/../includes/header.php';
     </div>
   <?php endif; ?>
 
+  <div class="nx-ai" style="margin-top:22px;">
+    <h3><span class="nx-live-dot"></span> Need a hand? Ask Nova</h3>
+    <p>Nova is your Nexora AI assistant. Ask about deposits, withdrawals, KYC or copy trading at any hour, or request a live specialist and a human joins the same chat.</p>
+    <div class="nx-ai-actions">
+      <a class="btn" href="/user/support.php">Open support chat</a>
+      <a class="btn secondary" href="/user/kyc.php">Verify identity</a>
+    </div>
+  </div>
+
   <div class="db-cols">
     <div class="lp-panel">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
@@ -156,7 +165,7 @@ require __DIR__ . '/../includes/header.php';
                   ['AI bots', array_sum(array_column($botSubs, 'current_value')), '#a78bfa'], ['Plans', array_sum(array_column($planSubs, 'current_value')), '#34d399']];
         $tot = max(0.01, array_sum(array_column($parts, 1)));
       ?>
-      <div style="display:flex;height:12px;border-radius:999px;overflow:hidden;background:var(--bg-elevated-2);margin-bottom:16px;">
+      <div class="nx-bar" style="margin-bottom:16px;">
         <?php foreach ($parts as [$l, $v, $c]): if ($v <= 0) continue; ?><div style="width:<?= round($v / $tot * 100, 2) ?>%;background:<?= $c ?>;"></div><?php endforeach; ?>
       </div>
       <?php foreach ($parts as [$l, $v, $c]): ?>

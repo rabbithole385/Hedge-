@@ -305,7 +305,7 @@ h1, h2, h3 { letter-spacing: -.02em; }
 .hero-photo, .two-col-photo { transition: transform .4s var(--ease), box-shadow .4s var(--ease); }
 
 /* ---- Reveal on scroll (elements get .in from the page observer) ---- */
-.reveal { opacity: 0; transform: translateY(22px); transition: opacity .7s var(--ease), transform .7s var(--ease); will-change: opacity, transform; }
+.reveal { opacity: 0; transform: translateY(22px); transition: opacity .7s var(--ease), transform .7s var(--ease); transition-delay: var(--nx-delay, 0ms); will-change: opacity, transform; }
 .reveal.in { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; } }
 

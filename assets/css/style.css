@@ -900,3 +900,46 @@ input:focus, select:focus, textarea:focus {
 
 /* ---- Table headers: terminal-style caps ---- */
 .table-scroll thead th, table thead th { background: var(--bg-elevated-2); font-family: var(--font-mono); letter-spacing: .08em; }
+
+/* ============================================================
+   Nexora terminal components - shared by the user & admin apps
+   ============================================================ */
+
+/* ---- Page head with LED eyebrow ---- */
+.nx-page-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap; margin-bottom: 22px; }
+.nx-eyebrow { display: flex; align-items: center; gap: 9px; font: 600 11px var(--font-mono); letter-spacing: .22em; text-transform: uppercase; color: var(--gold-bright); }
+.nx-eyebrow::before { content: ""; width: 26px; height: 2px; border-radius: 2px; background: var(--led-gold); box-shadow: 0 0 10px rgba(232, 201, 136, .6); }
+.nx-page-head h1 { margin: 8px 0 0; font-size: 27px; }
+.nx-page-head .sub { color: var(--muted); font-size: 13.5px; margin: 6px 0 0; }
+.nx-head-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+/* ---- AI assistant / live support card ---- */
+.nx-ai { position: relative; overflow: hidden; border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; background: linear-gradient(135deg, rgba(212, 175, 106, .10), rgba(24, 38, 68, .35)); }
+.nx-ai::after { content: ""; position: absolute; top: -60px; right: -30px; width: 220px; height: 220px; background: radial-gradient(circle, rgba(109, 148, 245, .32), transparent 70%); pointer-events: none; }
+.nx-ai h3 { margin: 0 0 8px; display: flex; align-items: center; gap: 10px; }
+.nx-ai p { color: var(--text-dim); font-size: 13.5px; margin: 0 0 16px; max-width: 46ch; }
+.nx-ai .nx-ai-actions { display: flex; gap: 10px; flex-wrap: wrap; position: relative; z-index: 1; }
+.nx-live-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--positive); animation: nxPulse 2.4s var(--ease) infinite; }
+@keyframes nxPulse {
+  0% { box-shadow: 0 0 0 0 rgba(52, 211, 153, .55); }
+  70% { box-shadow: 0 0 0 11px rgba(52, 211, 153, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0); }
+}
+
+/* ---- Animated allocation / progress bar ---- */
+.nx-bar { position: relative; display: flex; height: 12px; border-radius: 999px; overflow: hidden; background: var(--bg-elevated-2); }
+.nx-bar > * { position: relative; transition: width .8s var(--ease); }
+.nx-bar::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .12), transparent); transform: translateX(-100%); animation: nxSheen 3.2s var(--ease) infinite; pointer-events: none; }
+@keyframes nxSheen { 0% { transform: translateX(-100%); } 55%, 100% { transform: translateX(100%); } }
+
+/* ---- Quick action tiles ---- */
+.nx-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+.nx-tile { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: rgba(11, 18, 32, .45); color: var(--text); text-decoration: none; transition: border-color .25s var(--ease), transform .25s var(--ease), background .25s var(--ease); }
+.nx-tile:hover { border-color: rgba(212, 175, 106, .5); background: var(--bg-elevated-2); transform: translateY(-2px); }
+.nx-tile .ic { width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center; background: rgba(212, 175, 106, .12); color: var(--gold-bright); flex: none; }
+.nx-tile b { display: block; font-size: 13.5px; }
+.nx-tile small { color: var(--muted); font-size: 11.5px; }
+
+@media (max-width: 600px) {
+  .nx-page-head h1 { font-size: 23px; }
+}
