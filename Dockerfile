@@ -27,7 +27,9 @@ RUN sed -i '/# php -- BEGIN cPanel-generated handler/,/# php -- END cPanel-gener
  && chown -R www-data:www-data /var/www/html
 
 COPY docker/entrypoint.sh /usr/local/bin/hedgeinv-entrypoint
-RUN chmod +x /usr/local/bin/hedgeinv-entrypoint
+# Strip any CR (Windows line endings) so the shebang resolves; then make it executable.
+RUN sed -i 's/\r$//' /usr/local/bin/hedgeinv-entrypoint \
+ && chmod +x /usr/local/bin/hedgeinv-entrypoint
 
 ENV PORT=10000
 EXPOSE 10000

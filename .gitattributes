@@ -1,0 +1,2 @@
+# Keep shell scripts LF on every OS so the container entrypoint always runs.
+*.sh text eol=lf
