@@ -2,6 +2,96 @@
 require_once __DIR__ . '/../config/smtp_credentials.php';
 
 /**
+ * Resolve the active email transport configuration.
+ * Priority: admin settings (DB) -> environment variables -> SMTP fallback.
+ */
+function email_transport_config(): array {
+    static $cfg = null;
+    if ($cfg !== null) return $cfg;
+
+    $apiKey = $fromEmail = $fromName = '';
+    $enabled = true;
+
+    if (function_exists('get_db') && function_exists('get_setting')) {
+        try {
+            $pdo = get_db();
+            $apiKey    = trim(get_setting($pdo, 'resend_api_key'));
+            $fromEmail = trim(get_setting($pdo, 'resend_from_email'));
+            $fromName  = trim(get_setting($pdo, 'resend_from_name'));
+            $enabled   = !in_array(strtolower(trim(get_setting($pdo, 'resend_enabled', '1'))), ['0', 'false', 'no', 'off'], true);
+        } catch (Throwable $e) {
+            // DB not reachable - fall through to environment values below.
+        }
+    }
+
+    $env = static function (string $key): string {
+        $v = getenv($key);
+        return $v === false ? '' : trim($v);
+    };
+    if ($apiKey === '')    $apiKey = $env('RESEND_API_KEY');
+    if ($fromEmail === '') $fromEmail = $env('RESEND_FROM_EMAIL');
+    if ($fromName === '')  $fromName = $env('RESEND_FROM_NAME');
+    if ($fromName === '')  $fromName = SMTP_FROM_NAME;
+    if ($fromEmail === '') $fromEmail = SMTP_FROM_EMAIL;
+
+    $cfg = ['apiKey' => $apiKey, 'fromEmail' => $fromEmail, 'fromName' => $fromName, 'enabled' => $enabled];
+    return $cfg;
+}
+
+/**
+ * Send a single HTML email through Resend (https://resend.com).
+ */
+function resend_send_email(string $to, string $subject, string $bodyHtml, array $cfg): bool {
+    $from = $cfg['fromName'] !== '' ? $cfg['fromName'] . ' <' . $cfg['fromEmail'] . '>' : $cfg['fromEmail'];
+    $payload = json_encode([
+        'from'    => $from,
+        'to'      => [$to],
+        'subject' => $subject,
+        'html'    => $bodyHtml,
+    ]);
+    $headers  = ['Authorization: Bearer ' . $cfg['apiKey'], 'Content-Type: application/json'];
+    $endpoint = 'https://api.resend.com/emails';
+
+    if (function_exists('curl_init')) {
+        $ch = curl_init($endpoint);
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POST           => true,
+            CURLOPT_POSTFIELDS     => $payload,
+            CURLOPT_HTTPHEADER     => $headers,
+            CURLOPT_TIMEOUT        => 15,
+        ]);
+        $response = curl_exec($ch);
+        $status   = (int)curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $error    = curl_error($ch);
+        curl_close($ch);
+        if ($status >= 200 && $status < 300) return true;
+        error_log('send_email/resend: HTTP ' . $status . ' - ' . ($response !== false && $response !== '' ? $response : $error));
+        return false;
+    }
+
+    $context = stream_context_create(['http' => [
+        'method'        => 'POST',
+        'header'        => implode("\r\n", $headers),
+        'content'       => $payload,
+        'timeout'       => 15,
+        'ignore_errors' => true,
+    ]]);
+    $response = @file_get_contents($endpoint, false, $context);
+    if ($response === false) {
+        error_log('send_email/resend: HTTP request failed (no cURL available).');
+        return false;
+    }
+    $status = 0;
+    if (isset($http_response_header[0]) && preg_match('#\s(\d{3})\s#', $http_response_header[0], $m)) {
+        $status = (int)$m[1];
+    }
+    if ($status >= 200 && $status < 300) return true;
+    error_log('send_email/resend: HTTP ' . $status . ' - ' . $response);
+    return false;
+}
+
+/**
  * Minimal SMTP client - no PHPMailer/Composer dependency, since this
  * environment has no package manager access. Supports AUTH LOGIN and
  * STARTTLS/implicit SSL, which covers the vast majority of SMTP providers
@@ -11,13 +101,18 @@ require_once __DIR__ . '/../config/smtp_credentials.php';
  * should never let a failed email break the actual app action.
  */
 function send_email(string $to, string $subject, string $bodyHtml): bool {
+    $transport = email_transport_config();
+    if ($transport['enabled'] && $transport['apiKey'] !== '') {
+        return resend_send_email($to, $subject, $bodyHtml, $transport);
+    }
+
     if (SMTP_HOST === '' || SMTP_HOST === 'smtp.example.com') {
         return false; // not configured yet - silent no-op
     }
 
     try {
-        $transport = SMTP_ENCRYPTION === 'ssl' ? 'ssl://' : '';
-        $socket = @stream_socket_client($transport . SMTP_HOST . ':' . SMTP_PORT, $errno, $errstr, 10);
+        $scheme = SMTP_ENCRYPTION === 'ssl' ? 'ssl://' : '';
+        $socket = @stream_socket_client($scheme . SMTP_HOST . ':' . SMTP_PORT, $errno, $errstr, 10);
         if (!$socket) {
             error_log('send_email: SMTP connect failed - ' . $errstr);
             return false;
