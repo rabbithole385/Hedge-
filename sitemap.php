@@ -2,7 +2,7 @@
 // Sitemap for whatever domain the site is served on.
 header('Content-Type: application/xml; charset=utf-8');
 $host = preg_replace('/[^a-z0-9.\-:]/i', '', $_SERVER['HTTP_HOST'] ?? 'localhost');
-$base = 'https://' . $host . '/';
+$base = 'https://' . $host . '/en/';
 $skip = ['index.html'];
 $pages = [''];
 foreach (glob(__DIR__ . '/en/*.html') as $f) { $n = basename($f); if (!in_array($n, $skip, true)) $pages[] = $n; }

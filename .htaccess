@@ -1,34 +1,20 @@
 RewriteEngine On
 
-# The public website lives in /en but is shown at the domain root:
-#   https://yourdomain/            -> home page
-#   https://yourdomain/crypto.html -> en/crypto.html   (no /en/ in the address bar)
+# Domain root -> the website in /en/  (302, so browsers never cache it permanently)
+RewriteRule ^$ /en/ [R=302,L]
 
 # Old or removed pages -> their replacements (keeps old links and search results working)
-RewriteRule ^(?:en/)?quanticorp\.html$ /why-hedgeinv.html [R=301,L]
-RewriteRule ^(?:en/)?awards\.html$ /regulation.html [R=301,L]
-RewriteRule ^(?:en/)?ai-market-buzz\.html$ /market-news.html [R=301,L]
-RewriteRule ^(?:en/)?featured-ideas\.html$ /technical-views.html [R=301,L]
-RewriteRule ^(?:en/)?professional-economic-calendar\.html$ /economic-calendar.html [R=301,L]
-RewriteRule ^(?:en/)?forex-vps\.html$ /investing.html [R=301,L]
-RewriteRule ^(?:en/)?(?:reviewapi|Hero_Section|promotions|main|index)\.html$ / [R=301,L]
-
-# Old /en/... addresses -> the same page without /en (only for what the visitor typed, never our own rewrites)
-RewriteCond %{THE_REQUEST} ^[A-Z]+\s/en(?:/[^\s?]*)?[\s?]
-RewriteRule ^en(?:/(.*))?$ /$1 [R=301,L]
+RewriteRule ^en/quanticorp\.html$ /en/why-hedgeinv.html [R=301,L]
+RewriteRule ^en/awards\.html$ /en/regulation.html [R=301,L]
+RewriteRule ^en/ai-market-buzz\.html$ /en/market-news.html [R=301,L]
+RewriteRule ^en/featured-ideas\.html$ /en/technical-views.html [R=301,L]
+RewriteRule ^en/professional-economic-calendar\.html$ /en/economic-calendar.html [R=301,L]
+RewriteRule ^en/forex-vps\.html$ /en/investing.html [R=301,L]
+RewriteRule ^en/(?:reviewapi|Hero_Section|promotions|main)\.html$ /en/ [R=301,L]
 
 # Sitemap and robots for whatever domain the site runs on
 RewriteRule ^sitemap\.xml$ sitemap.php [END]
 RewriteRule ^robots\.txt$ robots.php [END]
-
-# Home page at the root
-RewriteRule ^$ en/index.html [END]
-
-# Any other address that is a file inside /en (pages, css, js, images, policies) is served from there
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{DOCUMENT_ROOT}/en/$1 -f
-RewriteRule ^(.+)$ en/$1 [END]
 
 Options -Indexes
 
