@@ -31,6 +31,7 @@ $emailFields = [
     'resend_api_key' => 'Resend API key',
     'resend_from_email' => 'From email address (must be a verified Resend domain)',
     'resend_from_name' => 'From name',
+    'resend_webhook_secret' => 'Resend webhook signing secret (inbound mail)',
 ];
 
 $fields = array_merge($cryptoFields, $bankFields, $referralFields, $emailFields);
@@ -176,6 +177,16 @@ require __DIR__ . '/../includes/header.php';
         <div class="form-group">
           <label><?= e($emailFields['resend_from_name']) ?></label>
           <input type="text" name="resend_from_name" value="<?= e($values['resend_from_name']) ?>" placeholder="NexoraCopy">
+        </div>
+        <div class="form-group">
+          <label><?= e($emailFields['resend_webhook_secret']) ?></label>
+          <input type="text" name="resend_webhook_secret" value="<?= e($values['resend_webhook_secret']) ?>" autocomplete="off" spellcheck="false" placeholder="whsec_xxxxxxxxxxxxxxxx">
+          <p class="subtitle" style="margin-top:6px;">In Resend, add a webhook for the <b>email.received</b> event pointing at <span class="mono-num">https://<?= e($_SERVER['HTTP_HOST'] ?? 'nexocopy.net') ?>/mail/webhook.php</span> and paste its signing secret here.</p>
+        </div>
+        <div class="form-group">
+          <label>Standalone webmail</label>
+          <input type="text" readonly value="https://<?= e($_SERVER['HTTP_HOST'] ?? 'nexocopy.net') ?>/mail/" onclick="this.select()">
+          <p class="subtitle" style="margin-top:6px;">Your private mailbox login. It uses its own sign-in, separate from the admin console.</p>
         </div>
         <div class="form-group">
           <label>Send a test to</label>

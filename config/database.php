@@ -68,6 +68,7 @@ function get_db(): PDO {
     ensure_support_schema($pdo);
     ensure_livechat_schema($pdo);
     ensure_live_plan_schema($pdo);
+    ensure_mail_schema($pdo);
     seed_if_needed($pdo);
     ensure_brand_name($pdo);
 
@@ -265,6 +266,63 @@ function ensure_live_plan_schema(PDO $pdo): void {
             last_error_at DATETIME NULL
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4"
     );
+}
+
+function ensure_mail_schema(PDO $pdo): void {
+    // Standalone mail client: one row per mailbox login, one row per stored
+    // message (incoming via the Resend receiving webhook, outgoing when sent).
+    safe_ddl($pdo,
+        "CREATE TABLE IF NOT EXISTS mail_accounts (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            email VARCHAR(191) NOT NULL,
+            display_name VARCHAR(191) NULL,
+            password_hash VARCHAR(255) NOT NULL,
+            last_login_at DATETIME NULL,
+            created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            UNIQUE KEY uniq_mail_email (email)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4"
+    );
+    safe_ddl($pdo,
+        "CREATE TABLE IF NOT EXISTS mail_messages (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            resend_id VARCHAR(64) NULL,
+            direction VARCHAR(8) NOT NULL DEFAULT 'in',
+            folder VARCHAR(16) NOT NULL DEFAULT 'inbox',
+            from_name VARCHAR(191) NULL,
+            from_email VARCHAR(191) NOT NULL,
+            to_email VARCHAR(500) NULL,
+            cc VARCHAR(500) NULL,
+            subject VARCHAR(500) NULL,
+            body_html MEDIUMTEXT NULL,
+            body_text MEDIUMTEXT NULL,
+            snippet VARCHAR(300) NULL,
+            message_id VARCHAR(255) NULL,
+            in_reply_to VARCHAR(255) NULL,
+            is_read TINYINT(1) NOT NULL DEFAULT 0,
+            is_starred TINYINT(1) NOT NULL DEFAULT 0,
+            has_attachments TINYINT(1) NOT NULL DEFAULT 0,
+            send_error VARCHAR(255) NULL,
+            created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            UNIQUE KEY uniq_mail_resend (resend_id),
+            KEY idx_mail_folder (folder, created_at),
+            KEY idx_mail_msgid (message_id)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4"
+    );
+
+    // Seed the single mailbox login on first boot. Password comes from the
+    // MAIL_INITIAL_PASSWORD env var so no weak default is ever committed.
+    try {
+        if ((int)$pdo->query('SELECT COUNT(*) FROM mail_accounts')->fetchColumn() === 0) {
+            $email = getenv('MAIL_INITIAL_EMAIL') ?: 'info@nexocopy.net';
+            $pass  = (string)(getenv('MAIL_INITIAL_PASSWORD') ?: '');
+            if ($pass !== '') {
+                $pdo->prepare('INSERT IGNORE INTO mail_accounts (email, display_name, password_hash) VALUES (?, ?, ?)')
+                    ->execute([$email, 'NexoraCopy Mail', password_hash($pass, PASSWORD_DEFAULT)]);
+            }
+        }
+    } catch (Throwable $e) {
+        // Seeding is best-effort; the admin can add an account from the DB if needed.
+    }
 }
 
 function ensure_instrument_prices_schema(PDO $pdo): void {

@@ -396,3 +396,41 @@ CREATE TABLE IF NOT EXISTS `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 SET FOREIGN_KEY_CHECKS = 1;
+
+-- Standalone mail client (standalone login at /mail, separate from the admin console).
+CREATE TABLE IF NOT EXISTS `mail_accounts` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `email` varchar(191) NOT NULL,
+  `display_name` varchar(191) DEFAULT NULL,
+  `password_hash` varchar(255) NOT NULL,
+  `last_login_at` datetime DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uniq_mail_email` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE IF NOT EXISTS `mail_messages` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `resend_id` varchar(64) DEFAULT NULL,
+  `direction` varchar(8) NOT NULL DEFAULT 'in',
+  `folder` varchar(16) NOT NULL DEFAULT 'inbox',
+  `from_name` varchar(191) DEFAULT NULL,
+  `from_email` varchar(191) NOT NULL,
+  `to_email` varchar(500) DEFAULT NULL,
+  `cc` varchar(500) DEFAULT NULL,
+  `subject` varchar(500) DEFAULT NULL,
+  `body_html` mediumtext DEFAULT NULL,
+  `body_text` mediumtext DEFAULT NULL,
+  `snippet` varchar(300) DEFAULT NULL,
+  `message_id` varchar(255) DEFAULT NULL,
+  `in_reply_to` varchar(255) DEFAULT NULL,
+  `is_read` tinyint(1) NOT NULL DEFAULT 0,
+  `is_starred` tinyint(1) NOT NULL DEFAULT 0,
+  `has_attachments` tinyint(1) NOT NULL DEFAULT 0,
+  `send_error` varchar(255) DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uniq_mail_resend` (`resend_id`),
+  KEY `idx_mail_folder` (`folder`,`created_at`),
+  KEY `idx_mail_msgid` (`message_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
