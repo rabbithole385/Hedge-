@@ -1,8 +1,8 @@
 <?php
-// Sitemap for whatever domain the site is served on.
+// Canonical sitemap origin, with an environment override for staging.
 header('Content-Type: application/xml; charset=utf-8');
-$host = preg_replace('/[^a-z0-9.\-:]/i', '', $_SERVER['HTTP_HOST'] ?? 'localhost');
-$base = 'https://' . $host . '/en/';
+$siteUrl = rtrim(getenv('SITE_URL') ?: 'https://nexocopy.net', '/');
+$base = $siteUrl . '/en/';
 $skip = ['index.html'];
 $pages = [''];
 foreach (glob(__DIR__ . '/en/*.html') as $f) { $n = basename($f); if (!in_array($n, $skip, true)) $pages[] = $n; }

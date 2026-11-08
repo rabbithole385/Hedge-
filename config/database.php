@@ -434,7 +434,7 @@ function ensure_livechat_schema(PDO $pdo): void {
         if ($count === 0) {
             $stmt = $pdo->prepare("INSERT INTO chat_canned_responses (title, message, sort_order) VALUES (?, ?, ?)");
             $seeds = [
-                ['Greeting', 'Hello! Welcome to Nexora Support. How can I assist you with your account today?', 1],
+                ['Greeting', 'Hello! Welcome to NexoraCopy Support. How can I assist you with your account today?', 1],
                 ['Live Agent Joined', 'A live support specialist has joined the chat. I have reviewed your conversation history with our automated assistant and am happy to help you right now.', 2],
                 ['Crypto Deposit Info', 'To deposit crypto, go to Wallet & Funds -> Deposit -> Crypto. Select your coin (BTC, ETH, USDT), send the exact amount to the address, and enter your transaction hash for swift confirmation.', 3],
                 ['Bank Deposit Details', 'Bank transfer deposits require reference numbers matching your registered full name. Please submit the bank deposit notification on the Deposit page so our accounts desk can credit your balance.', 4],
@@ -659,9 +659,9 @@ function set_setting(PDO $pdo, string $key, string $value): void {
  * (chat replies, plan/bot texts, settings). Runs once, guarded by a settings flag.
  */
 function ensure_brand_name(PDO $pdo): void {
-    $new = 'Nexora';
+    $new = 'NexoraCopy';
     try {
-        $done = $pdo->query("SELECT value FROM settings WHERE setting_key = 'brand_name_applied'")->fetchColumn();
+        $done = $pdo->query("SELECT value FROM settings WHERE setting_key = 'brand_name_applied_v2'")->fetchColumn();
         if ($done === $new) return;
     } catch (Throwable $e) { return; }
     $targets = [
@@ -675,11 +675,13 @@ function ensure_brand_name(PDO $pdo): void {
     foreach ($targets as $table => $cols) {
         foreach ($cols as $col) {
             try {
-                $pdo->exec("UPDATE `{$table}` SET `{$col}` = REPLACE(REPLACE(REPLACE(REPLACE(`{$col}`, 'NexoraCopy', '{$new}'), 'Hedge Pty Ltd', '{$new}'), 'HedgeInv', '{$new}'), 'hedgeinv.com', 'nexocopy.net') WHERE `{$col}` LIKE '%edge%' OR `{$col}` LIKE '%NexoraCopy%'");
+                $column = "`{$col}`";
+                $normalized = "REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE({$column}, 'NexoraCopy', '__NEXORACOPY__'), 'Nexora', '{$new}'), 'Hedge Pty Ltd', '{$new}'), 'HedgeInv', '{$new}'), 'hedgeinv.com', 'nexocopy.net'), 'Welcome to Hedge', 'Welcome to {$new}'), 'Hedge Support', '{$new} Support'), '__NEXORACOPY__', '{$new}')";
+                $pdo->exec("UPDATE `{$table}` SET {$column} = CASE WHEN TRIM({$column}) IN ('Hedge', 'Hedge Investment', 'Hedge Invest') THEN '{$new}' ELSE {$normalized} END WHERE {$column} LIKE '%edge%' OR {$column} LIKE '%Nexora%'");
             } catch (Throwable $e) { /* table or column not present - fine */ }
         }
     }
     try {
-        $pdo->prepare("INSERT INTO settings (setting_key, value) VALUES ('brand_name_applied', ?) ON DUPLICATE KEY UPDATE value = VALUES(value)")->execute([$new]);
+        $pdo->prepare("INSERT INTO settings (setting_key, value) VALUES ('brand_name_applied_v2', ?) ON DUPLICATE KEY UPDATE value = VALUES(value)")->execute([$new]);
     } catch (Throwable $e) {}
 }

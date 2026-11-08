@@ -1,6 +1,6 @@
 <?php
 /**
- * Nexora Assistant - AI provider client.
+ * NexoraCopy Assistant - AI provider client.
  *
  * Thin, dependency-free client for any OpenAI-compatible chat-completions
  * endpoint. Returns the assistant's reply text, or null on any failure so the
@@ -160,7 +160,7 @@ function ai_chat_completion(array $messages, array $opts = []): ?string {
  * The assistant's persona and platform knowledge.
  */
 function nexora_ai_system_prompt(?array $user = null): string {
-    $site = defined('AI_SITE_NAME') ? AI_SITE_NAME : 'Nexora';
+    $site = defined('AI_SITE_NAME') ? AI_SITE_NAME : 'NexoraCopy';
 
     $context = '';
     if ($user) {

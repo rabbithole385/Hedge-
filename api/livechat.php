@@ -1,6 +1,6 @@
 <?php
 /**
- * Real-Time Live Chat API for Nexora
+ * Real-Time Live Chat API for NexoraCopy
  * High-performance, lightweight AJAX polling & presence API optimized for cPanel (PHP + MySQL).
  */
 

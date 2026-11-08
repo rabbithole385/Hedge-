@@ -1,4 +1,4 @@
-# Nexora on Render - FREE plan Blueprint
+# NexoraCopy on Render - FREE plan Blueprint
 # Render dashboard -> New -> Blueprint -> pick this repo -> Apply.
 # You'll be asked for your database details (e.g. your cPanel MySQL with Remote MySQL enabled,
 # or a free cloud MySQL such as TiDB Cloud Serverless or Aiven - set DB_SSL=1 for those).
@@ -6,7 +6,7 @@
 # and uploads are kept safe in the database because free services have no disk.
 services:
   - type: web
-    name: hedgeinv
+    name: nexoracopy
     runtime: docker
     plan: free
     region: frankfurt

@@ -1,6 +1,6 @@
 <?php
 /**
- * Nexora Support Bot Knowledge Engine
+ * NexoraCopy Support Bot Knowledge Engine
  * Real LLM replies via includes/ai_provider.php, with a deterministic
  * rule-based fallback so support never goes dark if the model is unreachable.
  * Also handles FAQ routing and real-time handoff to human administrators.
@@ -25,7 +25,7 @@ function bot_default_chips(): array {
 function bot_welcome_payload(?string $userName = null): array {
     $name = $userName ? ' ' . htmlspecialchars($userName) : '';
     return [
-        'message' => "Hello{$name}! 👋 Welcome to Nexora Support.\n\nI am Nova, your AI assistant. Ask me anything about deposits, withdrawals, KYC verification, copy trading or the automated bots - or say the word and I will bring in a live human specialist.\n\nHow can I help you today?",
+        'message' => "Hello{$name}! 👋 Welcome to NexoraCopy Support.\n\nI am Nova, your AI assistant. Ask me anything about deposits, withdrawals, KYC verification, copy trading or the automated bots - or say the word and I will bring in a live human specialist.\n\nHow can I help you today?",
         'chips' => bot_default_chips(),
         'is_bot' => true,
         'sender_label' => 'Nova (AI Assistant)',
@@ -87,7 +87,7 @@ function process_bot_reply(PDO $pdo, int $threadId, string $userMessage, ?array 
     if ($clean === 'keep_bot' || preg_match('/\b(re-enable (the )?(bot|ai)|resume (the )?(bot|ai)|keep bot|keep ai)\b/i', $clean)) {
         $pdo->prepare("UPDATE support_threads SET bot_active = 1 WHERE id = ?")->execute([$threadId]);
         return [
-            'reply' => "The Nexora AI assistant is back on. 🤖 What would you like help with?",
+            'reply' => "The NexoraCopy AI assistant is back on. 🤖 What would you like help with?",
             'chips' => bot_default_chips(),
             'handoff' => false,
         ];
@@ -124,7 +124,7 @@ function bot_rule_reply(PDO $pdo, int $threadId, string $userMessage): array {
         $clean === 'deposit'
     ) {
         return [
-            'reply' => "💳 Funding Your Nexora Account:\n\n1. Go to **Wallet & Funds → Deposit** in your dashboard.\n2. **Crypto (BTC, ETH, USDT)**: Send funds to the platform wallet address shown and submit your transaction hash for swift confirmation.\n3. **Bank Wire**: Follow the bank instructions provided on the page and upload proof of payment.\n\nTransactions are typically credited within 10–30 minutes once confirmed on the blockchain.",
+            'reply' => "💳 Funding Your NexoraCopy Account:\n\n1. Go to **Wallet & Funds → Deposit** in your dashboard.\n2. **Crypto (BTC, ETH, USDT)**: Send funds to the platform wallet address shown and submit your transaction hash for swift confirmation.\n3. **Bank Wire**: Follow the bank instructions provided on the page and upload proof of payment.\n\nTransactions are typically credited within 10–30 minutes once confirmed on the blockchain.",
             'chips' => [
                 ['label' => 'Open Deposit Page', 'url' => '/user/deposit.php'],
                 ['label' => '💰 Withdrawal Info', 'action' => 'withdraw'],

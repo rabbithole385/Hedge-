@@ -6,19 +6,19 @@ $usedSidebarShell = ($navContext === 'user' && $headerUser) || ($navContext === 
 ?>
 <?php if ($usedSidebarShell): ?>
       <footer class="footer">
-        &copy; <?= date('Y') ?> Nexora &mdash; Investment values can rise and fall. Markets, plans and bots follow live market prices; past results don't guarantee future returns.
+        &copy; <?= date('Y') ?> NexoraCopy &mdash; Investment values can rise and fall. Markets, plans and bots follow live market prices; past results don't guarantee future returns.
       </footer>
     </div><!-- /.app-content -->
   </div><!-- /.app-main -->
 </div><!-- /.app-shell -->
 <?php else: ?>
 <footer class="footer">
-  &copy; <?= date('Y') ?> Nexora &mdash; Investment values can rise and fall. Markets, plans and bots follow live market prices; past results don't guarantee future returns.
+  &copy; <?= date('Y') ?> NexoraCopy &mdash; Investment values can rise and fall. Markets, plans and bots follow live market prices; past results don't guarantee future returns.
 </footer>
 <?php endif; ?>
 
 <?php if ($currentPath !== '/admin/livechat.php'): ?>
-<!-- Nexora Real-Time Live Chat Widget -->
+<!-- NexoraCopy Real-Time Live Chat Widget -->
 <link rel="stylesheet" href="/assets/css/livechat.css">
 <script src="/assets/js/livechat.js" defer></script>
 <?php endif; ?>

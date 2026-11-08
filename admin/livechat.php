@@ -792,7 +792,7 @@ function appendMessage(m) {
   if (isUser) {
     headerTag = `<div class="msg-header-tag" style="color:#94a3b8;">👤 ${escapeHtml(m.sender_label || 'User')}</div>`;
   } else if (isBot) {
-    headerTag = `<div class="msg-header-tag" style="color:#c7d2fe;">🤖 Nexora Assistant (AI)</div>`;
+    headerTag = `<div class="msg-header-tag" style="color:#c7d2fe;">🤖 NexoraCopy Assistant (AI)</div>`;
   } else {
     headerTag = `<div class="msg-header-tag" style="color:#bfdbfe;">🛡️ Support Specialist (You)</div>`;
   }

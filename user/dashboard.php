@@ -136,7 +136,7 @@ require __DIR__ . '/../includes/header.php';
 
   <div class="nx-ai" style="margin-top:22px;">
     <h3><span class="nx-live-dot"></span> Need a hand? Ask Nova</h3>
-    <p>Nova is your Nexora AI assistant. Ask about deposits, withdrawals, KYC or copy trading at any hour, or request a live specialist and a human joins the same chat.</p>
+    <p>Nova is your NexoraCopy AI assistant. Ask about deposits, withdrawals, KYC or copy trading at any hour, or request a live specialist and a human joins the same chat.</p>
     <div class="nx-ai-actions">
       <a class="btn" href="/user/support.php">Open support chat</a>
       <a class="btn secondary" href="/user/kyc.php">Verify identity</a>

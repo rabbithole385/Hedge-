@@ -1,4 +1,4 @@
-# Nexora — Investment Platform (MySQL Production Build)
+# NexoraCopy — Investment Platform (MySQL Production Build)
 
 Plain PHP + MySQL. No framework, no build step. Copy trading, AI bots, and
 self-directed investment plans, all running on a real MySQL database.

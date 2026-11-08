@@ -1,6 +1,6 @@
 <?php
 /**
- * Nexora Assistant - AI provider credentials.
+ * NexoraCopy Assistant - AI provider credentials.
  *
  * The support bot answers real questions with a live language model. By default
  * it uses a fully free, key-less OpenAI-compatible endpoint, so the assistant
@@ -31,4 +31,4 @@ define('AI_CHAT_ENDPOINT', ai_env('AI_CHAT_ENDPOINT', 'https://text.pollinations
 define('AI_API_KEY', ai_env('AI_API_KEY', ''));
 define('AI_MODEL', ai_env('AI_MODEL', 'openai'));
 define('AI_TIMEOUT', (int)ai_env('AI_TIMEOUT', '20'));
-define('AI_SITE_NAME', ai_env('AI_SITE_NAME', 'Nexora'));
+define('AI_SITE_NAME', ai_env('AI_SITE_NAME', 'NexoraCopy'));

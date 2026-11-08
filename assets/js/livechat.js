@@ -1,5 +1,5 @@
 /**
- * Nexora Floating Live Chat Client
+ * NexoraCopy Floating Live Chat Client
  * Lightweight, zero-dependency real-time live chat widget with Bot, Typing Detection, and Audio alerts.
  */
 (function() {
@@ -60,7 +60,7 @@
               <span class="hinv-online-dot"></span>
             </div>
             <div>
-              <div class="hinv-header-title">Nexora Support</div>
+              <div class="hinv-header-title">NexoraCopy Support</div>
               <div class="hinv-header-status">
                 <i class="hinv-live-dot"></i> Online &middot; replies in seconds
               </div>

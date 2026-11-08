@@ -76,7 +76,7 @@ require __DIR__ . '/../includes/header.php';
 ?>
 <div class="auth-shell">
   <div class="auth-brand">
-    <div class="brand-mark nx-logo nx-logo-lg"><svg class="nx-ico" viewBox="0 0 40 40" aria-hidden="true"><defs><linearGradient id="nxg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f3dca6"/><stop offset=".55" stop-color="#d4af6a"/><stop offset="1" stop-color="#a77f3c"/></linearGradient></defs><rect x="1" y="1" width="38" height="38" rx="11" fill="#0e1729" stroke="url(#nxg)" stroke-opacity=".55"/><path d="M12 29V11l16 18V11" fill="none" stroke="url(#nxg)" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="nx-word">Nexora</span></div>
+    <div class="brand-mark nx-logo nx-logo-lg"><svg class="nx-ico" viewBox="0 0 40 40" aria-hidden="true"><defs><linearGradient id="nxg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f3dca6"/><stop offset=".55" stop-color="#d4af6a"/><stop offset="1" stop-color="#a77f3c"/></linearGradient></defs><rect x="1" y="1" width="38" height="38" rx="11" fill="#0e1729" stroke="url(#nxg)" stroke-opacity=".55"/><path d="M12 29V11l16 18V11" fill="none" stroke="url(#nxg)" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="nx-word">NexoraCopy</span></div>
     <div class="tagline">Professional trading, bots, and investment plans.</div>
   </div>
   <div class="auth-card">

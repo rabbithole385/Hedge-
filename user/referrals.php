@@ -7,8 +7,8 @@ require_kyc($user);
 $pdo = get_db();
 
 $bonusAmount = get_setting($pdo, 'referral_bonus_amount', '10');
-$scheme = isset($_SERVER['HTTPS']) ? 'https' : 'http';
-$referralLink = $scheme . '://' . ($_SERVER['HTTP_HOST'] ?? 'nexocopy.net') . '/auth/register.php?ref=' . $user['referral_code'];
+$siteUrl = rtrim(getenv('SITE_URL') ?: 'https://nexocopy.net', '/');
+$referralLink = $siteUrl . '/auth/register.php?ref=' . $user['referral_code'];
 
 $stmt = $pdo->prepare(
     "SELECT u.full_name, u.created_at,
