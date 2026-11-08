@@ -1,4 +1,4 @@
-# HedgeInv - production image for Railway, Render or any Docker host.
+# NexoraCopy - production image for Railway, Render or any Docker host.
 # Has its own built-in MariaDB: if no database is configured it starts one automatically.
 FROM php:8.3-apache-bookworm
 

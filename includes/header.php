@@ -1,6 +1,6 @@
 <?php
 /** Expects optional $pageTitle and $navContext ('user'|'admin'|'guest') set before include. */
-$pageTitle = $pageTitle ?? 'HedgeInv';
+$pageTitle = $pageTitle ?? 'NexoraCopy';
 $navContext = $navContext ?? 'guest';
 
 $headerPdo = null;
@@ -59,7 +59,7 @@ $showSidebarShell = ($navContext === 'user' && $headerUser) || ($navContext === 
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title><?= e($pageTitle) ?> | HedgeInv</title>
+<title><?= e($pageTitle) ?> | NexoraCopy</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
@@ -70,7 +70,7 @@ $showSidebarShell = ($navContext === 'user' && $headerUser) || ($navContext === 
 <div class="app-shell">
   <div class="sidebar-overlay" id="sidebarOverlay" onclick="document.getElementById('sidebarNav').classList.remove('open'); this.classList.remove('open');"></div>
   <aside class="sidebar" id="sidebarNav">
-    <div class="sidebar-brand">Hedge<span>Inv</span></div>
+    <div class="sidebar-brand">Nexora<span>Copy</span></div>
 
     <div class="sidebar-section">
       <div class="sidebar-section-title">Overview</div>
@@ -154,7 +154,7 @@ $showSidebarShell = ($navContext === 'user' && $headerUser) || ($navContext === 
 <div class="app-shell">
   <div class="sidebar-overlay" id="sidebarOverlay" onclick="document.getElementById('sidebarNav').classList.remove('open'); this.classList.remove('open');"></div>
   <aside class="sidebar" id="sidebarNav">
-    <div class="sidebar-brand">Hedge<span>Inv</span> <span style="font-size:11px; color:var(--muted); font-weight:500;">Admin</span></div>
+    <div class="sidebar-brand">Nexora<span>Copy</span> <span style="font-size:11px; color:var(--muted); font-weight:500;">Admin</span></div>
 
     <div class="sidebar-section">
       <div class="sidebar-section-title">Overview</div>
@@ -231,7 +231,7 @@ $showSidebarShell = ($navContext === 'user' && $headerUser) || ($navContext === 
     <div class="app-content">
 <?php else: ?>
 <header class="navbar">
-  <div class="brand">Hedge<span>Inv</span></div>
+  <div class="brand">Nexora<span>Copy</span></div>
   <button class="nav-toggle" type="button" onclick="document.getElementById('mainNav').classList.toggle('open')" aria-label="Menu">&#9776;</button>
   <nav id="mainNav">
     <a href="/auth/login.php">Login</a>

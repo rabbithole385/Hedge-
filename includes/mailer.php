@@ -106,7 +106,7 @@ function send_notification_email(string $to, string $title, string $message): bo
     $html = '<div style="font-family: Arial, sans-serif; max-width: 480px; margin: 0 auto;">'
         . '<h2 style="color: #0d2b5e;">' . htmlspecialchars($title) . '</h2>'
         . '<p style="color: #333; font-size: 15px;">' . nl2br(htmlspecialchars($message)) . '</p>'
-        . '<p style="color: #999; font-size: 12px; margin-top: 24px;">HedgeInv &mdash; this is an automated notification.</p>'
+        . '<p style="color: #999; font-size: 12px; margin-top: 24px;">NexoraCopy &mdash; this is an automated notification.</p>'
         . '</div>';
-    return send_email($to, $title . ' - HedgeInv', $html);
+    return send_email($to, $title . ' - NexoraCopy', $html);
 }

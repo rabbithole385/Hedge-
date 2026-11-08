@@ -1,5 +1,5 @@
 /**
- * HedgeInv Floating Live Chat Client
+ * NexoraCopy Floating Live Chat Client
  * Lightweight, zero-dependency real-time live chat widget with Bot, Typing Detection, and Audio alerts.
  */
 (function() {
@@ -59,7 +59,7 @@
               <span class="hinv-online-dot"></span>
             </div>
             <div>
-              <div class="hinv-header-title">HedgeInv Support</div>
+              <div class="hinv-header-title">NexoraCopy Support</div>
               <div class="hinv-header-status">
                 <span>🟢</span> Typically replies in seconds
               </div>
@@ -232,7 +232,7 @@
 
     let tag = '';
     if (!isUser) {
-      tag = `<div class="hinv-msg-tag">${isBot ? '🤖 HedgeInv Assistant' : '🛡️ Live Agent'}</div>`;
+      tag = `<div class="hinv-msg-tag">${isBot ? '🤖 NexoraCopy Assistant' : '🛡️ Live Agent'}</div>`;
     }
 
     const timeStr = m.created_at ? new Date(m.created_at.replace(' ', 'T')).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';

@@ -1,6 +1,6 @@
 <?php
 /**
- * HedgeInv Support Bot Knowledge Engine
+ * NexoraCopy Support Bot Knowledge Engine
  * Provides automated responses, FAQ routing, and real-time handoff to human administrators.
  */
 
@@ -11,7 +11,7 @@ if (!defined('HEDGEINV_BOT_LOADED')) {
 function bot_welcome_payload(?string $userName = null): array {
     $name = $userName ? ' ' . htmlspecialchars($userName) : '';
     return [
-        'message' => "Hello{$name}! 👋 Welcome to HedgeInv Support.\n\nI am your automated assistant. I can guide you through deposits, withdrawals, KYC verification, copy trading, and AI bots, or connect you directly with a live human specialist.\n\nHow can I help you today?",
+        'message' => "Hello{$name}! 👋 Welcome to NexoraCopy Support.\n\nI am your automated assistant. I can guide you through deposits, withdrawals, KYC verification, copy trading, and AI bots, or connect you directly with a live human specialist.\n\nHow can I help you today?",
         'chips' => [
             ['label' => '💳 Deposit Help', 'action' => 'deposit'],
             ['label' => '💰 Withdrawal Info', 'action' => 'withdraw'],
@@ -20,7 +20,7 @@ function bot_welcome_payload(?string $userName = null): array {
             ['label' => '👤 Speak to Live Agent', 'action' => 'human'],
         ],
         'is_bot' => true,
-        'sender_label' => 'HedgeInv Assistant (AI)',
+        'sender_label' => 'NexoraCopy Assistant (AI)',
     ];
 }
 
@@ -50,7 +50,7 @@ function process_bot_reply(PDO $pdo, int $threadId, string $userMessage, ?array 
     if ($clean === 'keep_bot' || preg_match('/\b(re-enable bot|resume bot|keep bot)\b/i', $clean)) {
         $pdo->prepare("UPDATE support_threads SET bot_active = 1 WHERE id = ?")->execute([$threadId]);
         return [
-            'reply' => "The HedgeInv automated assistant is back active! 🤖 What platform feature can I guide you through?",
+            'reply' => "The NexoraCopy automated assistant is back active! 🤖 What platform feature can I guide you through?",
             'chips' => [
                 ['label' => '💳 Deposit Help', 'action' => 'deposit'],
                 ['label' => '💰 Withdrawal Info', 'action' => 'withdraw'],
@@ -68,7 +68,7 @@ function process_bot_reply(PDO $pdo, int $threadId, string $userMessage, ?array 
         $clean === 'deposit'
     ) {
         return [
-            'reply' => "💳 Funding Your HedgeInv Account:\n\n1. Go to **Wallet & Funds → Deposit** in your dashboard.\n2. **Crypto (BTC, ETH, USDT)**: Send funds to the platform wallet address shown and submit your transaction hash for swift confirmation.\n3. **Bank Wire**: Follow the bank instructions provided on the page and upload proof of payment.\n\nTransactions are typically credited within 10–30 minutes once confirmed on the blockchain.",
+            'reply' => "💳 Funding Your NexoraCopy Account:\n\n1. Go to **Wallet & Funds → Deposit** in your dashboard.\n2. **Crypto (BTC, ETH, USDT)**: Send funds to the platform wallet address shown and submit your transaction hash for swift confirmation.\n3. **Bank Wire**: Follow the bank instructions provided on the page and upload proof of payment.\n\nTransactions are typically credited within 10–30 minutes once confirmed on the blockchain.",
             'chips' => [
                 ['label' => 'Open Deposit Page', 'url' => '/user/deposit.php'],
                 ['label' => '💰 Withdrawal Info', 'action' => 'withdraw'],

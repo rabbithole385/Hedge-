@@ -76,7 +76,7 @@ require __DIR__ . '/../includes/header.php';
 ?>
 <div class="auth-shell">
   <div class="auth-brand">
-    <div class="brand-mark">Hedge<span>Inv</span></div>
+    <div class="brand-mark">Nexora<span>Copy</span></div>
     <div class="tagline">Professional trading, bots, and investment plans.</div>
   </div>
   <div class="auth-card">

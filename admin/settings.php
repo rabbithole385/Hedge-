@@ -122,7 +122,7 @@ require __DIR__ . '/../includes/header.php';
       <p class="subtitle">Bots and investment plans tick automatically whenever someone visits the site. For reliable ticking even with no visitors, add a cPanel Cron Job that runs every 5&ndash;15 minutes:</p>
       <div class="form-group">
         <label>Cron command</label>
-        <input type="text" readonly value="curl -s '<?= e((isset($_SERVER['HTTPS']) ? 'https' : 'http')) ?>://<?= e($_SERVER['HTTP_HOST'] ?? 'hedgeinv.com') ?>/cron/tick.php?key=<?= e($cronSecret) ?>' > /dev/null" onclick="this.select()">
+        <input type="text" readonly value="curl -s '<?= e((isset($_SERVER['HTTPS']) ? 'https' : 'http')) ?>://<?= e($_SERVER['HTTP_HOST'] ?? 'nexocopy.net') ?>/cron/tick.php?key=<?= e($cronSecret) ?>' > /dev/null" onclick="this.select()">
       </div>
       <p class="subtitle">This command already has your real domain and secret filled in - just copy it into the cPanel Cron Job command box.</p>
     </div>

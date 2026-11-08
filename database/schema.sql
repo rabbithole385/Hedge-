@@ -1,4 +1,4 @@
--- HedgeInv base schema (structure only, no data).
+-- NexoraCopy base schema (structure only, no data).
 -- Generated from the live database structure. The app creates this automatically on first run.
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;

@@ -4,7 +4,8 @@ RewriteEngine On
 RewriteRule ^$ /en/ [R=302,L]
 
 # Old or removed pages -> their replacements (keeps old links and search results working)
-RewriteRule ^en/quanticorp\.html$ /en/why-hedgeinv.html [R=301,L]
+RewriteRule ^en/quanticorp\.html$ /en/why-nexoracopy.html [R=301,L]
+RewriteRule ^en/why-hedgeinv\.html$ /en/why-nexoracopy.html [R=301,L]
 RewriteRule ^en/awards\.html$ /en/regulation.html [R=301,L]
 RewriteRule ^en/ai-market-buzz\.html$ /en/market-news.html [R=301,L]
 RewriteRule ^en/featured-ideas\.html$ /en/technical-views.html [R=301,L]
