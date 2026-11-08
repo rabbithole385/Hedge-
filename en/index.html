@@ -160,10 +160,16 @@
 .h-float.f1 { top: 64px; right: 288px; animation-delay: -1s; }
 .h-float.f2 { top: 248px; right: 300px; animation-delay: -3s; }
 .h-float.f3 { top: 452px; right: 298px; animation-delay: -2s; }
+.h-float.f-trader { top: 120px; right: -24px; animation-delay: -4s; width: 236px; border-color: rgba(212,175,106,.35); }
+.h-float-av { width: 38px; height: 38px; border-radius: 11px; object-fit: cover; border: 1.5px solid var(--gold); }
+@media (max-width: 1200px) {
+  .h-float.f-trader { right: auto; left: calc(50% + 150px - 26px); top: 380px; }
+}
 @media (max-width: 980px) {
   .h-float.f1 { right: auto; left: calc(50% - 150px - 236px + 26px); }
   .h-float.f2 { right: auto; left: calc(50% + 150px - 26px); top: 210px; }
   .h-float.f3 { right: auto; left: calc(50% - 150px - 236px + 26px); top: 430px; }
+  .h-float.f-trader { right: auto; left: calc(50% - 150px - 236px + 26px); top: 520px; }
 }
 @keyframes hFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
 .h-sig { display: flex; flex-direction: column; gap: 5px; margin-top: 5px; }
@@ -210,11 +216,26 @@
 .h-ways { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-top: 44px; }
 @media (max-width: 1000px) { .h-ways { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 560px) { .h-ways { grid-template-columns: 1fr; } }
-.h-way { display: flex; flex-direction: column; padding: 26px 22px; border-radius: 18px; border: 1px solid var(--border); background: var(--bg-elevated); position: relative; overflow: hidden; }
+.h-way { display: flex; flex-direction: column; padding: 22px 20px; border-radius: 18px; border: 1px solid var(--border); background: var(--bg-elevated); position: relative; overflow: hidden; transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease; }
+.h-way:hover { transform: translateY(-4px); border-color: rgba(212,175,106,.4); box-shadow: 0 16px 36px rgba(0,0,0,.5); }
 .h-way::after { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 3px; background: var(--c, var(--gold)); opacity: .9; }
-.h-way .ico { width: 46px; height: 46px; border-radius: 13px; display: grid; place-items: center; background: color-mix(in srgb, var(--c, var(--gold)) 14%, transparent); color: var(--c, var(--gold)); margin-bottom: 18px; }
+.h-way-preview { position: relative; width: 100%; height: 112px; border-radius: 12px; overflow: hidden; margin-bottom: 16px; background: #0c1424; border: 1px solid var(--border); }
+.h-way-thumb { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .4s ease; }
+.h-way:hover .h-way-thumb { transform: scale(1.06); }
+.h-way-tag { position: absolute; bottom: 8px; left: 8px; background: rgba(11, 18, 32, 0.88); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 999px; padding: 3px 10px; font: 600 11px ui-monospace, monospace; color: var(--text); display: inline-flex; align-items: center; gap: 6px; }
+.h-way-tag.gold { color: var(--gold-bright); border-color: rgba(212,175,106,.3); }
+.h-way-tag.green { color: var(--positive); border-color: rgba(52,211,153,.3); }
+.h-way-tag.purple { color: #c4b5fd; border-color: rgba(167,139,250,.3); }
+.h-preview-cluster { display: flex; align-items: center; justify-content: space-between; padding: 14px; background: radial-gradient(circle at 80% 20%, rgba(212,175,106,.15), #0c1424); }
+.h-av-stack { display: flex; }
+.h-av-stack img { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; border: 2px solid #0e1729; margin-right: -12px; box-shadow: 0 4px 12px rgba(0,0,0,.45); transition: transform .2s ease; }
+.h-av-stack img:hover { transform: translateY(-3px) scale(1.08); z-index: 5; }
+.h-preview-radar { display: flex; align-items: center; justify-content: center; background: radial-gradient(circle at 50% 50%, rgba(167,139,250,.18), #0c1424); position: relative; }
+.radar-box { display: flex; align-items: center; gap: 8px; font: 600 12px ui-monospace, monospace; color: #c4b5fd; }
+.badge-v { color: var(--positive); font-weight: 700; margin-right: 2px; }
+.h-way .ico { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; background: color-mix(in srgb, var(--c, var(--gold)) 14%, transparent); color: var(--c, var(--gold)); margin-bottom: 14px; }
 .h-way h3 { font-family: var(--font-display); font-size: 19px; margin: 0 0 8px; color: var(--text); }
-.h-way p { color: var(--muted); font-size: 14px; line-height: 1.65; margin: 0 0 18px; flex: 1; }
+.h-way p { color: var(--muted); font-size: 14px; line-height: 1.65; margin: 0 0 16px; flex: 1; }
 .h-way a { color: var(--text); font-weight: 600; font-size: 14px; text-decoration: none; display: inline-flex; gap: 6px; align-items: center; }
 .h-way a:hover { color: var(--gold-bright); }
 
@@ -226,19 +247,45 @@
 .h-list .ck { flex: 0 0 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; background: rgba(212,175,106,.12); color: var(--gold-bright); }
 .h-list b { display: block; color: var(--text); font-size: 15.5px; margin-bottom: 3px; }
 .h-list span { color: var(--muted); font-size: 14px; line-height: 1.6; }
-.h-expert { border-radius: 20px; padding: 22px; background: linear-gradient(160deg, rgba(24,38,68,.92), rgba(14,22,40,.96)); border: 1px solid var(--border-bright); box-shadow: 0 30px 70px rgba(0,0,0,.45); }
-.h-expert-top { display: flex; gap: 14px; align-items: center; }
-.h-avatar { width: 54px; height: 54px; border-radius: 16px; display: grid; place-items: center; font: 700 20px var(--font-display); color: #1a1405; background: linear-gradient(135deg, var(--gold-bright), var(--gold)); }
+
+/* Expert Trader Card on the side */
+.h-expert-wrap { position: relative; }
+.h-expert { border-radius: 20px; padding: 24px; background: linear-gradient(160deg, rgba(24,38,68,.92), rgba(14,22,40,.96)); border: 1px solid var(--border-bright); box-shadow: 0 30px 70px rgba(0,0,0,.5); }
+.h-expert-top { display: flex; gap: 16px; align-items: center; }
+.h-avatar-img { width: 58px; height: 58px; border-radius: 18px; object-fit: cover; border: 2px solid var(--gold); box-shadow: 0 8px 24px rgba(0,0,0,0.5), 0 0 0 1px rgba(212,175,106,.4); }
+.h-ex-name-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.v-badge { font: 700 10.5px var(--font-body); letter-spacing: .04em; background: rgba(52,211,153,.14); color: var(--positive); border: 1px solid rgba(52,211,153,.3); padding: 2px 7px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px; }
 .h-expert-top b { display: block; font: 700 17px var(--font-display); color: var(--text); }
 .h-expert-top small { color: var(--muted); font-size: 12.5px; }
-.h-mini { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 18px 0; }
+.h-chart-preview { margin: 16px 0; padding: 14px 16px; border-radius: 14px; background: rgba(11,18,32,.65); border: 1px solid var(--border); }
+.h-chart-lbl { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 8px; color: var(--muted); }
+.h-chart-lbl b { font-family: ui-monospace, monospace; }
+.h-equity-svg { width: 100%; height: 60px; display: block; }
+.h-mini { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 16px 0; }
 .h-mini div { background: rgba(11,18,32,.55); border: 1px solid var(--border); border-radius: 12px; padding: 12px; }
 .h-mini span { display: block; font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
 .h-mini b { display: block; margin-top: 4px; font: 700 15px ui-monospace, monospace; color: var(--text); }
 .h-flow { display: flex; flex-direction: column; gap: 8px; }
 .h-flow div { display: flex; justify-content: space-between; align-items: center; padding: 11px 14px; border-radius: 11px; background: rgba(11,18,32,.5); border: 1px solid var(--border); font-size: 13.5px; color: var(--text-dim); }
 .h-flow div b { font-family: ui-monospace, monospace; color: var(--text); }
+.h-copy-float-toast { position: absolute; bottom: -24px; left: -24px; background: rgba(15, 24, 44, 0.95); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border: 1px solid rgba(212, 175, 106, 0.35); border-radius: 16px; padding: 12px 18px; display: flex; align-items: center; gap: 12px; box-shadow: 0 20px 45px rgba(0,0,0,0.6); animation: hFloat 7s ease-in-out infinite alternate; z-index: 5; }
+.h-copy-float-toast .mini-av { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 1.5px solid var(--gold); }
+.h-copy-float-toast b { display: block; font-size: 13px; color: var(--text); }
+.h-copy-float-toast small { color: var(--muted); font-size: 11px; }
+.pos-pill { font: 700 12px ui-monospace, monospace; color: var(--positive); background: rgba(52,211,153,.15); padding: 4px 8px; border-radius: 8px; margin-left: auto; }
+@media (max-width: 900px) { .h-copy-float-toast { position: static; margin-top: 14px; animation: none; } }
 .h-note { font-size: 11.5px; color: var(--muted); margin-top: 12px; }
+
+/* Side Media Images */
+.h-split-media { position: relative; }
+.h-media-frame { position: relative; border-radius: 22px; overflow: hidden; border: 1px solid rgba(255,255,255,0.12); box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(212,175,106,0.2); background: #0b1220; }
+.h-media-img { width: 100%; height: 380px; object-fit: cover; display: block; transition: transform 0.5s ease; }
+.h-media-frame:hover .h-media-img { transform: scale(1.03); }
+.h-media-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(11,18,32,0.1) 0%, rgba(11,18,32,0.7) 100%); pointer-events: none; }
+.h-media-badge-1 { position: absolute; top: 20px; left: 20px; background: rgba(11,18,32,0.88); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.14); border-radius: 999px; padding: 7px 15px; display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text); box-shadow: 0 8px 20px rgba(0,0,0,0.4); }
+.h-media-badge-2 { position: absolute; bottom: 20px; left: 20px; background: rgba(14,22,40,0.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(212,175,106,0.35); border-radius: 14px; padding: 12px 18px; display: flex; align-items: center; gap: 12px; box-shadow: 0 16px 36px rgba(0,0,0,0.55); }
+.h-media-badge-2 small { display: block; font-size: 10.5px; text-transform: uppercase; color: var(--muted); letter-spacing: .06em; }
+.h-media-badge-2 b { display: block; font: 700 14px var(--font-display); color: var(--gold-bright); }
 
 /* Why cards */
 .h-why { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 44px; }
@@ -338,6 +385,10 @@
           <div class="h-float-ic ok"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6 9 17l-5-5"/></svg></div>
           <div><small>Deposit</small><b>Verified by our team</b></div>
         </div>
+        <div class="h-float f-trader">
+          <img src="/assets/uploads/experts/expert_80b3867492f5b489.jpeg" alt="Marcus Chen" class="h-float-av">
+          <div><small>Featured Pro Trader</small><b>Marcus Chen</b><span class="pos" style="font-size:11px;font-family:ui-monospace,monospace;">+184.2% ROI &middot; 892 Copiers</span></div>
+        </div>
       </div>
     </div>
   </section>
@@ -385,10 +436,53 @@
         <p class="h-sec-lead">Take full control, follow someone experienced, or let a clear set of rules do the work. Mix them however you like.</p>
       </div>
       <div class="h-ways">
-        <div class="h-way reveal" style="--c:#6d94f5"><div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M8 7h9v9"/></svg></div><h3>Trade directly</h3><p>Buy and sell any listed market yourself, in dollars or units, with live charts and your positions in one place.</p><a href="/auth/register.php">Start trading &rarr;</a></div>
-        <div class="h-way reveal" style="--c:#e8c988"><div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6M16 11a3 3 0 1 0 0-6M21 20c0-2.6-1.6-4.8-4-5.6"/></svg></div><h3>Copy an expert</h3><p>Choose a trader, set how much to allocate, and have their results reflected in your account automatically.</p><a href="expert-traders.html">Meet the experts &rarr;</a></div>
-        <div class="h-way reveal" style="--c:#a78bfa"><div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="7" width="16" height="12" rx="3"/><path d="M12 3v4M9 12h.01M15 12h.01M9 16h6"/></svg></div><h3>AI trading bots</h3><p>Bots follow one transparent rule on live prices: ride the trend, trade against it, or hold. You always see their positions.</p><a href="/auth/register.php">See the bots &rarr;</a></div>
-        <div class="h-way reveal" style="--c:#34d399"><div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></div><h3>Investment plans</h3><p>Hands-off plans that follow a basket of real markets, such as gold, global indices or crypto. Withdraw any time.</p><a href="/auth/register.php">View plans &rarr;</a></div>
+        <div class="h-way reveal" style="--c:#6d94f5">
+          <div class="h-way-preview">
+            <img src="/assets/images/forex-market-chart.jpg" alt="Direct Market Trading" class="h-way-thumb">
+            <div class="h-way-tag"><span class="live-dot-pulse"></span>0.0 Pip Spreads</div>
+          </div>
+          <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M8 7h9v9"/></svg></div>
+          <h3>Trade directly</h3>
+          <p>Buy and sell any listed market yourself, in dollars or units, with live charts and your positions in one place.</p>
+          <a href="/auth/register.php">Start trading &rarr;</a>
+        </div>
+        <div class="h-way reveal" style="--c:#e8c988">
+          <div class="h-way-preview h-preview-cluster">
+            <div class="h-av-stack">
+              <img src="/assets/uploads/experts/expert_80b3867492f5b489.jpeg" alt="Marcus">
+              <img src="/assets/uploads/experts/expert_7db8eb62965b54cf.jpeg" alt="Amara">
+              <img src="/assets/uploads/experts/expert_18f983624e93a598.jpeg" alt="Viktor">
+            </div>
+            <div class="h-way-tag gold"><span class="badge-v">&#10003;</span> 74% Win Rate</div>
+          </div>
+          <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6M16 11a3 3 0 1 0 0-6M21 20c0-2.6-1.6-4.8-4-5.6"/></svg></div>
+          <h3>Copy an expert</h3>
+          <p>Choose a verified trader, set how much to allocate, and have their live posted trades mirrored automatically.</p>
+          <a href="expert-traders.html">Meet the experts &rarr;</a>
+        </div>
+        <div class="h-way reveal" style="--c:#a78bfa">
+          <div class="h-way-preview h-preview-radar">
+            <div class="radar-box">
+              <span class="live-dot-pulse" style="background:#a78bfa;"></span>
+              <span>Nova AI Engine</span>
+            </div>
+            <div class="h-way-tag purple">Active &middot; 8ms</div>
+          </div>
+          <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="7" width="16" height="12" rx="3"/><path d="M12 3v4M9 12h.01M15 12h.01M9 16h6"/></svg></div>
+          <h3>AI trading bots</h3>
+          <p>Bots follow transparent rules on live prices: ride the trend, trade against it, or hold. Fully visible positions.</p>
+          <a href="/auth/register.php">See the bots &rarr;</a>
+        </div>
+        <div class="h-way reveal" style="--c:#34d399">
+          <div class="h-way-preview">
+            <img src="/assets/images/crypto-gold-bitcoin.jpg" alt="Investment Plans" class="h-way-thumb">
+            <div class="h-way-tag green">Gold &middot; Tech &middot; Crypto</div>
+          </div>
+          <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></div>
+          <h3>Investment plans</h3>
+          <p>Hands-off plans that follow a basket of real markets, such as gold, global indices or crypto. Withdraw any time.</p>
+          <a href="/auth/register.php">View plans &rarr;</a>
+        </div>
       </div>
     </div>
   </section>
@@ -407,22 +501,112 @@
         </ul>
         <a class="btn lg" href="expert-traders.html">Browse expert traders</a>
       </div>
-      <div class="h-expert reveal">
-        <div class="h-expert-top">
-          <div class="h-avatar">A</div>
-          <div><b>Example expert profile</b><small>Gold &amp; precious metals &middot; Low risk</small></div>
+      <div class="h-expert-wrap reveal">
+        <div class="h-expert">
+          <div class="h-expert-top">
+            <img src="/assets/uploads/experts/expert_80b3867492f5b489.jpeg" alt="Marcus Chen" class="h-avatar-img">
+            <div>
+              <div class="h-ex-name-row">
+                <b>Marcus Chen</b>
+                <span class="v-badge">&#10003; Pro Verified</span>
+              </div>
+              <small>Momentum swing trader &middot; US Tech &middot; Medium risk</small>
+            </div>
+          </div>
+          <div class="h-mini">
+            <div><span>Focus</span><b>US Stocks</b></div>
+            <div><span>Win Rate</span><b class="pos">74.0%</b></div>
+            <div><span>Copiers</span><b>1,280 Active</b></div>
+          </div>
+          <div class="h-chart-preview">
+            <div class="h-chart-lbl"><span>Performance Growth</span><b class="pos">+184.2%</b></div>
+            <svg viewBox="0 0 320 60" class="h-equity-svg" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="eqG" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#34d399" stop-opacity="0.35"/>
+                  <stop offset="100%" stop-color="#34d399" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <path d="M0,52 Q40,48 80,38 T160,30 T240,18 T320,6 L320,60 L0,60 Z" fill="url(#eqG)"/>
+              <path d="M0,52 Q40,48 80,38 T160,30 T240,18 T320,6" fill="none" stroke="#34d399" stroke-width="2.5"/>
+            </svg>
+          </div>
+          <div class="h-flow">
+            <div><span>1. You choose an amount</span><b>$500</b></div>
+            <div><span>2. Marcus closes trade (+2.8% on NVDA)</span><b class="pos">+$14.00</b></div>
+            <div><span>3. Your copy wallet auto-credited</span><b class="pos">$514.00</b></div>
+          </div>
+          <p class="h-note">Real copy trading results based on posted trades. Past performance is not a guarantee of future returns.</p>
         </div>
-        <div class="h-mini">
-          <div><span>Focus</span><b>Gold</b></div>
-          <div><span>Risk</span><b>Low</b></div>
-          <div><span>Min. copy</span><b>$50</b></div>
+        <div class="h-copy-float-toast">
+          <img src="/assets/uploads/experts/expert_7db8eb62965b54cf.jpeg" alt="Amara" class="mini-av">
+          <div>
+            <b>Amara Nwosu closed Gold trade</b>
+            <small>Profit auto-credited to 840 copiers</small>
+          </div>
+          <span class="pos-pill">+$320.00</span>
         </div>
-        <div class="h-flow">
-          <div><span>1. You choose an amount</span><b>$500</b></div>
-          <div><span>2. The expert closes a trade</span><b>+2.0%</b></div>
-          <div><span>3. Your copy updates automatically</span><b>+$10.00</b></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DIRECT EXCHANGE FEEDS (SPLIT WITH GLOBE IMAGE) -->
+  <section class="h-section alt">
+    <div class="h-wrap h-split">
+      <div class="h-split-media reveal">
+        <div class="h-media-frame">
+          <img src="/assets/images/global-markets-globe.jpg" alt="Global Market Liquidity & Direct Exchange Feeds" class="h-media-img">
+          <div class="h-media-overlay"></div>
+          <div class="h-media-badge-1">
+            <span class="live-dot-pulse"></span>
+            <b>Direct Binance &amp; Yahoo Finance Feeds</b>
+          </div>
+          <div class="h-media-badge-2">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            <div><small>Audited Accuracy</small><b>100% Real Market Quotes</b></div>
+          </div>
         </div>
-        <p class="h-note">Illustration only. Real results vary, and copy trading can lose money as well as make it.</p>
+      </div>
+      <div class="reveal">
+        <span class="h-eyebrow">Real market execution</span>
+        <h2 class="h-sec-title">Prices from real exchanges. Checked anywhere.</h2>
+        <p class="h-sec-lead">Every price, bot tick, and investment plan on Nexora tracks live public data from Binance (crypto) and Yahoo Finance / Stooq (stocks, forex, commodities). There is zero internal guessing.</p>
+        <ul class="h-list">
+          <li><span class="ck"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span><div><b>Public, verifiable feeds</b><span>Every rate shown matches the real world — no hidden proprietary markups or artificial slippage.</span></div></li>
+          <li><span class="ck"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></span><div><b>24/7 Crypto &amp; Global Exchange Hours</b><span>Trade digital assets around the clock, and trade stocks and commodities as world sessions open.</span></div></li>
+          <li><span class="ck"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span><div><b>Segregated client balances</b><span>Your deposited capital is kept strictly segregated, with human review on every deposit.</span></div></li>
+        </ul>
+        <a class="btn lg" href="our-trading-infrastructure.html">See how our pricing works</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROFESSIONAL WORKSTATION (SPLIT WITH TRADING LAPTOP IMAGE) -->
+  <section class="h-section">
+    <div class="h-wrap h-split">
+      <div class="reveal">
+        <span class="h-eyebrow">Trading workstation</span>
+        <h2 class="h-sec-title">Trade on your terms. From any device.</h2>
+        <p class="h-sec-lead">Whether on your phone or at your desktop terminal, Nexora gives you an institutional-grade interface designed for speed and clarity.</p>
+        <ul class="h-list">
+          <li><span class="ck"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></span><div><b>Unified Multi-Asset Wallet</b><span>Manage spot trades, copy allocations, and automated AI bots side-by-side with zero friction.</span></div></li>
+          <li><span class="ck"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></span><div><b>Instant execution &middot; 0.0 pip spreads</b><span>Fast order execution with no dealing desk intervention or synthetic spreads.</span></div></li>
+          <li><span class="ck"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></span><div><b>Real human support &middot; 16 languages</b><span>Get real answers through integrated live chat directly inside your dashboard.</span></div></li>
+        </ul>
+        <div class="h-ctas"><a class="btn lg" href="/auth/register.php">Create Free Account</a><a class="btn secondary lg" href="why-nexoracopy.html">Why Nexora</a></div>
+      </div>
+      <div class="h-split-media reveal">
+        <div class="h-media-frame">
+          <img src="/assets/images/trading-terminal-laptop.jpg" alt="Nexora Multi-Asset Trading Terminal" class="h-media-img">
+          <div class="h-media-overlay"></div>
+          <div class="h-media-badge-1">
+            <span class="live-dot-pulse"></span>
+            <b>Real-Time Multi-Asset Terminal</b>
+          </div>
+          <div class="h-media-badge-2" style="bottom:20px; right:20px; left:auto;">
+            <div><small>Multi-Device Sync</small><b>Web &middot; Mobile &middot; Desktop</b></div>
+          </div>
+        </div>
       </div>
     </div>
   </section>

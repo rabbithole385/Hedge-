@@ -181,6 +181,17 @@ function ensure_expert_win_rate_manual(PDO $pdo): void {
             $pdo->exec($sql);
         }
     }
+    // Backfill standard demo trader portraits if photo_url is missing
+    $demoPhotos = [
+        'Marcus Chen' => '/assets/uploads/experts/expert_80b3867492f5b489.jpeg',
+        'Amara Nwosu' => '/assets/uploads/experts/expert_7db8eb62965b54cf.jpeg',
+        'Viktor Kowalski' => '/assets/uploads/experts/expert_18f983624e93a598.jpeg',
+        'Sarah Whitfield' => '/assets/uploads/experts/expert_aad42b94f1ce056c.jpeg',
+    ];
+    $upStmt = $pdo->prepare("UPDATE experts SET photo_url = ? WHERE name = ? AND (photo_url IS NULL OR photo_url = '')");
+    foreach ($demoPhotos as $name => $photo) {
+        $upStmt->execute([$photo, $name]);
+    }
 }
 
 function ensure_live_plan_schema(PDO $pdo): void {
@@ -567,17 +578,17 @@ function seed_default_admin(PDO $pdo): void {
 
 function seed_demo_experts(PDO $pdo): void {
     $experts = [
-        ['Marcus Chen', 'stocks', 'medium', 68.5, 4.2, 100, 'Momentum swing trader focused on large-cap US tech and growth stocks.'],
-        ['Amara Nwosu', 'gold', 'low', 74.0, 2.8, 50, 'Conservative gold and precious metals hedge strategist.'],
-        ['Viktor Kowalski', 'commodities', 'high', 61.2, 6.5, 200, 'Aggressive oil, gas and agricultural commodities trader.'],
-        ['Sarah Whitfield', 'mixed', 'medium', 70.1, 3.9, 100, 'Diversified strategy blending stocks, gold and commodities.'],
+        ['Marcus Chen', 'stocks', 'medium', 68.5, 4.2, 100, 'Momentum swing trader focused on large-cap US tech and growth stocks.', '/assets/uploads/experts/expert_80b3867492f5b489.jpeg'],
+        ['Amara Nwosu', 'gold', 'low', 74.0, 2.8, 50, 'Conservative gold and precious metals hedge strategist.', '/assets/uploads/experts/expert_7db8eb62965b54cf.jpeg'],
+        ['Viktor Kowalski', 'commodities', 'high', 61.2, 6.5, 200, 'Aggressive oil, gas and agricultural commodities trader.', '/assets/uploads/experts/expert_18f983624e93a598.jpeg'],
+        ['Sarah Whitfield', 'mixed', 'medium', 70.1, 3.9, 100, 'Diversified strategy blending stocks, gold and commodities.', '/assets/uploads/experts/expert_aad42b94f1ce056c.jpeg'],
     ];
     $stmt = $pdo->prepare(
-        'INSERT INTO experts (name, asset_focus, risk_level, win_rate, monthly_return, min_copy_amount, bio, status)
-         VALUES (?, ?, ?, ?, ?, ?, ?, \'active\')'
+        'INSERT INTO experts (name, asset_focus, risk_level, win_rate, monthly_return, min_copy_amount, bio, photo_url, status)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, \'active\')'
     );
     foreach ($experts as $e) {
-        $stmt->execute([$e[0], $e[1], $e[2], $e[3], $e[4], $e[5], $e[6]]);
+        $stmt->execute([$e[0], $e[1], $e[2], $e[3], $e[4], $e[5], $e[6], $e[7]]);
     }
 }
 
