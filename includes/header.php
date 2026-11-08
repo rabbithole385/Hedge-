@@ -2,6 +2,7 @@
 /** Expects optional $pageTitle and $navContext ('user'|'admin'|'guest') set before include. */
 $pageTitle = $pageTitle ?? 'NexoraCopy';
 $navContext = $navContext ?? 'guest';
+$bodyClass = trim((string)($bodyClass ?? ''));
 
 $headerPdo = null;
 $headerUser = null;
@@ -65,7 +66,7 @@ $showSidebarShell = ($navContext === 'user' && $headerUser) || ($navContext === 
 <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/css/style.css">
 </head>
-<body>
+<body<?= $bodyClass !== '' ? ' class="' . e($bodyClass) . '"' : '' ?>>
 <?php if ($showSidebarShell && $navContext === 'user'): ?>
 <div class="app-shell">
   <div class="sidebar-overlay" id="sidebarOverlay" onclick="document.getElementById('sidebarNav').classList.remove('open'); this.classList.remove('open');"></div>

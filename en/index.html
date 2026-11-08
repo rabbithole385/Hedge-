@@ -1,4 +1,4 @@
-﻿﻿<!DOCTYPE html>
+﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -12,7 +12,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=JetBrains+Mono:wght@500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/site.css">
 </head>
-<body>
+<body class="public-home">
 
 <header class="site-header">
   <a class="brand nx-logo" href="/en/" aria-label="NexoraCopy home"><svg class="nx-ico" viewBox="0 0 40 40" aria-hidden="true"><defs><linearGradient id="nxg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f3dca6"/><stop offset=".55" stop-color="#d4af6a"/><stop offset="1" stop-color="#a77f3c"/></linearGradient></defs><rect x="1" y="1" width="38" height="38" rx="11" fill="#0e1729" stroke="url(#nxg)" stroke-opacity=".55"/><path d="M12 29V11l16 18V11" fill="none" stroke="url(#nxg)" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="nx-word">NexoraCopy</span></a>
@@ -78,7 +78,7 @@
 .ai-pair .p1 { top: 0; left: 0; z-index: 1; } .ai-pair .p2 { right: 0; bottom: 0; }
 
 .h-wrap { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-.h-eyebrow { display: inline-flex; align-items: center; gap: 8px; font: 700 11px var(--font-body); letter-spacing: .14em; text-transform: uppercase; color: var(--gold-bright); background: rgba(212,175,106,.1); border: 1px solid rgba(212,175,106,.28); padding: 6px 12px; border-radius: 999px; }
+.h-eyebrow { display: inline-flex; align-items: center; gap: 8px; font: 700 11px var(--font-body); letter-spacing: .14em; text-transform: uppercase; color: var(--gold-bright); background: rgba(185,230,106,.08); border: 1px solid rgba(185,230,106,.24); padding: 6px 12px; border-radius: 999px; }
 .h-live { position: relative; width: 8px; height: 8px; border-radius: 50%; background: var(--positive); display: inline-block; }
 .h-live::after { content: ""; position: absolute; inset: -4px; border-radius: 50%; border: 2px solid var(--positive); opacity: 0; animation: hPulse 1.8s ease-out infinite; }
 @keyframes hPulse { 0% { transform: scale(.4); opacity: .9; } 100% { transform: scale(1.5); opacity: 0; } }
@@ -97,8 +97,8 @@
 .h-hero { position: relative; overflow: hidden; padding: 84px 0 96px; isolation: isolate; }
 .h-hero::before { content: ""; position: absolute; inset: 0; z-index: -1; background-image: linear-gradient(rgba(255,255,255,.028) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.028) 1px, transparent 1px); background-size: 56px 56px; mask-image: radial-gradient(75% 70% at 60% 35%, #000, transparent); -webkit-mask-image: radial-gradient(75% 70% at 60% 35%, #000, transparent); }
 .h-orb { position: absolute; z-index: -1; border-radius: 50%; filter: blur(70px); opacity: .55; pointer-events: none; }
-.h-orb.o1 { width: 520px; height: 520px; right: -80px; top: -120px; background: radial-gradient(circle, rgba(212,175,106,.55), transparent 65%); animation: hDrift 14s ease-in-out infinite alternate; }
-.h-orb.o2 { width: 560px; height: 560px; left: -200px; bottom: -260px; background: radial-gradient(circle, rgba(76,124,240,.5), transparent 65%); animation: hDrift 18s ease-in-out infinite alternate-reverse; }
+.h-orb.o1 { width: 520px; height: 520px; right: -80px; top: -120px; background: radial-gradient(circle, rgba(185,230,106,.36), transparent 65%); animation: hDrift 14s ease-in-out infinite alternate; }
+.h-orb.o2 { width: 560px; height: 560px; left: -200px; bottom: -260px; background: radial-gradient(circle, rgba(105,214,207,.3), transparent 65%); animation: hDrift 18s ease-in-out infinite alternate-reverse; }
 @keyframes hDrift { to { transform: translate(40px, 30px) scale(1.08); } }
 .h-line { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: 300px; z-index: -1; pointer-events: none; }
 .h-line-path { stroke-dasharray: 2400; stroke-dashoffset: 2400; animation: hDraw 3.2s ease-out .3s forwards; }
@@ -110,7 +110,7 @@
 .h-copy > *:nth-child(2) { animation-delay: .08s; } .h-copy > *:nth-child(3) { animation-delay: .16s; } .h-copy > *:nth-child(4) { animation-delay: .24s; } .h-copy > *:nth-child(5) { animation-delay: .32s; }
 @keyframes hUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
 .h-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
-.btn.h-gold { background: linear-gradient(135deg, #f0d49b, #d4af6a 55%, #b8904a); color: #1a1405; box-shadow: 0 10px 30px rgba(212,175,106,.28), inset 0 1px 0 rgba(255,255,255,.45); border: 0; }
+.btn.h-gold { background: linear-gradient(135deg, #e4ffae, #b9e66a 55%, #8bb844); color: #11170a; box-shadow: 0 10px 30px rgba(185,230,106,.2), inset 0 1px 0 rgba(255,255,255,.45); border: 0; }
 .btn.h-gold:hover { filter: brightness(1.06); transform: translateY(-1px); }
 .h-play { display: inline-block; width: 0; height: 0; border-left: 8px solid currentColor; border-top: 5px solid transparent; border-bottom: 5px solid transparent; margin-right: 10px; vertical-align: 1px; }
 .h-proof { display: grid; grid-template-columns: repeat(3, auto); justify-content: start; gap: 0; margin-top: 38px; }
@@ -121,9 +121,13 @@
 @media (max-width: 520px) { .h-proof { grid-template-columns: repeat(3, 1fr); } .h-proof > div { padding: 0 10px; } .h-proof b { font-size: 19px; } .h-proof span { font-size: 11px; } }
 
 .h-stage { position: relative; height: 620px; display: flex; align-items: center; justify-content: flex-end; animation: hUp 1s cubic-bezier(.2,.7,.2,1) .2s both; }
+.h-stage-photo { position: absolute; inset: 24px 0; overflow: hidden; border: 1px solid rgba(105,214,207,.24); border-radius: 24px; background: #0b1220; box-shadow: 0 28px 70px rgba(0,0,0,.4); }
+.h-stage-photo img { width: 100%; height: 100%; display: block; object-fit: cover; opacity: .82; animation: hImageDrift 18s cubic-bezier(.2,.8,.2,1) infinite alternate; }
+.h-stage-photo::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(11,18,32,.08), rgba(11,18,32,.18) 48%, rgba(11,18,32,.68)), linear-gradient(0deg, rgba(11,18,32,.46), transparent 45%); }
+@keyframes hImageDrift { to { transform: scale(1.045); } }
 .h-stage .h-phone { margin-right: 12px; }
 @media (max-width: 980px) { .h-stage { justify-content: center; } .h-stage .h-phone { margin-right: 0; } }
-.h-phone { position: relative; width: 300px; height: 600px; border-radius: 46px; padding: 12px; background: linear-gradient(150deg, #2a3a5f, #0d1528 40%, #1c2a48); box-shadow: 0 50px 100px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.08), inset 0 0 0 2px rgba(255,255,255,.05); transform: perspective(1400px) rotateY(-9deg) rotateX(3deg); transition: transform .6s ease; }
+.h-phone { position: relative; z-index: 1; width: 300px; height: 600px; border-radius: 46px; padding: 12px; background: linear-gradient(150deg, #2a3a5f, #0d1528 40%, #1c2a48); box-shadow: 0 50px 100px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.08), inset 0 0 0 2px rgba(255,255,255,.05); transform: perspective(1400px) rotateY(-9deg) rotateX(3deg); transition: transform .6s ease; }
 .h-stage:hover .h-phone { transform: perspective(1400px) rotateY(-3deg) rotateX(1deg); }
 .h-notch { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); width: 92px; height: 24px; border-radius: 14px; background: #05080f; z-index: 3; }
 .h-screen { height: 100%; border-radius: 36px; overflow: hidden; background: radial-gradient(120% 60% at 50% 0%, #182a52, #0b1220 60%); padding: 52px 16px 16px; display: flex; flex-direction: column; gap: 12px; }
@@ -177,16 +181,33 @@
 .h-pos { font: 700 10px ui-monospace, monospace; letter-spacing: .04em; padding: 3px 7px; border-radius: 6px; }
 .h-pos.long { color: var(--positive); background: rgba(52,211,153,.14); } .h-pos.short { color: #f87171; background: rgba(248,113,113,.14); } .h-pos.flat { color: var(--muted); background: var(--bg-elevated-2); }
 @media (max-width: 1180px) and (min-width: 981px) { .h-float { width: 214px; } .h-float em { display: none; } }
+@media (max-width: 980px) {
+  .h-hero { min-height: 570px; display: flex; align-items: center; padding: 48px 0 52px; }
+  .h-hero-grid { grid-template-columns: 1fr; gap: 0; width: 100%; }
+  .h-stage { position: absolute; inset: 0; height: auto; margin: 0; display: block; order: 0; animation: none; pointer-events: none; }
+  .h-stage-photo { inset: 0; height: auto; border: 0; border-radius: 0; box-shadow: none; }
+  .h-stage-photo img { opacity: .64; }
+  .h-stage-photo::after { background: linear-gradient(90deg, rgba(8,13,17,.91), rgba(8,13,17,.62) 64%, rgba(8,13,17,.36)), linear-gradient(0deg, rgba(8,13,17,.82), rgba(8,13,17,.12) 78%); }
+  .h-copy { position: relative; z-index: 2; max-width: 700px; }
+  .h-phone, .h-float { display: none; }
+}
 @media (max-width: 760px) {
   .h-more { display: none; }
-  .h-stage { height: auto; flex-direction: column; gap: 12px; }
-  .h-phone { width: 280px; height: 560px; transform: none !important; margin: 0 auto 10px; }
-  .h-float { position: static; width: 100%; max-width: 360px; animation: none; }
+  .h-hero { min-height: 530px; align-items: flex-start; padding: 22px 0 34px; }
+  .h-hero-grid { gap: 0; }
+  .h-title { max-width: none; font-size: clamp(29px, 7vw, 38px); line-height: 1.02; letter-spacing: -.035em; margin: 14px 0; }
+  .h-lead { max-width: 44ch; font-size: 14px; line-height: 1.58; margin-bottom: 19px; }
+  .h-ctas { gap: 9px; }
+  .h-ctas .btn { padding: 12px 15px; font-size: 13px; }
+  .h-proof { margin-top: 23px; }
+  .h-proof > div { padding: 0 8px; }
+  .h-proof b { font-size: 17px; }
+  .h-proof span { font-size: 10px; line-height: 1.35; }
   .h-wrow:nth-child(n+4) { display: none; }
 }
 .h-skel { height: 40px; border-radius: 10px; background: linear-gradient(90deg, rgba(255,255,255,.03), rgba(255,255,255,.07), rgba(255,255,255,.03)); background-size: 200% 100%; animation: hSkel 1.4s infinite; }
 @keyframes hSkel { to { background-position: -200% 0; } }
-@media (prefers-reduced-motion: reduce) { .h-orb, .h-float, .h-copy > *, .h-stage { animation: none !important; } .h-line-path { stroke-dashoffset: 0; animation: none; } .h-line-fill { opacity: 1; animation: none; } .h-phone { transform: none; } }
+@media (prefers-reduced-motion: reduce) { .h-orb, .h-float, .h-copy > *, .h-stage, .h-stage-photo img { animation: none !important; } .h-line-path { stroke-dashoffset: 0; animation: none; } .h-line-fill { opacity: 1; animation: none; } .h-phone { transform: none; } }
 
 /* Ticker */
 .h-tape { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: rgba(11,18,32,.75); overflow: hidden; position: relative; }
@@ -329,23 +350,174 @@
 .reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s ease, transform .7s ease; }
 .reveal.in { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
+
+/* Homepage art direction: editorial headline, real market workspace, calm motion. */
+.h-hero { padding: 58px 0 68px; }
+.h-hero-grid { gap: clamp(28px, 4vw, 58px); }
+.h-eyebrow {
+  padding: 0; border: 0; border-radius: 0; background: transparent;
+  color: #c8ea8e; font: 700 10px var(--font-mono); letter-spacing: .18em;
+}
+.h-title { max-width: 12ch; margin: 20px 0; font-size: clamp(46px,5.6vw,74px); line-height: .98; letter-spacing: -.055em; }
+.h-title em { background: none; color: #c8ea8e; }
+.h-lead { color: #b0bfba; font-size: 16px; line-height: 1.7; }
+.h-stage { height: 520px; justify-content: center; }
+.h-stage-photo { inset: 18px 0; border-color: rgba(105,214,207,.18); border-radius: 18px; }
+.h-stage-photo img { opacity: .75; }
+.h-stage-photo::after { background: linear-gradient(90deg, rgba(8,13,17,.1), rgba(8,13,17,.34) 78%), linear-gradient(0deg, rgba(8,13,17,.52), transparent 58%); }
+.h-phone {
+  width: min(100%, 458px); height: 438px; padding: 10px; border-radius: 18px;
+  background: linear-gradient(145deg, rgba(34,49,52,.98), rgba(10,17,20,.98) 50%, rgba(26,39,39,.98));
+  box-shadow: 0 34px 84px rgba(0,0,0,.56), 0 0 0 1px rgba(255,255,255,.08);
+  transform: none; transition: transform .45s var(--ease), box-shadow .45s var(--ease);
+}
+.h-stage:hover .h-phone { transform: translateY(-4px); box-shadow: 0 40px 90px rgba(0,0,0,.58), 0 0 0 1px rgba(105,214,207,.18); }
+.h-notch { display: none; }
+.h-screen {
+  padding: 20px 18px 15px; gap: 10px; border-radius: 11px;
+  background: linear-gradient(150deg, #101a1d, #0b1114 72%);
+}
+.h-app-top { padding-bottom: 10px; border-bottom: 1px solid rgba(165,195,185,.13); }
+.h-app-brand { font-size: 14px; letter-spacing: .02em; }
+.h-app-live { padding: 5px 8px; border: 1px solid rgba(155,226,118,.2); border-radius: 5px; background: rgba(155,226,118,.06); font-size: 8px; }
+.h-feat { padding: 13px 14px 12px; border-color: rgba(105,214,207,.15); border-radius: 12px; background: linear-gradient(145deg, rgba(20,33,36,.98), rgba(12,20,23,.98)); }
+.h-feat-px b { font-size: 21px; }
+.h-feat-chart { height: 54px; margin: 4px 0 8px; }
+.h-feat-btns span { padding: 7px; border-radius: 7px; }
+.h-feat-btns .b { background: #b9e66a; color: #14200b; }
+.h-app-label { margin-top: 1px; font-size: 9px; letter-spacing: .16em; }
+.h-wrow { padding: 7px 3px; border-bottom-color: rgba(165,195,185,.1); }
+.h-wrow b { font-size: 11.5px; }
+.h-wrow small, .h-wrow .r { font-size: 10px; }
+.h-wrow .r i { font-size: 9px; }
+.h-float { display: none; }
+.h-proof { margin-top: 30px; padding-top: 18px; border-top: 1px solid rgba(165,195,185,.18); }
+.h-proof > div { padding: 0 19px; border-left-color: rgba(165,195,185,.18); }
+.h-proof b { font-size: 21px; }
+.h-proof span { color: #95a59f; font-size: 11px; }
+.h-section { padding: clamp(64px,7vw,96px) 0; }
+.h-section.alt { background: linear-gradient(180deg, rgba(15,24,26,.86), rgba(8,13,17,.36)); border-color: rgba(165,195,185,.11); }
+.h-sec-title { max-width: 19ch; font-size: clamp(32px,4vw,48px); letter-spacing: -.045em; }
+.h-sec-lead { color: #9eada8; font-size: 15px; }
+.h-assets { gap: 13px; }
+.h-asset, .h-way, .h-why > div, .h-step {
+  background: linear-gradient(150deg, rgba(20,31,34,.94), rgba(11,17,20,.98));
+  border-color: rgba(165,195,185,.14); border-radius: 14px;
+}
+.h-asset { padding: 22px; }
+.h-asset:hover, .h-way:hover { transform: translateY(-3px); border-color: rgba(105,214,207,.34); box-shadow: 0 20px 40px rgba(0,0,0,.28); }
+.h-asset .n { color: #d9ff91; border-color: rgba(185,230,106,.22); background: rgba(185,230,106,.07); }
+.h-asset h3, .h-way h3, .h-why h3, .h-step h3 { letter-spacing: -.025em; }
+.h-way { padding: 16px; }
+.h-way-preview { height: 130px; border-radius: 10px; border-color: rgba(165,195,185,.14); }
+.h-way::after { height: 2px; background: linear-gradient(90deg, #69d6cf, #b9e66a); }
+.h-way .ico { border-radius: 10px; }
+.h-why { gap: 13px; }
+.h-why > div { padding: 24px; }
+.h-why .ico { background: rgba(105,214,207,.1); color: #69d6cf; }
+.h-why > div:nth-child(odd) .ico { background: rgba(185,230,106,.1); color: #c8ea8e; }
+.h-step { padding: 26px 23px; }
+.h-step::before { color: transparent; -webkit-text-stroke-color: rgba(185,230,106,.45); }
+.h-trust {
+  border-color: rgba(105,214,207,.2); border-radius: 18px;
+  background: radial-gradient(80% 120% at 100% 0%, rgba(105,214,207,.1), transparent 55%), linear-gradient(150deg,#121d20,#0b1114);
+}
+.h-trust-grid div { background: rgba(8,13,17,.52); border-color: rgba(165,195,185,.13); border-radius: 11px; }
+.h-trust-grid b { color: #c8ea8e; }
+.h-faq details { background: rgba(16,24,27,.84); border-color: rgba(165,195,185,.14); border-radius: 11px; }
+.h-faq details[open] { border-color: rgba(105,214,207,.3); }
+.h-final {
+  border-color: rgba(185,230,106,.24); border-radius: 18px;
+  background: radial-gradient(65% 110% at 80% 0%, rgba(105,214,207,.12), transparent 70%), linear-gradient(140deg,#121d1e,#0b1113);
+}
+@media (max-width: 980px) {
+  .h-hero { min-height: 0; display: flex; align-items: flex-start; padding: 40px 0 48px; }
+  .h-hero-grid { min-height: 470px; align-items: center; }
+  .h-stage { position: absolute; inset: 0; height: auto; margin: 0; display: block; order: 0; animation: none; pointer-events: none; }
+  .h-stage-photo { inset: 0; height: auto; border: 0; border-radius: 0; box-shadow: none; }
+  .h-stage-photo img { opacity: .54; }
+  .h-stage-photo::after { background: linear-gradient(90deg, rgba(8,13,17,.92), rgba(8,13,17,.68) 64%, rgba(8,13,17,.48)), linear-gradient(0deg, rgba(8,13,17,.86), rgba(8,13,17,.18) 82%); }
+  .h-copy { position: relative; z-index: 2; max-width: 700px; }
+  .h-phone, .h-float { display: none; }
+}
+@media (max-width: 760px) {
+  .h-hero { min-height: 0; align-items: flex-start; padding: 8px 0 24px; }
+  .h-hero-grid { min-height: 0; gap: 0; }
+  .h-title { max-width: none; font-size: clamp(28px,6.2vw,32px); line-height: 1.02; margin: 8px 0; }
+  .h-lead { max-width: none; font-size: 13px; line-height: 1.45; margin-bottom: 11px; }
+  .h-ctas { gap: 8px; }
+  .h-ctas .btn { min-height: 40px; padding: 10px 12px; font-size: 12px; }
+  .h-proof { display: none; }
+  .h-assets, .h-ways, .h-why { gap: 11px; }
+  .h-asset { padding: 19px; }
+  .h-trust { padding: 26px 20px; }
+  .h-final { padding: 44px 20px; }
+}
+/* Hero: full-bleed cinematic image slider with a short, simple write-up. */
+.h-hero--slider { display: block; min-height: 640px; padding: 128px 0; }
+.h-hero--slider .h-hero-grid { position: relative; z-index: 2; grid-template-columns: minmax(0, 1fr); }
+.h-hero--slider .h-copy { max-width: 680px; }
+.h-hero-media { position: absolute; inset: 0; }
+.h-hero-media .slider { position: absolute; inset: 0; }
+.h-hero-media .slider-viewport { position: absolute; inset: 0; border-radius: 0; }
+.h-hero-media .slider-track { height: 100%; }
+.h-hero-media .slide { height: 100%; padding: 0; }
+.h-hero-media .slide img {
+  width: 100%; height: 100%; display: block; object-fit: cover; object-position: 50% 42%;
+  animation: hImageDrift 24s cubic-bezier(.2,.8,.2,1) infinite alternate;
+}
+.h-hero-scrim {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background:
+    linear-gradient(100deg, rgba(6,10,13,.97), rgba(6,10,13,.93) 24%, rgba(6,10,13,.72) 46%, rgba(6,10,13,.34) 70%, rgba(6,10,13,.52)),
+    linear-gradient(0deg, rgba(8,13,17,.95), rgba(8,13,17,.08) 60%);
+}
+.h-hero-media .slider-nav { position: absolute; left: 0; right: 0; bottom: 30px; z-index: 3; margin: 0; }
+.h-hero-media .slider-dot { height: 3px; background: rgba(214,232,224,.26); }
+.h-hero-media .slider-dot.active { background: #d9ff91; box-shadow: 0 0 12px rgba(217,255,145,.55); }
+@media (max-width: 980px) {
+  .h-hero--slider { display: block; min-height: 0; padding: 84px 0 92px; }
+  .h-hero--slider .h-copy { max-width: none; }
+  .h-hero-media .slide img { object-position: 58% 44%; }
+  .h-hero-scrim {
+    background:
+      linear-gradient(180deg, rgba(6,10,13,.84), rgba(6,10,13,.88) 48%, rgba(6,10,13,.96)),
+      linear-gradient(100deg, rgba(6,10,13,.9), rgba(6,10,13,.3));
+  }
+}
+@media (max-width: 760px) {
+  .h-hero--slider { display: block; min-height: 0; padding: 34px 0 40px; }
+  .h-hero-media .slide img { object-position: 62% 46%; }
+  .h-hero-media .slider-nav { bottom: 14px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .h-phone, .h-stage-photo img, .h-asset, .h-way { transition: none !important; animation: none !important; }
+  .h-hero-media .slide img { animation: none !important; }
+}
 </style>
 
 <main>
   <!-- HERO -->
-  <section class="h-hero">
-    <div class="h-orb o1"></div><div class="h-orb o2"></div>
-    <svg class="h-line" viewBox="0 0 1440 320" preserveAspectRatio="none" aria-hidden="true">
-      <defs><linearGradient id="hl" x1="0" x2="1"><stop offset="0" stop-color="#d4af6a" stop-opacity="0"/><stop offset=".35" stop-color="#d4af6a" stop-opacity=".55"/><stop offset=".8" stop-color="#34d399" stop-opacity=".7"/><stop offset="1" stop-color="#34d399" stop-opacity="0"/></linearGradient>
-      <linearGradient id="hf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#34d399" stop-opacity=".10"/><stop offset="1" stop-color="#34d399" stop-opacity="0"/></linearGradient></defs>
-      <path class="h-line-fill" d="M0 250 C120 240 180 200 260 210 S400 260 480 230 600 150 700 170 840 230 930 190 1080 90 1180 110 1330 60 1440 40 L1440 320 L0 320Z" fill="url(#hf)"/>
-      <path class="h-line-path" d="M0 250 C120 240 180 200 260 210 S400 260 480 230 600 150 700 170 840 230 930 190 1080 90 1180 110 1330 60 1440 40" fill="none" stroke="url(#hl)" stroke-width="2.5"/>
-    </svg>
+  <section class="h-hero h-hero--slider">
+    <div class="h-hero-media">
+      <div class="slider h-hero-slider" data-autoplay="7000">
+        <div class="slider-viewport">
+          <div class="slider-track">
+            <div class="slide"><img src="/assets/images/nexora-market-data.jpg" alt=""></div>
+            <div class="slide"><img src="/assets/images/nexora-digital-markets.jpg" alt=""></div>
+            <div class="slide"><img src="/assets/images/nexora-institutional.jpg" alt=""></div>
+            <div class="slide"><img src="/assets/images/nexora-market-growth.jpg" alt=""></div>
+          </div>
+        </div>
+        <div class="slider-nav"></div>
+      </div>
+    </div>
+    <div class="h-hero-scrim" aria-hidden="true"></div>
     <div class="h-wrap h-hero-grid">
       <div class="h-copy">
         <span class="h-eyebrow"><i class="h-live"></i> Live markets<span class="h-more"> &middot; Copy trading &middot; AI bots &middot; Plans</span></span>
         <h1 class="h-title">Invest in real markets.<br>With total <em>clarity</em>.</h1>
-        <p class="h-lead">Crypto, stocks, forex, commodities and bonds at live prices, all from one wallet. Trade them yourself, copy an expert, switch on a rule-based bot, or choose a plan that follows real markets.</p>
+        <p class="h-lead">Crypto, stocks, forex and metals at live prices, all in one wallet. Trade it yourself, copy an expert, or let a bot follow the market.</p>
         <div class="h-ctas">
           <a class="btn lg h-gold" href="/auth/register.php">Open free account <span aria-hidden="true">&rarr;</span></a>
           <a class="btn secondary lg" href="#markets"><span class="h-play" aria-hidden="true"></span>See live markets</a>
@@ -356,39 +528,64 @@
           <div><b>KYC</b><span>verified accounts</span></div>
         </div>
       </div>
+    </div>
+  </section>
 
-      <div class="h-stage" aria-hidden="true">
-        <div class="h-phone">
-          <div class="h-notch"></div>
-          <div class="h-screen">
-            <div class="h-app-top"><span class="h-app-brand">NexoraCopy</span><span class="h-app-live"><i class="h-live"></i>LIVE</span></div>
-            <div class="h-feat">
-              <div class="h-feat-head"><span id="hFeatIcon"></span><div><b id="hFeatName">Loading&hellip;</b><small id="hFeatSym">&nbsp;</small></div></div>
-              <div class="h-feat-px"><b id="hFeatPx">&nbsp;</b><span id="hFeatChg"></span></div>
-              <svg id="hFeatChart" class="h-feat-chart" viewBox="0 0 240 70" preserveAspectRatio="none"></svg>
-              <div class="h-feat-btns"><span class="b">Buy</span><span class="s">Sell</span></div>
+  <!-- PLATFORM IMAGE SLIDER -->
+  <section class="h-section h-hero-carousel" style="padding:48px 0 60px;">
+    <div class="h-wrap">
+      <div class="h-center reveal">
+        <span class="h-eyebrow"><i class="h-live"></i> Inside the platform</span>
+        <h2 class="h-sec-title">Built for people who want the whole picture.</h2>
+        <p class="h-sec-lead">Markets, tools and safeguards, in one place &mdash; here's a quick look.</p>
+      </div>
+
+      <div class="slider" data-autoplay="6500" style="margin-top:36px;">
+        <div class="slider-viewport">
+          <div class="slider-track">
+            <div class="slide">
+              <div class="nx-slide">
+                <img src="/assets/images/nexora-market-growth.jpg" alt="Abstract geometric market growth">
+                <div class="nx-slide-body">
+                  <span class="eyebrow">Crypto &amp; metals</span>
+                  <h3>Trade the assets people actually talk about.</h3>
+                  <p>Bitcoin, Ethereum, gold and silver, priced live around the clock.</p>
+                </div>
+              </div>
             </div>
-            <div class="h-app-label">Watchlist</div>
-            <div class="h-watch" id="hWatch"><div class="h-skel"></div><div class="h-skel"></div><div class="h-skel"></div></div>
+            <div class="slide">
+              <div class="nx-slide">
+                <img src="/assets/images/nexora-digital-markets.jpg" alt="Digital market growth visualization">
+                <div class="nx-slide-body">
+                  <span class="eyebrow">Live markets</span>
+                  <h3>See the real price before you commit.</h3>
+                  <p>Every instrument shows the live market price up front, with no surprises at check-out.</p>
+                </div>
+              </div>
+            </div>
+            <div class="slide">
+              <div class="nx-slide">
+                <img src="/assets/images/nexora-market-data.jpg" alt="Financial market data and trading charts">
+                <div class="nx-slide-body">
+                  <span class="eyebrow">One account</span>
+                  <h3>Copy an expert, run a bot, or follow a plan.</h3>
+                  <p>Mirror vetted traders, switch on a rule-based bot, or follow a market-linked plan. Adjust or exit any time.</p>
+                </div>
+              </div>
+            </div>
+            <div class="slide">
+              <div class="nx-slide">
+                <img src="/assets/images/nexora-institutional.jpg" alt="Modern institutional architecture">
+                <div class="nx-slide-body">
+                  <span class="eyebrow">Security &amp; trust</span>
+                  <h3>Safeguards on every account, every day.</h3>
+                  <p>Identity checks, reviewed deposits and a full audit trail.</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-
-        <div class="h-float f1">
-          <div class="h-float-ic g"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></div>
-          <div><small>Investment plan</small><b>Follows gold &amp; silver</b><em>1x exposure &middot; exit any time</em></div>
-        </div>
-        <div class="h-float f2">
-          <div class="h-float-ic p"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="7" width="16" height="12" rx="3"/><path d="M12 3v4M9 12h.01M15 12h.01"/></svg></div>
-          <div><small>AI bot &middot; Trend</small><div class="h-sig" id="hSig"><span class="h-pos flat">&mdash;</span></div></div>
-        </div>
-        <div class="h-float f3">
-          <div class="h-float-ic ok"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6 9 17l-5-5"/></svg></div>
-          <div><small>Deposit</small><b>Verified by our team</b></div>
-        </div>
-        <div class="h-float f-trader">
-          <img src="/assets/uploads/experts/expert_80b3867492f5b489.jpeg" alt="Marcus Chen" class="h-float-av">
-          <div><small>Featured Pro Trader</small><b>Marcus Chen</b><span class="pos" style="font-size:11px;font-family:ui-monospace,monospace;">+184.2% ROI &middot; 892 Copiers</span></div>
-        </div>
+        <div class="slider-nav"></div>
       </div>
     </div>
   </section>
@@ -665,65 +862,6 @@
     </div>
   </section>
 
-  <!-- INSIGHTS SLIDER -->
-  <section class="h-section">
-    <div class="h-wrap">
-      <div class="h-center reveal">
-        <span class="h-eyebrow"><i class="h-live"></i> Inside the platform</span>
-        <h2 class="h-sec-title">Built for people who want the whole picture.</h2>
-        <p class="h-sec-lead">Markets, tools and safeguards, in one place &mdash; here's a quick look.</p>
-      </div>
-
-      <div class="slider" data-autoplay="6500" style="margin-top:36px;">
-        <div class="slider-viewport">
-          <div class="slider-track">
-            <div class="slide">
-              <div class="nx-slide">
-                <img src="/assets/images/nexora-market-growth.jpg" alt="Abstract geometric market growth">
-                <div class="nx-slide-body">
-                  <span class="eyebrow">Crypto &amp; metals</span>
-                  <h3>Trade the assets people actually talk about.</h3>
-                  <p>Bitcoin, Ethereum, gold and silver live in the same wallet, priced from public market feeds and refreshed continuously, around the clock.</p>
-                </div>
-              </div>
-            </div>
-            <div class="slide">
-              <div class="nx-slide">
-                <img src="/assets/images/nexora-digital-markets.jpg" alt="Digital market growth visualization">
-                <div class="nx-slide-body">
-                  <span class="eyebrow">Live markets</span>
-                  <h3>See the real price before you commit.</h3>
-                  <p>All 140 instruments show the live market price up front &mdash; crypto, stocks, forex, metals, commodities and bonds &mdash; so there are no surprises at check-out.</p>
-                </div>
-              </div>
-            </div>
-            <div class="slide">
-              <div class="nx-slide">
-                <img src="/assets/images/nexora-market-data.jpg" alt="Financial market data and trading charts">
-                <div class="nx-slide-body">
-                  <span class="eyebrow">One account</span>
-                  <h3>Copy an expert, run a bot, or follow a plan.</h3>
-                  <p>Mirror vetted professional traders, switch on rule-based AI bots, or choose a plan that tracks a real basket of markets. Adjust or exit any time.</p>
-                </div>
-              </div>
-            </div>
-            <div class="slide">
-              <div class="nx-slide">
-                <img src="/assets/images/nexora-institutional.jpg" alt="Modern institutional architecture">
-                <div class="nx-slide-body">
-                  <span class="eyebrow">Security &amp; trust</span>
-                  <h3>Safeguards on every account, every day.</h3>
-                  <p>Identity checks before withdrawals, manual review of every deposit, and a full audit log of every admin change to balances.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="slider-nav"></div>
-      </div>
-    </div>
-  </section>
-
   <!-- FAQ -->
   <section class="h-section alt">
     <div class="h-wrap">
@@ -758,47 +896,9 @@
 (function () {
   function chg(c) { if (c === null || c === undefined) return '<span class="h-chg flat">&mdash;</span>'; var k = Math.abs(c) < .005 ? 'flat' : (c > 0 ? 'up' : 'down'); return '<span class="h-chg ' + k + '">' + (c > 0 ? '+' : '') + c.toFixed(2) + '%</span>'; }
   function esc(s) { var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
-  function spark(v, up) {
-    if (!v || v.length < 2) return '<svg class="sp"></svg>';
-    var mn = Math.min.apply(null, v), mx = Math.max.apply(null, v), r = (mx - mn) || 1, w = 84, h = 30;
-    var pts = v.map(function (p, i) { return (i / (v.length - 1) * w).toFixed(1) + ',' + (3 + (1 - (p - mn) / r) * (h - 6)).toFixed(1); }).join(' ');
-    var c = up ? '#34d399' : '#f87171';
-    return '<svg class="sp" viewBox="0 0 84 30" preserveAspectRatio="none"><polyline points="' + pts + '" fill="none" stroke="' + c + '" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg>';
-  }
-  function area(v, up) {
-    if (!v || v.length < 2) return '';
-    var mn = Math.min.apply(null, v), mx = Math.max.apply(null, v), r = (mx - mn) || 1, w = 240, h = 70;
-    var pts = v.map(function (p, i) { return [(i / (v.length - 1) * w).toFixed(1), (6 + (1 - (p - mn) / r) * (h - 12)).toFixed(1)]; });
-    var line = 'M' + pts.map(function (p) { return p.join(','); }).join(' L');
-    var c = up ? '#34d399' : '#f87171';
-    return '<defs><linearGradient id="hfa" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="' + c + '" stop-opacity=".35"/><stop offset="1" stop-color="' + c + '" stop-opacity="0"/></linearGradient></defs>'
-      + '<path d="' + line + ' L240,70 L0,70 Z" fill="url(#hfa)"/><path d="' + line + '" fill="none" stroke="' + c + '" stroke-width="2" vector-effect="non-scaling-stroke" stroke-linejoin="round"/>';
-  }
   function load() {
     fetch('/api/public_markets.php', { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
-      if (!j || !j.ok || !j.markets.length) { document.getElementById('hWatch').innerHTML = '<p style="color:var(--muted);font-size:12px;margin:6px 4px;">Live prices are loading&hellip;</p>'; return; }
-      // Phone: featured market (first crypto) + watchlist
-      var feat = j.markets.filter(function (m) { return m.type === 'Crypto'; })[0] || j.markets[0];
-      document.getElementById('hFeatIcon').innerHTML = feat.icon;
-      document.getElementById('hFeatName').textContent = feat.name;
-      document.getElementById('hFeatSym').textContent = feat.symbol + ' · ' + feat.type;
-      document.getElementById('hFeatPx').textContent = feat.price_fmt;
-      document.getElementById('hFeatChg').innerHTML = chg(feat.change_pct);
-      document.getElementById('hFeatChart').innerHTML = area(feat.spark, (feat.change_pct || 0) >= 0);
-      var rest = j.markets.filter(function (m) { return m !== feat; });
-      var mix = [], seen = {};
-      rest.forEach(function (m) { if (mix.length < 4 && !seen[m.type]) { seen[m.type] = 1; mix.push(m); } });
-      rest.forEach(function (m) { if (mix.length < 4 && mix.indexOf(m) < 0) mix.push(m); });
-      document.getElementById('hWatch').innerHTML = mix.map(function (m) {
-        var c = m.change_pct, k = (c === null || Math.abs(c) < .005) ? 'flat' : (c > 0 ? 'up' : 'down');
-        return '<div class="h-wrow">' + m.icon.replace(/width:36px;height:36px/g, 'width:28px;height:28px') + '<div style="min-width:0"><b>' + esc(m.name) + '</b><small>' + esc(m.symbol) + '</small></div><div class="r">' + esc(m.price_fmt) + '<i class="' + k + '">' + (c === null ? '—' : (c > 0 ? '+' : '') + c.toFixed(2) + '%') + '</i></div></div>';
-      }).join('');
-      // Bot card: a trend-following bot is long what rose over 24h and short what fell (real 24h moves).
-      var sig = j.markets.filter(function (m) { return m.change_pct !== null; }).slice(0, 2);
-      if (sig.length) document.getElementById('hSig').innerHTML = sig.map(function (m) {
-        var d = Math.abs(m.change_pct) < .05 ? 'flat' : (m.change_pct > 0 ? 'long' : 'short');
-        return '<div><span>' + esc(m.symbol) + '</span><span class="h-pos ' + d + '">' + (d === 'long' ? '&#9650; LONG' : d === 'short' ? '&#9660; SHORT' : 'FLAT') + '</span></div>';
-      }).join('');
+      if (!j || !j.ok || !j.markets.length) return;
       document.getElementById('hLiveCount').textContent = j.live + '+';
       var t = j.markets.map(function (m) { return '<span class="h-tick">' + m.icon.replace(/width:36px;height:36px/g, 'width:20px;height:20px') + '<span class="s">' + esc(m.symbol) + '</span>' + esc(m.price_fmt) + ' ' + chg(m.change_pct) + '</span>'; }).join('');
       document.getElementById('hTape').innerHTML = t + t;

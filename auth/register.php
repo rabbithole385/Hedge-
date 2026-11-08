@@ -72,15 +72,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $pageTitle = 'Register';
 $navContext = 'guest';
+$bodyClass = 'auth-page-body';
 require __DIR__ . '/../includes/header.php';
 ?>
-<div class="auth-shell">
-  <div class="auth-brand">
-    <div class="brand-mark nx-logo nx-logo-lg"><svg class="nx-ico" viewBox="0 0 40 40" aria-hidden="true"><defs><linearGradient id="nxg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f3dca6"/><stop offset=".55" stop-color="#d4af6a"/><stop offset="1" stop-color="#a77f3c"/></linearGradient></defs><rect x="1" y="1" width="38" height="38" rx="11" fill="#0e1729" stroke="url(#nxg)" stroke-opacity=".55"/><path d="M12 29V11l16 18V11" fill="none" stroke="url(#nxg)" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="nx-word">NexoraCopy</span></div>
-    <div class="tagline">Professional trading, bots, and investment plans.</div>
-  </div>
-  <div class="auth-card">
-      <h2 style="margin-top:0;">Create your account</h2>
+<main class="auth-shell auth-register">
+  <section class="auth-brand auth-visual auth-visual-register" aria-labelledby="auth-visual-title">
+    <img class="auth-visual-image" src="/assets/images/nexora-institutional.jpg" alt="">
+    <div class="auth-visual-shade"></div>
+    <div class="auth-visual-top">
+      <a class="brand-mark nx-logo nx-logo-lg" href="/en/" aria-label="NexoraCopy home"><svg class="nx-ico" viewBox="0 0 40 40" aria-hidden="true"><defs><linearGradient id="nxg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f3dca6"/><stop offset=".55" stop-color="#d4af6a"/><stop offset="1" stop-color="#a77f3c"/></linearGradient></defs><rect x="1" y="1" width="38" height="38" rx="11" fill="#0e1729" stroke="url(#nxg)" stroke-opacity=".55"/><path d="M12 29V11l16 18V11" fill="none" stroke="url(#nxg)" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="nx-word">NexoraCopy</span></a>
+      <span class="auth-overline">OPEN YOUR ACCOUNT</span>
+    </div>
+    <div class="auth-visual-copy">
+      <span class="auth-kicker"><i></i> YOUR MARKET WORKSPACE</span>
+      <h1 id="auth-visual-title">A broader view.<br><em>A clearer start.</em></h1>
+      <p>Bring your watchlist, trading activity, copy positions and support together in one account.</p>
+      <div class="auth-proof-row" aria-label="Platform highlights">
+        <div><strong>01</strong><span>Markets in one place</span></div>
+        <div><strong>02</strong><span>Tools that fit your style</span></div>
+        <div><strong>03</strong><span>Support when you need it</span></div>
+      </div>
+    </div>
+    <div class="auth-visual-footer"><span>MARKETS / INSIGHT / CONTROL</span><span>NEXOCOPY.NET</span></div>
+  </section>
+
+  <section class="auth-form-side" aria-labelledby="auth-form-title">
+    <div class="auth-card">
+      <div class="auth-card-meta"><span>NEW CLIENT</span><span>01 / 03</span></div>
+      <h2 id="auth-form-title">Create your account<span class="auth-period">.</span></h2>
+      <p class="subtitle">A few details to get your workspace ready.</p>
 
       <?php if (!empty($_SESSION['referral_code'])): ?>
         <div class="alert info">Referral code <strong><?= e($_SESSION['referral_code']) ?></strong> applied.</div>
@@ -93,28 +113,30 @@ require __DIR__ . '/../includes/header.php';
       <form method="post" novalidate>
         <?= csrf_field() ?>
         <div class="form-group">
-          <label>Full name</label>
-          <input type="text" name="full_name" value="<?= e($_POST['full_name'] ?? '') ?>" required>
+          <label for="register-name">Full name</label>
+          <input id="register-name" type="text" name="full_name" value="<?= e($_POST['full_name'] ?? '') ?>" autocomplete="name" required>
         </div>
         <div class="form-group">
-          <label>Email</label>
-          <input type="email" name="email" value="<?= e($_POST['email'] ?? '') ?>" required>
+          <label for="register-email">Email address</label>
+          <input id="register-email" type="email" name="email" value="<?= e($_POST['email'] ?? '') ?>" autocomplete="email" autocapitalize="none" spellcheck="false" required>
         </div>
         <div class="form-group">
-          <label>Phone (optional)</label>
-          <input type="text" name="phone" value="<?= e($_POST['phone'] ?? '') ?>">
+          <label for="register-phone">Phone <span class="auth-optional">OPTIONAL</span></label>
+          <input id="register-phone" type="tel" name="phone" value="<?= e($_POST['phone'] ?? '') ?>" autocomplete="tel">
         </div>
         <div class="form-group">
-          <label>Password</label>
-          <input type="password" name="password" required>
+          <label for="register-password">Password</label>
+          <input id="register-password" type="password" name="password" autocomplete="new-password" required>
         </div>
         <div class="form-group">
-          <label>Confirm password</label>
-          <input type="password" name="confirm_password" required>
+          <label for="register-confirm-password">Confirm password</label>
+          <input id="register-confirm-password" type="password" name="confirm_password" autocomplete="new-password" required>
         </div>
-        <button class="btn block" type="submit">Create account</button>
+        <button class="btn block auth-submit" type="submit">Create account <span aria-hidden="true">&rarr;</span></button>
       </form>
-      <p class="subtitle" style="margin-top:16px;">Already have an account? <a href="/auth/login.php">Log in</a></p>
-  </div>
-</div>
+      <div class="auth-switch"><span>Already registered?</span><a href="/auth/login.php">Sign in <span aria-hidden="true">&rarr;</span></a></div>
+      <div class="auth-footnote"><span class="auth-footnote-dot"></span> Your account, positions and support in one place.</div>
+    </div>
+  </section>
+</main>
 <?php require __DIR__ . '/../includes/footer.php'; ?>
