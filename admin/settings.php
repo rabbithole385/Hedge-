@@ -147,7 +147,7 @@ require __DIR__ . '/../includes/header.php';
       <p class="subtitle">Bots and investment plans tick automatically whenever someone visits the site. For reliable ticking even with no visitors, add a cPanel Cron Job that runs every 5&ndash;15 minutes:</p>
       <div class="form-group">
         <label>Cron command</label>
-        <input type="text" readonly value="curl -s '<?= e((isset($_SERVER['HTTPS']) ? 'https' : 'http')) ?>://<?= e($_SERVER['HTTP_HOST'] ?? 'nexocopy.net') ?>/cron/tick.php?key=<?= e($cronSecret) ?>' > /dev/null" onclick="this.select()">
+        <input type="text" readonly value="curl -s '<?= e((isset($_SERVER['HTTPS']) ? 'https' : 'http')) ?>://<?= e($_SERVER['HTTP_HOST'] ?? 'nexoracopy.net') ?>/cron/tick.php?key=<?= e($cronSecret) ?>' > /dev/null" onclick="this.select()">
       </div>
       <p class="subtitle">This command already has your real domain and secret filled in - just copy it into the cPanel Cron Job command box.</p>
     </div>
@@ -172,7 +172,7 @@ require __DIR__ . '/../includes/header.php';
         </div>
         <div class="form-group">
           <label><?= e($emailFields['resend_from_email']) ?></label>
-          <input type="text" name="resend_from_email" value="<?= e($values['resend_from_email']) ?>" autocomplete="off" spellcheck="false" placeholder="no-reply@nexocopy.net">
+          <input type="text" name="resend_from_email" value="<?= e($values['resend_from_email']) ?>" autocomplete="off" spellcheck="false" placeholder="no-reply@nexoracopy.net">
         </div>
         <div class="form-group">
           <label><?= e($emailFields['resend_from_name']) ?></label>
@@ -181,11 +181,11 @@ require __DIR__ . '/../includes/header.php';
         <div class="form-group">
           <label><?= e($emailFields['resend_webhook_secret']) ?></label>
           <input type="text" name="resend_webhook_secret" value="<?= e($values['resend_webhook_secret']) ?>" autocomplete="off" spellcheck="false" placeholder="whsec_xxxxxxxxxxxxxxxx">
-          <p class="subtitle" style="margin-top:6px;">In Resend, add a webhook for the <b>email.received</b> event pointing at <span class="mono-num">https://<?= e($_SERVER['HTTP_HOST'] ?? 'nexocopy.net') ?>/mail/webhook.php</span> and paste its signing secret here.</p>
+          <p class="subtitle" style="margin-top:6px;">In Resend, add a webhook for the <b>email.received</b> event pointing at <span class="mono-num">https://<?= e($_SERVER['HTTP_HOST'] ?? 'nexoracopy.net') ?>/mail/webhook.php</span> and paste its signing secret here.</p>
         </div>
         <div class="form-group">
           <label>Standalone webmail</label>
-          <input type="text" readonly value="https://<?= e($_SERVER['HTTP_HOST'] ?? 'nexocopy.net') ?>/mail/" onclick="this.select()">
+          <input type="text" readonly value="https://<?= e($_SERVER['HTTP_HOST'] ?? 'nexoracopy.net') ?>/mail/" onclick="this.select()">
           <p class="subtitle" style="margin-top:6px;">Your private mailbox login. It uses its own sign-in, separate from the admin console.</p>
         </div>
         <div class="form-group">

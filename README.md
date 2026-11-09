@@ -66,7 +66,7 @@ traffic:**
    - **Common Settings**: choose "Every 5 Minutes" (or 15 — your call)
    - **Command**:
      ```
-     curl -s "https://nexocopy.net/cron/tick.php?key=YOUR_SECRET_HERE" > /dev/null
+     curl -s "https://nexoracopy.net/cron/tick.php?key=YOUR_SECRET_HERE" > /dev/null
      ```
 3. Click **Add New Cron Job**.
 
@@ -98,7 +98,7 @@ Then use that same string in the cron URL.
 
 ### How to confirm it's actually working
 
-- Visit `https://nexocopy.net/cron/tick.php?key=YOUR_SECRET` directly in a
+- Visit `https://nexoracopy.net/cron/tick.php?key=YOUR_SECRET` directly in a
   browser. You should see something like:
   `OK. Bot ticks processed: 2. Plan ticks processed: 1.`
 - Wrong or missing key returns `403 Forbidden`.

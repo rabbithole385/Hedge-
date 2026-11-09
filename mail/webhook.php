@@ -1,7 +1,7 @@
 <?php
 /**
  * Resend inbound webhook (event: email.received).
- * Point the Resend webhook at https://nexocopy.net/mail/webhook.php
+ * Point the Resend webhook at https://nexoracopy.net/mail/webhook.php
  * and paste the signing secret into Admin -> Settings -> Email delivery.
  *
  * The webhook payload only carries metadata; the message body is fetched

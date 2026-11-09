@@ -18,5 +18,5 @@ define('SMTP_PORT', getenv('SMTP_PORT') !== false && getenv('SMTP_PORT') !== '' 
 define('SMTP_ENCRYPTION', getenv('SMTP_ENCRYPTION') !== false && getenv('SMTP_ENCRYPTION') !== '' ? getenv('SMTP_ENCRYPTION') : 'tls'); // 'tls' | 'ssl' | 'none'
 define('SMTP_USERNAME', getenv('SMTP_USERNAME') !== false && getenv('SMTP_USERNAME') !== '' ? getenv('SMTP_USERNAME') : '');
 define('SMTP_PASSWORD', getenv('SMTP_PASSWORD') !== false && getenv('SMTP_PASSWORD') !== '' ? getenv('SMTP_PASSWORD') : '');
-define('SMTP_FROM_EMAIL', getenv('SMTP_FROM_EMAIL') !== false && getenv('SMTP_FROM_EMAIL') !== '' ? getenv('SMTP_FROM_EMAIL') : 'no-reply@nexocopy.net');
+define('SMTP_FROM_EMAIL', getenv('SMTP_FROM_EMAIL') !== false && getenv('SMTP_FROM_EMAIL') !== '' ? getenv('SMTP_FROM_EMAIL') : 'no-reply@nexoracopy.net');
 define('SMTP_FROM_NAME', getenv('SMTP_FROM_NAME') !== false && getenv('SMTP_FROM_NAME') !== '' ? getenv('SMTP_FROM_NAME') : 'NexoraCopy');

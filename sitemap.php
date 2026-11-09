@@ -1,7 +1,7 @@
 <?php
 // Canonical sitemap origin, with an environment override for staging.
 header('Content-Type: application/xml; charset=utf-8');
-$siteUrl = rtrim(getenv('SITE_URL') ?: 'https://nexocopy.net', '/');
+$siteUrl = rtrim(getenv('SITE_URL') ?: 'https://nexoracopy.net', '/');
 $base = $siteUrl . '/en/';
 $skip = ['index.html'];
 $pages = [''];

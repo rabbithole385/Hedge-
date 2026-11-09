@@ -313,7 +313,7 @@ function ensure_mail_schema(PDO $pdo): void {
     // MAIL_INITIAL_PASSWORD env var so no weak default is ever committed.
     try {
         if ((int)$pdo->query('SELECT COUNT(*) FROM mail_accounts')->fetchColumn() === 0) {
-            $email = getenv('MAIL_INITIAL_EMAIL') ?: 'info@nexocopy.net';
+            $email = getenv('MAIL_INITIAL_EMAIL') ?: 'info@nexoracopy.net';
             $pass  = (string)(getenv('MAIL_INITIAL_PASSWORD') ?: '');
             if ($pass !== '') {
                 $pdo->prepare('INSERT IGNORE INTO mail_accounts (email, display_name, password_hash) VALUES (?, ?, ?)')
@@ -322,6 +322,17 @@ function ensure_mail_schema(PDO $pdo): void {
         }
     } catch (Throwable $e) {
         // Seeding is best-effort; the admin can add an account from the DB if needed.
+    }
+
+    // Follow a domain change: move a previously seeded mailbox onto the address
+    // named by MAIL_INITIAL_EMAIL instead of creating a second account.
+    try {
+        $want = getenv('MAIL_INITIAL_EMAIL') ?: 'info@nexoracopy.net';
+        if ($want !== '' && $want !== 'info@nexocopy.net') {
+            $pdo->prepare('UPDATE mail_accounts SET email = ? WHERE email = ?')
+                ->execute([$want, 'info@nexocopy.net']);
+        }
+    } catch (Throwable $e) {
     }
 }
 
@@ -753,7 +764,7 @@ function ensure_brand_name(PDO $pdo): void {
         foreach ($cols as $col) {
             try {
                 $column = "`{$col}`";
-                $normalized = "REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE({$column}, 'NexoraCopy', '__NEXORACOPY__'), 'Nexora', '{$new}'), 'Hedge Pty Ltd', '{$new}'), 'HedgeInv', '{$new}'), 'hedgeinv.com', 'nexocopy.net'), 'Welcome to Hedge', 'Welcome to {$new}'), 'Hedge Support', '{$new} Support'), '__NEXORACOPY__', '{$new}')";
+                $normalized = "REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE({$column}, 'NexoraCopy', '__NEXORACOPY__'), 'Nexora', '{$new}'), 'Hedge Pty Ltd', '{$new}'), 'HedgeInv', '{$new}'), 'hedgeinv.com', 'nexoracopy.net'), 'Welcome to Hedge', 'Welcome to {$new}'), 'Hedge Support', '{$new} Support'), '__NEXORACOPY__', '{$new}')";
                 safe_ddl($pdo, "UPDATE `{$table}` SET {$column} = CASE WHEN TRIM({$column}) IN ('Hedge', 'Hedge Investment', 'Hedge Invest') THEN '{$new}' ELSE {$normalized} END WHERE {$column} LIKE '%edge%' OR {$column} LIKE '%Nexora%'");
             } catch (Throwable $e) { /* table or column not present - fine */ }
         }

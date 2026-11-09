@@ -93,7 +93,7 @@ require __DIR__ . '/../includes/header.php';
         <div><strong>03</strong><span>Support when you need it</span></div>
       </div>
     </div>
-    <div class="auth-visual-footer"><span>MARKETS / INSIGHT / CONTROL</span><span>NEXOCOPY.NET</span></div>
+    <div class="auth-visual-footer"><span>MARKETS / INSIGHT / CONTROL</span><span>NEXORACOPY.NET</span></div>
   </section>
 
   <section class="auth-form-side" aria-labelledby="auth-form-title">

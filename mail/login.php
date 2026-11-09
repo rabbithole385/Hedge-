@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <div class="mail-login-card">
     <div class="mail-brand">NexoraCopy <span class="nx-tag">Mail</span></div>
     <h1>Sign in to your mailbox</h1>
-    <p class="lead">Private webmail console for info@nexocopy.net.</p>
+    <p class="lead">Private webmail console for info@nexoracopy.net.</p>
 
     <?php foreach ($errors as $err): ?>
       <div class="mail-alert err"><?= e($err) ?></div>
@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <?= csrf_field() ?>
       <div class="row">
         <label>Email address</label>
-        <input type="email" name="email" value="<?= e($email) ?>" placeholder="info@nexocopy.net" required autofocus>
+        <input type="email" name="email" value="<?= e($email) ?>" placeholder="info@nexoracopy.net" required autofocus>
       </div>
       <div class="row">
         <label>Password</label>
@@ -72,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <button class="mail-btn primary block" type="submit">Sign in</button>
     </form>
 
-    <div class="foot"><a href="/">nexocopy.net</a></div>
+    <div class="foot"><a href="/">nexoracopy.net</a></div>
   </div>
 </div>
 </body>

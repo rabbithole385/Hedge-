@@ -54,7 +54,7 @@ require __DIR__ . '/../includes/header.php';
         <div><strong>03</strong><span>People-first support</span></div>
       </div>
     </div>
-    <div class="auth-visual-footer"><span>TRADE / COPY / AUTOMATE</span><span>NEXOCOPY.NET</span></div>
+    <div class="auth-visual-footer"><span>TRADE / COPY / AUTOMATE</span><span>NEXORACOPY.NET</span></div>
   </section>
 
   <section class="auth-form-side" aria-labelledby="auth-form-title">
